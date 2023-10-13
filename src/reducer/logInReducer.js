@@ -1,24 +1,3 @@
-export const initialStateLogIn = {
-  accountList: [
-    {
-      fullName: "Christian Patrick Nebab",
-      email: "dongyang00016@gmail.com",
-      password: "pat123",
-    },
-    {
-      fullName: "Jeff Binas",
-      email: "jeff@gmail.com",
-      password: "jeff123",
-    },
-  ],
-  passwordInput: "",
-  emailInput: "",
-  fullNameInput: "",
-  emailSignUpInput: "",
-  password1SignUpInput: "",
-  password2SignUpInput: "",
-};
-
 export function logInReducer(state, action) {
   switch (action.type) {
     case "SET_INPUT": {
@@ -45,13 +24,15 @@ export function logInReducer(state, action) {
         validError: action.payload,
         isvalidError: true,
       };
-    case "LOGIN_SUCCESS":
+    case "LOGIN_SUCCESSFUL": {
+      localStorage.setItem("logInAccount", JSON.stringify(action.payload));
       return {
         ...state,
-        adminUserError: "",
-        adminPasswordError: "",
-        validError: "",
+        passwordInput: "",
+        emailInput: "",
+        logInAccount: action.payload,
       };
+    }
     case "CREATE_ACCOUNT": {
       const {
         fullNameInput,
@@ -60,20 +41,159 @@ export function logInReducer(state, action) {
         accountList,
       } = state;
       const account = {
+        id: crypto.randomUUID(),
         fullName: fullNameInput,
         email: emailSignUpInput,
         password: password1SignUpInput,
+        channelList: [],
+        selectedChannel: null,
       };
 
       const updateAccountList = [...accountList, account];
 
-      console.log(updateAccountList);
+      localStorage.setItem("accountList", JSON.stringify(updateAccountList));
       return {
         ...state,
         accountList: updateAccountList,
       };
     }
+    case "SHOW_MODALCHANNELFORM":
+      return { ...state, isOpenChannelForm: action.payload };
 
+    case "CREATE_CHANNEL": {
+      const { channelName, logInAccount, accountList } = state;
+      const createChannel = {
+        id: crypto.randomUUID(),
+        channelName,
+        userAddedAccount: [],
+      };
+      const updateChannelList = [...logInAccount.channelList, createChannel];
+
+      const updateLogInAccount = {
+        ...logInAccount,
+        channelList: updateChannelList,
+      };
+      const updateAccountList = accountList.map((acc) =>
+        acc.id === logInAccount.id
+          ? { ...acc, channelList: updateChannelList }
+          : acc
+      );
+      localStorage.setItem("logInAccount", JSON.stringify(updateLogInAccount));
+      localStorage.setItem("accountList", JSON.stringify(updateAccountList));
+
+      return {
+        ...state,
+        accountList: updateAccountList,
+        logInAccount: updateLogInAccount,
+        channelName: "",
+        isOpenChannelForm: false,
+      };
+    }
+    case "SELECT_CHANNEL": {
+      const { logInAccount, accountList } = state;
+      const getSelectedChannel = logInAccount?.channelList?.find(
+        (list) => list.id === action.payload
+      );
+
+      const updateLogInAccount = {
+        ...logInAccount,
+        selectedChannel: getSelectedChannel,
+      };
+
+      const updateAccountList = accountList.map((acc) =>
+        acc.id === logInAccount.id
+          ? { ...acc, selectedChannel: getSelectedChannel }
+          : acc
+      );
+      localStorage.setItem("logInAccount", JSON.stringify(updateLogInAccount));
+      localStorage.setItem("accountList", JSON.stringify(updateAccountList));
+
+      return {
+        ...state,
+        accountList: updateAccountList,
+        logInAccount: updateLogInAccount,
+      };
+    }
+    case "SHOW_MODALADDUSERFORM":
+      return { ...state, isOpenAddUserForm: action.payload };
+    case "ADD_USER": {
+      const { accountList, user, logInAccount } = state;
+
+      const findUser = accountList.find(
+        (acc) => acc.fullName.split(" ")[0].toLowerCase() === user.toLowerCase()
+      );
+      const updateChannelList = logInAccount.channelList.map((channel) =>
+        channel.id === logInAccount.selectedChannel.id
+          ? {
+              ...channel,
+              userAddedAccount: [...channel.userAddedAccount, findUser],
+            }
+          : channel
+      );
+      console.log(updateChannelList);
+      const updateLogInAccount = {
+        ...logInAccount,
+        selectedChannel: {
+          ...logInAccount.selectedChannel,
+          userAddedAccount: [
+            ...logInAccount.selectedChannel.userAddedAccount,
+            findUser,
+          ],
+        },
+        channelList: updateChannelList,
+      };
+
+      const updateAccountList = accountList.map((acc) =>
+        acc.id === logInAccount.id
+          ? {
+              ...acc,
+              selectedChannel: {
+                ...acc.selectedChannel,
+                userAddedAccount: [
+                  ...acc.selectedChannel.userAddedAccount,
+                  findUser,
+                ],
+              },
+              channelList: updateChannelList,
+            }
+          : acc
+      );
+      localStorage.setItem("logInAccount", JSON.stringify(updateLogInAccount));
+      localStorage.setItem("accountList", JSON.stringify(updateAccountList));
+
+      return {
+        ...state,
+        accountList: updateAccountList,
+        logInAccount: updateLogInAccount,
+        user: "",
+      };
+    }
+
+    case "DELETE_CHANNEL": {
+      const { logInAccount, accountList } = state;
+      // const {}
+      const updateChannelList = logInAccount.channelList.filter(
+        (channel) => channel.id !== action.payload
+      );
+
+      const updateLogInAccount = {
+        ...logInAccount,
+        channelList: updateChannelList,
+      };
+      const updateAccountList = accountList.map((acc) =>
+        acc.id === logInAccount.id
+          ? { ...acc, channelList: updateChannelList }
+          : acc
+      );
+      localStorage.setItem("logInAccount", JSON.stringify(updateLogInAccount));
+      localStorage.setItem("accountList", JSON.stringify(updateAccountList));
+
+      return {
+        ...state,
+        accountList: updateAccountList,
+        logInAccount: updateLogInAccount,
+      };
+    }
     default:
       return state;
   }

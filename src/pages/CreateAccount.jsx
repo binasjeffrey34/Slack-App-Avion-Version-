@@ -1,17 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAccountContext } from "../Context/AccountContext";
 
-function CreateAccount({
-  state,
-  dispatch,
-  onSetInput,
-  validateInput,
-  checkError,
-}) {
+function CreateAccount() {
   const [isOpenPass1, setIsOpenPass1] = useState(false);
   const [isOpenPass2, setIsOpenPass2] = useState(false);
   const navigate = useNavigate();
-
+  const { state, dispatch, onSetInput, validateInput, checkError } =
+    useAccountContext();
   const {
     fullNameInput,
     fullNameInputError,
@@ -86,7 +82,7 @@ function CreateAccount({
               onChange={onSetInput}
             />
             {isfullNameInputError && (
-              <small className="text-lg text-red-500 absolute top-[4rem] left-0 z-10">
+              <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
                 {fullNameInputError}
               </small>
             )}
@@ -103,7 +99,7 @@ function CreateAccount({
               onChange={onSetInput}
             />
             {isemailSignUpInputError && (
-              <small className="text-lg text-red-500 absolute top-[4rem] left-0 z-10">
+              <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
                 {emailSignUpInputError}
               </small>
             )}
@@ -126,7 +122,7 @@ function CreateAccount({
               }`}
             ></i>
             {ispassword1SignUpInputError && (
-              <small className="text-lg text-red-500 absolute top-[4rem] left-0 z-10">
+              <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
                 {password1SignUpInputError}
               </small>
             )}
@@ -149,7 +145,7 @@ function CreateAccount({
               }`}
             ></i>
             {ispassword2SignUpInputError && (
-              <small className="text-lg text-red-500 absolute top-[4rem] left-0 z-10">
+              <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
                 {password2SignUpInputError}
               </small>
             )}
@@ -159,13 +155,6 @@ function CreateAccount({
             Create Account
           </button>
         </form>
-
-        {/* <Link
-          to="/"
-          className="text-center text-2xl text-blue-600 font-medium tracking-[1px] underline"
-        >
-          Sig In{" "}
-        </Link> */}
       </section>
     </div>
   );

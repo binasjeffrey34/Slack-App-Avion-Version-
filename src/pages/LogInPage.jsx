@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAccountContext } from "../Context/AccountContext";
 
-export function LogInPage({
-  state,
-  dispatch,
-  onSetInput,
-  validateInput,
-  checkError,
-}) {
+export function LogInPage() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { dispatch, state, onSetInput, validateInput, checkError } =
+    useAccountContext();
   const {
     accountList,
     emailInput,
@@ -37,7 +34,13 @@ export function LogInPage({
     }
 
     if (checkIfExist) {
-      dispatch({ type: "LOGIN_SUCCESSFUL" });
+      const getAccountLogIn =
+        state.accountList.find(
+          (acc) =>
+            acc.email === state.emailInput &&
+            acc.password === state.passwordInput
+        ) || null;
+      dispatch({ type: "LOGIN_SUCCESSFUL", payload: getAccountLogIn });
       navigate("/mainPage");
     } else {
       dispatch({
@@ -70,7 +73,7 @@ export function LogInPage({
               onChange={onSetInput}
             />
             {isemailInputError && (
-              <small className="text-lg text-red-500 absolute top-[4rem] left-0 z-10">
+              <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
                 {emailInputError}
               </small>
             )}
@@ -94,13 +97,13 @@ export function LogInPage({
               }`}
             ></i>
             {ispasswordInputError && (
-              <small className="text-lg text-red-500 absolute top-[4rem] left-0">
+              <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
                 {passwordInputError}
               </small>
             )}
           </div>
           {isvalidError && (
-            <small className="text-lg text-red-500 absolute top-40 left-0">
+            <small className="text-lg text-red-500 absolute top-40 left-0 z-10">
               {validError}
             </small>
           )}
