@@ -1,36 +1,10 @@
 import { useAccountContext } from "../Context/AccountContext";
 
 export function FormAddUser({ setIsOpenAddUser }) {
-  const { checkError, onSetInput, state, validateInput, dispatch } =
-    useAccountContext();
-
-  const { isuserError, userError, user, accountList, logInAccount } = state;
-
+  const { onSetInput, state, dispatch } = useAccountContext();
+  const { addUserInput } = state;
   function handleAddUser(e) {
     e.preventDefault();
-    const field = "user";
-    const checkUserIfExist = accountList
-      .map((acc) => acc.fullName.split(" ")[0].toLowerCase())
-      .includes(user.toLowerCase());
-
-    if (!user) {
-      validateInput(field, "Can't be Empty");
-      return;
-    }
-    if (!checkUserIfExist) {
-      validateInput(field, "user does not exist");
-      return;
-    }
-    if (
-      logInAccount?.selectedChannel.userAddedAccount
-        .map((user) => user.fullName.split(" ")[0].toLowerCase())
-        .includes(user.toLowerCase())
-    ) {
-      validateInput(field, "user already exist");
-      return;
-    }
-
-    dispatch({ type: "ADD_USER" });
   }
 
   return (
@@ -49,33 +23,17 @@ export function FormAddUser({ setIsOpenAddUser }) {
         <div className="relative w-full">
           <input
             type="text"
-            name="user"
-            className={`border p-4 rounded-sm text-xl w-full ${checkError(
-              isuserError
-            )}`}
+            name="addUserInput"
+            className={`border p-4 rounded-sm text-xl w-full `}
             placeholder="Add User"
-            value={user}
+            value={addUserInput}
             onChange={onSetInput}
           />
-          {isuserError && (
-            <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
-              {userError}
-            </small>
-          )}
         </div>
         <button className="bg-blue-500 text-white text-xl py-4 px-6 rounded-md">
           Add User
         </button>
       </form>
-      <ul>
-        {logInAccount.selectedChannel?.userAddedAccount.map(
-          ({ fullName, id }) => (
-            <li key={id} className="text-2xl mb-2 border-b-[1px] py-4">
-              {fullName}
-            </li>
-          )
-        )}
-      </ul>
     </section>
   );
 }

@@ -1,52 +1,35 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAccountContext } from "../Context/AccountContext";
+import axios from "axios";
+import { API_URL } from "../constant/apiUrl";
 
 export function LogInPage() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { dispatch, state, onSetInput, validateInput, checkError } =
-    useAccountContext();
-  const {
-    accountList,
-    emailInput,
-    passwordInput,
-    emailInputError,
-    passwordInputError,
-    isemailInputError,
-    ispasswordInputError,
-    isvalidError,
-    validError,
-  } = state;
+  const { dispatch, state, onSetInput } = useAccountContext();
+  const { emailInput, passwordInput } = state;
 
-  function handleLogIn(e) {
+  async function handleLogIn(e) {
     e.preventDefault();
-    const checkIfExist = accountList.some(
-      (acc) => acc.email === emailInput && acc.password === passwordInput
-    );
-    const fields = ["emailInput", "passwordInput"];
+    try {
+      const userAccount = {
+        email: emailInput,
+        password: passwordInput,
+      };
+      const res = await axios.post(
+        `${API_URL}/api/v1/auth/sign_in`,
+        userAccount
+      );
+      console.log(res);
 
-    for (const field of fields) {
-      if (!state[field]) {
-        validateInput(field, "Can't be Empty");
-        return;
+      if (res.status === 200) {
+        localStorage.setItem("headers", JSON.stringify(res.headers));
+        dispatch({ type: "LOG_IN_SUCCESS", payload: res.data.data });
+        navigate("mainPage");
       }
-    }
-
-    if (checkIfExist) {
-      const getAccountLogIn =
-        state.accountList.find(
-          (acc) =>
-            acc.email === state.emailInput &&
-            acc.password === state.passwordInput
-        ) || null;
-      dispatch({ type: "LOGIN_SUCCESSFUL", payload: getAccountLogIn });
-      navigate("/mainPage");
-    } else {
-      dispatch({
-        type: "LOGIN_INVALID",
-        payload: "Invalid email or password",
-      });
+    } catch (error) {
+      console.log(...error.response.data.errors);
     }
   }
 
@@ -66,17 +49,10 @@ export function LogInPage() {
               type="email"
               name="emailInput"
               value={emailInput}
-              className={`border p-4 rounded-sm text-xl w-full ${checkError(
-                isemailInputError
-              )}`}
+              className={`border p-4 rounded-sm text-xl w-full`}
               placeholder="example@gmail.com"
               onChange={onSetInput}
             />
-            {isemailInputError && (
-              <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
-                {emailInputError}
-              </small>
-            )}
           </div>
 
           <div className="relative">
@@ -84,9 +60,7 @@ export function LogInPage() {
               type={isOpen ? "text" : "password"}
               name="passwordInput"
               value={passwordInput}
-              className={`border p-4 rounded-sm text-xl w-full ${checkError(
-                ispasswordInputError
-              )}`}
+              className={`border p-4 rounded-sm text-xl w-full`}
               placeholder="Password"
               onChange={onSetInput}
             />
@@ -96,17 +70,8 @@ export function LogInPage() {
                 isOpen ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"
               }`}
             ></i>
-            {ispasswordInputError && (
-              <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
-                {passwordInputError}
-              </small>
-            )}
           </div>
-          {isvalidError && (
-            <small className="text-lg text-red-500 absolute top-40 left-0 z-10">
-              {validError}
-            </small>
-          )}
+
           <button className="w-full text-xl bg-blue-600 font-bold uppercase text-white py-4 rounded-md">
             Log In
           </button>

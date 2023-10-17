@@ -3,9 +3,20 @@ import { Header } from "../components/Header";
 import { ChatPage } from "../components/ChatPage";
 import { useAccountContext } from "../Context/AccountContext";
 import { useNavigate } from "react-router-dom";
+import { ProfilePage } from "./ProfilePage";
+import { useEffect } from "react";
+import { axiosFetch } from "../api/api-get";
 
 export function MainPage() {
   const { state } = useAccountContext();
+
+  useEffect(() => {
+    async function getUser() {
+      const res = await axiosFetch.get("/api/v1/users");
+      console.log(res.data.data);
+    }
+    getUser();
+  }, []);
 
   return (
     <main
@@ -25,6 +36,8 @@ export function MainPage() {
 }
 
 function SideBarIcon() {
+  const { dispatch } = useAccountContext();
+
   const navigate = useNavigate();
   return (
     <section className="text-white  text-4xl text-center">
@@ -32,17 +45,12 @@ function SideBarIcon() {
       <div>
         <i
           className="fa-solid fa-right-from-bracket cursor-pointer"
-          onClick={() => navigate("/")}
+          onClick={() => {
+            dispatch({ type: "LOG_OUT" });
+            navigate("/");
+          }}
         ></i>
       </div>
-    </section>
-  );
-}
-
-function ProfilePage() {
-  return (
-    <section className="bg-white shadow-[0_0_1rem_rgba(0,0,0,0.2)] relative">
-      ProfilePage
     </section>
   );
 }

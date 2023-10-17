@@ -1,23 +1,20 @@
 import { createContext, useContext, useReducer } from "react";
-import { logInReducer } from "../reducer/logInReducer";
-import { initialStateLogIn } from "../reducer/initialStateLogIn";
+import { reducer } from "../reducer/reducer";
+import { initialState } from "../reducer/initialState";
 
 const AccountContext = createContext();
 
 function AccountProvider({ children }) {
-  const [stateLogIn, dispatchLogIn] = useReducer(
-    logInReducer,
-    initialStateLogIn
-  );
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   function handleInput(e) {
     const { name, value } = e.target;
 
-    dispatchLogIn({ type: "SET_INPUT", payload: { name, value } });
+    dispatch({ type: "SET_INPUT", payload: { name, value } });
   }
 
   function validateInput(field, message) {
-    dispatchLogIn({ type: "VALIDATE_INPUT", payload: { field, message } });
+    dispatch({ type: "VALIDATE_INPUT", payload: { field, message } });
   }
 
   const checkError = (error) =>
@@ -26,8 +23,8 @@ function AccountProvider({ children }) {
   return (
     <AccountContext.Provider
       value={{
-        state: stateLogIn,
-        dispatch: dispatchLogIn,
+        state,
+        dispatch,
         onSetInput: handleInput,
         validateInput,
         checkError,

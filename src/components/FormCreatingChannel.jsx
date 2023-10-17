@@ -1,33 +1,11 @@
 import { useAccountContext } from "../Context/AccountContext";
 
 export function FormCreatingChannel({ setIsOpenChannel }) {
-  const {
-    state,
-    onSetInput,
-    checkError,
-    validateInput,
-    dispatch,
-  } = useAccountContext();
-  const { ischannelNameError, channelNameError, channelName, logInAccount } =
-    state;
+  const { state, onSetInput, dispatch } = useAccountContext();
+  const { channelName } = state;
 
   function handleCreateChannel(e) {
     e.preventDefault();
-    const field = "channelName";
-    if (!channelName) {
-      validateInput(field, "Can't be Empty");
-      return;
-    }
-    if (
-      logInAccount?.channelList
-        .map((channel) => channel.channelName)
-        .includes(channelName)
-    ) {
-      validateInput(field, "Channel already Exist");
-      return;
-    }
-    dispatch({ type: "CREATE_CHANNEL" });
-    setIsOpenChannel(false);
   }
 
   return (
@@ -46,18 +24,11 @@ export function FormCreatingChannel({ setIsOpenChannel }) {
         <input
           type="text"
           name="channelName"
-          className={`border p-4 rounded-sm text-xl w-full ${checkError(
-            ischannelNameError
-          )}`}
+          className={`border p-4 rounded-sm text-xl w-full `}
           placeholder="Create a new channel"
           value={channelName}
           onChange={onSetInput}
         />
-        {ischannelNameError && (
-          <small className="text-lg text-red-500 absolute top-16 left-0 z-10">
-            {channelNameError}
-          </small>
-        )}
       </div>
 
       <button className="bg-blue-500 text-white text-xl py-4 px-6 ml-4 rounded-md">
