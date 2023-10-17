@@ -1,66 +1,32 @@
-import { useReducer } from "react";
-import { Route, Routes } from "react-router-dom";
-import { initialStateLogIn, logInReducer } from "./reducer/logInReducer";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { LogInPage } from "./pages/LogInPage";
 import { MainPage } from "./pages/MainPage";
 import CreateAccount from "./pages/CreateAccount";
+import { ChatPage } from "./components/ChatPage";
+import { useAccountContext } from "./Context/AccountContext.jsx";
+import { ProfilePage } from "./pages/ProfilePage";
 
 export default function App() {
-  const [stateLogIn, dispatchLogIn] = useReducer(
-    logInReducer,
-    initialStateLogIn
-  );
-
-  function handleInput(e) {
-    const { name, value } = e.target;
-
-    dispatchLogIn({ type: "SET_INPUT", payload: { name, value } });
-  }
-
-  function validateInput(field, message) {
-    dispatchLogIn({ type: "VALIDATE_INPUT", payload: { field, message } });
-  }
-
-  const checkError = (error) =>
-    error ? "border-1 border-rose-500" : "border-[1px_solid_rgba(0,0,0,0.1)]";
-
-  const getAccountLogIn = stateLogIn.accountList.find(
-    (acc) =>
-      acc.email === stateLogIn.emailInput &&
-      acc.password === stateLogIn.passwordInput
-  );
+  const { state } = useAccountContext();
 
   return (
     <div>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <LogInPage
-              state={stateLogIn}
-              dispatch={dispatchLogIn}
-              onSetInput={handleInput}
-              validateInput={validateInput}
-              checkError={checkError}
-            />
-          }
-        />
-        <Route
-          path="createAccount"
-          element={
-            <CreateAccount
-              state={stateLogIn}
-              dispatch={dispatchLogIn}
-              onSetInput={handleInput}
-              validateInput={validateInput}
-              checkError={checkError}
-            />
-          }
-        />
-        <Route
-          path="mainPage"
-          element={<MainPage account={getAccountLogIn} />}
-        ></Route>
+        {!state.isloggedIn ? (
+          <>
+            <Route path="/" element={<LogInPage />} />
+            <Route path="createAccount" element={<CreateAccount />} />
+          </>
+        ) : (
+          <>
+            <Route path="mainPage" element={<MainPage />}>
+              <Route path=":channelName" element={<ChatPage />}>
+                <Route path=":userId" element={<ProfilePage />} />
+              </Route>
+            </Route>
+          </>
+        )}
+
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

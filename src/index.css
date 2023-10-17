@@ -12,6 +12,17 @@ html {
   padding: 0;
   outline: none;
 }
-body {
-  @apply bg-slate-100;
+
+.main__page {
+  background: linear-gradient(to top left, #4f0b51 40%, #9c399d 60%);
+}
+.overlay::before {
+  content: "";
+  @apply absolute top-0 left-0 w-full h-full z-10;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+.search__bar::placeholder {
+  @apply text-white;
 }
