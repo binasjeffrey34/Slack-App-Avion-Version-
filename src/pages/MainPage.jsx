@@ -10,13 +10,13 @@ import { axiosFetch } from "../api/api-get";
 export function MainPage() {
   const { state } = useAccountContext();
 
-  useEffect(() => {
-    async function getUser() {
-      const res = await axiosFetch.get("/api/v1/users");
-      console.log(res.data.data);
-    }
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   async function getUser() {
+  //     const res = await axiosFetch.get("/api/v1/users");
+  //     console.log(res.data.data);
+  //   }
+  //   getUser();
+  // }, []);
 
   return (
     <main
