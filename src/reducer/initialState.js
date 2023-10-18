@@ -11,4 +11,5 @@ export const initialState = {
   isloggedIn: false,
   isOpenChannelForm: false,
   isOpenAddUserForm: false,
+  getAllChannels: []
 };
