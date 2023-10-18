@@ -66,6 +66,14 @@ export function reducer(state, action) {
     }
     case "SELECTED_USER":
       return { ...state, selectedUser: action.payload };
+
+    case "SHOW_MODALCHANNELFORM":
+      return { ...state, isOpenChannelForm: action.payload };
+    case "SHOW_MODALADDUSERFORM":
+      return { ...state, isOpenAddUserForm: action.payload };
+      case "GET_ALL_USERS":
+        return { ...state, getAllChannels: action.payload }
+
     default:
       return state;
   }

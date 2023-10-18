@@ -20,5 +20,9 @@ export const initialState = {
   isOpenChannelForm: false,
   isOpenAddUserChannel: false,
   isOpenAddUserForm: false,
+
   isProfileOpen: false,
+
+  getAllChannels: []
+
 };

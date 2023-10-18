@@ -21,6 +21,7 @@ export function MainPage() {
     isProfileOpen,
   } = state;
 
+
   useEffect(() => {
     if (channelName) {
       dispatch({
@@ -44,6 +45,15 @@ export function MainPage() {
     }
     getAllUsersChannel();
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   async function getUser() {
+  //     const res = await axiosFetch.get("/api/v1/users");
+  //     console.log(res.data.data);
+  //   }
+  //   getUser();
+  // }, []);
+
 
   return (
     <main
