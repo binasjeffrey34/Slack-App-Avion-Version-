@@ -7,6 +7,8 @@ export function FormCreatingChannel({ setIsOpenChannel }) {
 
   const { channelName } = state;
 
+  const { channelName, getAllChannels } = state;
+
   async function createChannel() {
     try {
       const response = await axiosFetch.post(`${API_URL}/api/v1/channels`, {
