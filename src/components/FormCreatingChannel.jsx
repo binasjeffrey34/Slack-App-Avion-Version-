@@ -6,8 +6,6 @@ import { API_URL } from "../constant/apiUrl";
 export function FormCreatingChannel({ setIsOpenChannel }) {
   const { state, onSetInput, dispatch } = useAccountContext();
 
-  const { channelName } = state;
-
   const { channelName, getAllChannels } = state;
 
   async function createChannel() {
@@ -25,7 +23,6 @@ export function FormCreatingChannel({ setIsOpenChannel }) {
       console.error("Error creating channel:", error);
     }
   }
-
 
   function handleCreateChannel(e) {
     e.preventDefault();
