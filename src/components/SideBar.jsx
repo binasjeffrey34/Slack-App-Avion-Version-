@@ -17,7 +17,7 @@ export function SideBar() {
         const res = await axiosFetch.get(`${API_URL}/api/v1/channels`);
         console.log(res);
 
-        dispatch({ type: "GET_ALL_USERS", payload: res.data.data });
+        dispatch({ type: "GET_ALL_CHANNELS", payload: res.data.data });
       } catch (error) {
         console.log("Error getting channels");
       }
