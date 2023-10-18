@@ -10,9 +10,10 @@ html {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
-  outline: none;
 }
-
+input {
+  @apply outline-1 outline-blue-300;
+}
 .main__page {
   background: linear-gradient(to top left, #4f0b51 40%, #9c399d 60%);
 }
@@ -23,6 +24,46 @@ html {
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
 }
+.overlay-form::before {
+  content: "";
+  @apply absolute top-0 left-0 w-full h-full z-40;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
 .search__bar::placeholder {
   @apply text-white;
+}
+.channel__member-list {
+  @apply overflow-y-scroll h-[85%];
+}
+
+.channel__member-list::-webkit-scrollbar {
+  width: 1rem;
+}
+
+.channel__member-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.channel__member-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+.spinner {
+  @apply flex items-center justify-center gap-4 w-full;
+}
+.spinner img {
+  @apply w-12 h-12;
+  animation: 2s linear infinite rotate;
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

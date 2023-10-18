@@ -22,7 +22,6 @@ function CreateAccount() {
     try {
       const res = await axios.post(`${API_URL}/api/v1/auth`, newUser);
       console.log(res);
-      // dispatch({ type: "CREATE_ACCOUNT" });
       navigate("/");
     } catch (error) {
       console.log(error);
