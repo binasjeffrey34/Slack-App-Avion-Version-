@@ -27,16 +27,45 @@ export function reducer(state, action) {
         isloggedIn: true,
       };
     }
-    case "LOG_OUT": {
+    // case "LOG_OUT": {
+    //   return {
+    //     ...state,
+    //     isloggedIn: false,
+    //   };
+    // }
+
+    case "SHOW_MODAL": {
+      const { name, value } = action.payload;
+      return { ...state, [name]: value };
+    }
+    case "GET_ALL_USERS": {
+      return { ...state, allUsers: action.payload };
+    }
+    case "GET_USERS_CHANNEL": {
       return {
         ...state,
-        isloggedIn: false,
+        allChannelUser: action.payload,
+        filteredListMember: action.payload,
+        status: "success",
       };
     }
-    case "SHOW_MODALCHANNELFORM":
-      return { ...state, isOpenChannelForm: action.payload };
-    case "SHOW_MODALADDUSERFORM":
-      return { ...state, isOpenAddUserForm: action.payload };
+    case "GET_USERS-CHANNEL-FAILED":
+      return { ...state, status: "error" };
+    case "ADD_USER":
+      return { ...state, allChannelUser: action.payload, addUserInput: "" };
+    case "SEARCH_MEMBER": {
+      const { allChannelUser } = state;
+      const query = action.payload.toLowerCase();
+
+      const filteredListMember = query
+        ? allChannelUser.filter((user) =>
+            user.name.toLowerCase().includes(query)
+          )
+        : allChannelUser;
+      return { ...state, filteredListMember };
+    }
+    case "SELECTED_USER":
+      return { ...state, selectedUser: action.payload };
     default:
       return state;
   }

@@ -22,9 +22,9 @@ export function LogInPage() {
         userAccount
       );
       console.log(res);
-
       if (res.status === 200) {
         localStorage.setItem("headers", JSON.stringify(res.headers));
+        localStorage.setItem("accountLogin", JSON.stringify(res.data.data));
         dispatch({ type: "LOG_IN_SUCCESS", payload: res.data.data });
         navigate("mainPage");
       }

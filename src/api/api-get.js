@@ -7,10 +7,8 @@ export const axiosFetch = axios.create({
   baseURL: API_URL,
   headers: {
     "access-token": params["access-token"] || "",
-    client: params["client"] || "",
-    expiry: params["expiry"] || "",
-    uid: params["uid"] || "",
+    client: params.client || "",
+    expiry: params.expiry || "",
+    uid: params.uid || "",
   },
 });
-
-console.log(axiosFetch);

@@ -2,35 +2,68 @@ import { SideBar } from "../components/SideBar";
 import { Header } from "../components/Header";
 import { ChatPage } from "../components/ChatPage";
 import { useAccountContext } from "../Context/AccountContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ProfilePage } from "./ProfilePage";
 import { useEffect } from "react";
 import { axiosFetch } from "../api/api-get";
+import { API_URL } from "../constant/apiUrl";
+import profileLogo from "../assets/profilelogo.png";
+import { AddUserChannel } from "../components/AddUserChannel/AddUserChannel";
+import { FormAddUser } from "../components/AddUserChannel/FormAddUser";
 
 export function MainPage() {
-  const { state } = useAccountContext();
+  const { channelName } = useParams();
+  const { state, dispatch } = useAccountContext();
+  const {
+    isOpenChannelForm,
+    isOpenAddUserForm,
+    isOpenAddUserChannel,
+    isProfileOpen,
+  } = state;
 
   useEffect(() => {
-    async function getUser() {
-      const res = await axiosFetch.get("/api/v1/users");
-      console.log(res.data.data);
+    if (channelName) {
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: { name: "isProfileOpen", value: true },
+      });
     }
-    getUser();
-  }, []);
+  }, [dispatch, channelName]);
+
+  useEffect(() => {
+    async function getAllUsersChannel() {
+      const res = await axiosFetch.get(`${API_URL}/api/v1/users`);
+
+      const getAlluser = res.data.data.map((user) => ({
+        ...user,
+        name: user.email.split("@")[0],
+        image: profileLogo,
+      }));
+      console.log(getAlluser);
+      dispatch({ type: "GET_ALL_USERS", payload: getAlluser });
+    }
+    getAllUsersChannel();
+  }, [dispatch]);
 
   return (
     <main
       className={`main__page grid grid-cols-[6rem,1fr] grid-rows-[4rem,4fr] min-h-screen ${
-        state.isOpenChannelForm || state.isOpenAddUserForm ? "overlay" : ""
-      } `}
+        isOpenAddUserChannel || isOpenAddUserForm || isOpenChannelForm
+          ? "overlay"
+          : ""
+      } ${isOpenAddUserForm ? "overlay-form" : ""} `}
     >
       <Header />
       <SideBarIcon />
-      <div className="grid grid-cols-[1fr,2fr,1fr] rounded-lg overflow-hidden ">
+      <div className="grid grid-cols-[1fr,2fr] rounded-tl-lg overflow-hidden ">
         <SideBar />
-        <ChatPage />
-        <ProfilePage />
+        <div className="grid grid-cols-[2fr,auto]">
+          <ChatPage />
+          {isProfileOpen && <ProfilePage />}
+        </div>
       </div>
+      {isOpenAddUserChannel && <AddUserChannel />}
+      {isOpenAddUserForm && <FormAddUser />}
     </main>
   );
 }

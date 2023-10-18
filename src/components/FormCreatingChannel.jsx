@@ -2,6 +2,7 @@ import { useAccountContext } from "../Context/AccountContext";
 
 export function FormCreatingChannel({ setIsOpenChannel }) {
   const { state, onSetInput, dispatch } = useAccountContext();
+
   const { channelName } = state;
 
   function handleCreateChannel(e) {
