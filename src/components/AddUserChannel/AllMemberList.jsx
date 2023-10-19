@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
 
 export function AllMemberList() {
   const { state, dispatch } = useAccountContext();
   const { filteredListMember, accountLogIn } = state;
+  const { channelId } = useParams();
 
   return (
     <ul>
@@ -12,7 +13,7 @@ export function AllMemberList() {
         return (
           <Link
             key={id}
-            to={`${id}`}
+            to={`${channelId}/${id}`}
             onClick={() => {
               dispatch({
                 type: "SHOW_MODAL",

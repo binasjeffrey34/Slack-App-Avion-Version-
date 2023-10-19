@@ -5,25 +5,34 @@ import CreateAccount from "./pages/CreateAccount";
 import { ChatPage } from "./components/ChatPage";
 
 import { ProfilePage } from "./pages/ProfilePage";
+import { useAccountContext } from "./Context/AccountContext";
+import { FormCreatingChannel } from "./components/FormCreatingChannel";
+import { FormCreatingWorkSpace } from "./components/FormCreatingWorkSpace";
 
 export default function App() {
+  const {
+    state: { isloggedIn },
+  } = useAccountContext();
   return (
     <div>
       <Routes>
-        {/* {!state.isloggedIn ? ( */}
-        <>
-          <Route path="/" element={<LogInPage />} />
-          <Route path="createAccount" element={<CreateAccount />} />
-        </>
-        {/* ) : ( */}
-        <>
-          <Route path="mainPage" element={<MainPage />}>
-            <Route path=":channelName" element={<ChatPage />}></Route>
-            <Route path=":userId" element={<ProfilePage />} />
-          </Route>
-        </>
-        {/* )} */}
-
+        {!isloggedIn ? (
+          <>
+            <Route path="/" element={<LogInPage />} />
+            <Route path="createAccount" element={<CreateAccount />} />
+          </>
+        ) : (
+          <>
+            <Route path="workSpace" element={<FormCreatingWorkSpace />} />
+            <Route path="createChannel" element={<FormCreatingChannel />} />
+            <Route path="dashboard" element={<MainPage />}>
+              <Route path=":channelId" element={<ChatPage />}>
+                <Route path=":userId" element={<ProfilePage />} />
+              </Route>
+            </Route>
+          </>
+        )}
+        <Route path="/" element={<LogInPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

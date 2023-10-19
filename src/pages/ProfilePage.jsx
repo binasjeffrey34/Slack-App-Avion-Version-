@@ -5,7 +5,7 @@ import { useEffect } from "react";
 export function ProfilePage() {
   const { state, dispatch } = useAccountContext();
   const { allUsers, selectedUser } = state;
-  const { channelName } = useParams();
+  const { userId, channelId } = useParams();
   const navigate = useNavigate();
   const option = {
     hour: "numeric",
@@ -15,30 +15,30 @@ export function ProfilePage() {
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("selectedUser"));
 
-    if (storedUser && storedUser.id === +channelName) {
+    if (storedUser && storedUser.id === +userId) {
       dispatch({ type: "SELECTED_USER", payload: storedUser });
     } else {
-      const user = allUsers.find((user) => user.id === +channelName);
+      const user = allUsers.find((user) => user.id === +userId);
 
       if (user) {
         dispatch({ type: "SELECTED_USER", payload: user });
         localStorage.setItem("selectedUser", JSON.stringify(user));
       }
     }
-  }, [channelName, allUsers, dispatch]);
+  }, [userId, allUsers, dispatch]);
 
   return (
-    <section className="bg-white w-[40rem]  text-xl border-l-[1px]">
+    <section className="bg-white w-[45rem]  text-xl border-l-[1px]">
       <div className=" h-[5rem] border-b-[1px] flex items-center justify-between px-8 text-3xl text-slate-800">
         <h1 className=" font-bold">Profile</h1>
         <i
-          className="fa-solid fa-xmark "
+          className="fa-solid fa-xmark cursor-pointer"
           onClick={() => {
             dispatch({
               type: "SHOW_MODAL",
               payload: { name: "isProfileOpen", value: false },
             });
-            navigate("/mainPage");
+            navigate(`${channelId}`);
           }}
         ></i>
       </div>

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAccountContext } from "../Context/AccountContext";
 import axios from "axios";
 import { API_URL } from "../constant/apiUrl";
+import { axiosFetch } from "../api/api-get";
 
 export function LogInPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,12 +22,31 @@ export function LogInPage() {
         `${API_URL}/api/v1/auth/sign_in`,
         userAccount
       );
-      console.log(res);
+      const { headers, data } = res;
       if (res.status === 200) {
-        localStorage.setItem("headers", JSON.stringify(res.headers));
-        localStorage.setItem("accountLogin", JSON.stringify(res.data.data));
-        dispatch({ type: "LOG_IN_SUCCESS", payload: res.data.data });
-        navigate("mainPage");
+        localStorage.setItem("headers", JSON.stringify(headers));
+        localStorage.setItem("accountLogin", JSON.stringify(data.data));
+        dispatch({ type: "LOG_IN_SUCCESS", payload: data.data });
+        axiosFetch.defaults.headers = {
+          "access-token": headers["access-token"],
+          client: headers.client,
+          expiry: headers.expiry,
+          uid: headers.uid,
+        };
+
+        const channelsRes = await axiosFetch.get(`/api/v1/channels`);
+        const allChannels = channelsRes?.data?.data;
+
+        if (allChannels?.length > 0) {
+          const firstChannelId = allChannels[0]?.id;
+          navigate(`/dashboard/${firstChannelId}`);
+        } else {
+          dispatch({
+            type: "SHOW_MODAL",
+            payload: { name: "isOpenWorkSpace", value: true },
+          });
+          navigate("workSpace");
+        }
       }
     } catch (error) {
       console.log(...error.response.data.errors);

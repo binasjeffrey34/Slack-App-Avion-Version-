@@ -8,8 +8,8 @@ function CreateAccount() {
   const [isOpenPass1, setIsOpenPass1] = useState(false);
   const [isOpenPass2, setIsOpenPass2] = useState(false);
   const navigate = useNavigate();
-  const { state, onSetInput } = useAccountContext();
-  const { fullNameInput, emailSignUpInput, password1, password2 } = state;
+  const { state, onSetInput, dispatch } = useAccountContext();
+  const { emailSignUpInput, password1, password2 } = state;
 
   const newUser = {
     email: emailSignUpInput,
@@ -22,6 +22,7 @@ function CreateAccount() {
     try {
       const res = await axios.post(`${API_URL}/api/v1/auth`, newUser);
       console.log(res);
+      dispatch({ type: "CREATE_ACCOUNT" });
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -35,16 +36,6 @@ function CreateAccount() {
           Sign Up to Slack
         </h1>
         <form className=" flex gap-8 flex-col" onSubmit={handleCreateAccount}>
-          <div className="relative">
-            <input
-              type="text"
-              name="fullNameInput"
-              className={`border p-4 rounded-sm text-xl w-full `}
-              placeholder="Full Name"
-              value={fullNameInput}
-              onChange={onSetInput}
-            />
-          </div>
           <div className="relative">
             <input
               type="email"

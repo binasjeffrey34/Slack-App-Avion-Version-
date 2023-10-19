@@ -1,73 +1,84 @@
+import { useEffect, useRef } from "react";
 import { useAccountContext } from "../Context/AccountContext";
 import { axiosFetch } from "../api/api-get";
-import { API_URL } from "../constant/apiUrl";
+import { useNavigate } from "react-router-dom";
 
-export function FormCreatingChannel({ setIsOpenChannel }) {
+export function FormCreatingChannel() {
   const { state, onSetInput, dispatch } = useAccountContext();
+  const inputRef = useRef();
+  const { channelName, userId } = state;
+  const navigate = useNavigate();
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
-  const { channelName } = state;
-
-  const { channelName, getAllChannels } = state;
-
-  async function createChannel() {
+  async function handleCreateChannel(e) {
+    e.preventDefault();
     try {
-      const response = await axiosFetch.post(`${API_URL}/api/v1/channels`, {
+      const res = await axiosFetch.post(`/api/v1/channels`, {
         name: channelName,
-        user_ids: [2896],
+        user_ids: [userId],
       });
 
-      console.log("Channel created:", response.data);
+      navigate(`/dashboard/${res.data.data.id}`);
 
-      setIsOpenChannel(false);
-      dispatch({ type: "SHOW_MODALCHANNELFORM", payload: false });
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: { name: "isOpenChannelForm", value: false },
+      });
+      dispatch({ type: "CREATE_CHANNEL" });
+
+      //UPDATE DISPLAYING CHANNELS
+      const updatedRes = await axiosFetch.get(`/api/v1/channels`);
+      const updatedChannels = updatedRes.data.data;
+      dispatch({ type: "GET_ALL_CHANNELS", payload: updatedChannels });
     } catch (error) {
       console.error("Error creating channel:", error);
     }
   }
 
-  function handleCreateChannel(e) {
-    e.preventDefault();
-    createChannel();
-  }
-
-  // useEffect(() => {
-  //   async function getAllChannels() {
-  //     try {
-  //       const res = await axiosFetch.get(`${API_URL}/api/v1/channels/5080`);
-  //       console.log("Success getting channels", res);
-  //     } catch (error) {
-  //       console.log("Error getting channels");
-  //     }
-  //   }
-  //   getAllChannels();
-  // }, []);
   return (
     <>
       <form
-        className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-10 shadow-[0_0_1rem_rgba(0,0,0,0.3)] h-[10rem] w-[40rem] items-center justify-center flex mx-auto bg-white"
+        className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-10 shadow-[0_0_1rem_rgba(0,0,0,0.3)]  w-[40rem]  justify-center flex flex-col gap-6 mx-auto bg-white px-12 pt-16 pb-12 rounded-md"
         onSubmit={handleCreateChannel}
       >
         <i
-          className="fa-solid fa-xmark absolute top-4 right-6 text-2xl cursor-pointer"
+          className="fa-solid fa-xmark absolute top-6 right-10 text-3xl cursor-pointer"
           onClick={() => {
-            setIsOpenChannel(false);
-            dispatch({ type: "SHOW_MODALCHANNELFORM", payload: false });
+            dispatch({
+              type: "SHOW_MODAL",
+              payload: { name: "isOpenChannelForm", value: false },
+            });
           }}
         ></i>
-        <div className="relative">
+        <h1 className="text-4xl font-bold mb-4">Create a Channel</h1>
+        <div className="relative w-full">
           <input
             type="text"
+            ref={inputRef}
             name="channelName"
-            className={`border p-4 rounded-sm text-xl w-full `}
+            className={`border border-slate-300 p-4 rounded-sm text-xl w-full `}
             placeholder="Create a new channel"
             value={channelName}
             onChange={onSetInput}
           />
         </div>
-
-        <button className="bg-blue-500 text-white text-xl py-4 px-6 ml-4 rounded-md">
-          Create Channel
-        </button>
+        <div className="relative w-full">
+          <input
+            type="text"
+            name="userId"
+            className={`border border-slate-300 p-4 rounded-sm text-xl w-full `}
+            placeholder="User ID"
+            value={userId}
+            onChange={onSetInput}
+          />
+        </div>
+        <div className="text-right">
+          <button className="bg-blue-500 text-white text-xl py-4 px-6 rounded-md">
+            Create Channel
+          </button>
+        </div>
       </form>
     </>
   );

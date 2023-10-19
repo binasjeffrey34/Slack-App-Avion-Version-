@@ -1,34 +1,63 @@
 import { useEffect, useRef } from "react";
 import { useAccountContext } from "../../Context/AccountContext";
 import { axiosFetch } from "../../api/api-get";
-import { API_URL } from "../../constant/apiUrl";
+import { useParams } from "react-router-dom";
+import profileLogo from "../../assets/profilelogo.png";
 
 export function FormAddUser() {
   const { onSetInput, state, dispatch } = useAccountContext();
   const { addUserInput, allUsers } = state;
+  const { channelId } = useParams();
   const inputRef = useRef();
 
+  //FOCUS ON INPUT
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
   async function handleAddUser(e) {
     e.preventDefault();
+    //FINDING THE USER BY NAME OR EMAIL
     const getUser = allUsers.find(
       (user) => user.uid === addUserInput || user.name === addUserInput
     );
     console.log(getUser);
     try {
       const addUser = {
-        id: 5080,
+        id: channelId,
         member_id: getUser.id,
       };
-
-      const res = await axiosFetch.post(
-        `${API_URL}/api/v1/channel/add_member`,
-        addUser
-      );
+      //ADDING USER TO A CHANNEL
+      const res = await axiosFetch.post(`/api/v1/channel/add_member`, addUser);
       dispatch({ type: "ADD_USER", payload: res.data.data.channel_members });
+
+      //UPDATE DISPLAYING ALL MEMBER IN A CHANNEL
+      const updatedRes = await axiosFetch.get(`/api/v1/channels/${channelId}`);
+      const allMember = updatedRes.data?.data?.channel_members;
+      const getallMember = allUsers
+        .filter((user) =>
+          allMember.some((userchannel) => user.id === userchannel.user_id)
+        )
+        .map((user) => ({
+          ...user,
+          name: user.email.split("@")[0],
+          image: profileLogo,
+        }));
+      dispatch({
+        type: "GET_USERS_CHANNEL",
+        payload: getallMember,
+      });
+
+      //DISPLAYING THE NUMBERS OF USERS
+      dispatch({
+        type: "NUMBER_OF_USERS",
+        payload: getallMember.length,
+      });
+      //CLOSING THE ADDING USER FORM MODAL
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: { name: "isOpenAddUserForm", value: false },
+      });
     } catch (error) {
       console.log(error);
     }

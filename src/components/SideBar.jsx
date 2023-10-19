@@ -1,56 +1,106 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAccountContext } from "../Context/AccountContext";
 import { FormCreatingChannel } from "./FormCreatingChannel";
 import { axiosFetch } from "../api/api-get";
+import { NavLink } from "react-router-dom";
 import { API_URL } from "../constant/apiUrl";
-
 export function SideBar() {
-  const { dispatch, state } = useAccountContext();
-  const [isOpenChannel, setIsOpenChannel] = useState(false);
+  const {
+    dispatch,
+    state: { isOpenChannelForm, workSpaceName },
+  } = useAccountContext();
 
-  const { getAllChannels } = state;
-  console.log(getAllChannels);
+  const [isChannelHideList, setIsChannelHideList] = useState(true);
 
   useEffect(() => {
     async function getAllChannels() {
       try {
         const res = await axiosFetch.get(`${API_URL}/api/v1/channels`);
-        console.log(res);
+        const allChannel = res.data.data;
 
-        dispatch({ type: "GET_ALL_CHANNELS", payload: res.data.data });
+        localStorage.setItem("getAllChannels", JSON.stringify(allChannel));
+        dispatch({ type: "GET_ALL_CHANNELS", payload: allChannel });
       } catch (error) {
         console.log("Error getting channels");
       }
     }
     getAllChannels();
-  }, []);
+  }, [dispatch]);
 
   return (
-    <section className="bg-[rgba(255,255,255,0.75)] p-6">
-      <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4">
-        <i className="fa-solid fa-caret-down mr-2"></i> Channels
-      </p>
+    <section className="bg-[rgba(255,255,255,0.75)]">
+      <div className=" text-3xl font-bold h-[5rem] border-b-[1px] border-b-gray-400 p-6 flex gap-2 items-center justify-between">
+        <p>
+          <span>{workSpaceName || "Avion School"}</span>
+          <i className="fa-solid fa-angle-down ml-2 text-xl"></i>
+        </p>
 
-      <p
-        className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4 hover:cursor-pointer"
-        onClick={() => {
-          setIsOpenChannel(true);
-          dispatch({ type: "SHOW_MODALCHANNELFORM", payload: true });
-        }}
-      >
-        <i className="fa-solid fa-plus mr-2"></i> Add Channels
-      </p>
+        <i className="fa-regular fa-pen-to-square text-gray-600 text-2xl"></i>
+      </div>
+      <div className="relative p-6">
+        <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4 cursor-pointer">
+          <span
+            onClick={() => setIsChannelHideList((list) => !list)}
+            className="hover:bg-[rgba(255,255,255,0.25)] py-1 px-2 rounded-lg "
+          >
+            <i
+              className={`${
+                isChannelHideList
+                  ? "fa-solid fa-caret-down"
+                  : "fa-solid fa-caret-right"
+              } `}
+            ></i>{" "}
+          </span>
+          <span className="btn__channel hover:bg-[rgba(255,255,255,0.25)] py-2 pl-4 pr-8 rounded-lg relative ">
+            Channels{" "}
+            <i className="fa-solid fa-angle-down absolute right-2 text-[1.2rem] top-5 hidden"></i>
+          </span>
+        </p>
 
-      {getAllChannels.map((channel) => (
-        <p key={channel.id}>{channel.name}</p>
-      ))}
-      <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4">
-        <i className="fa-solid fa-caret-down mr-2"></i> Direct messages
-      </p>
+        {isChannelHideList && <AllChannelList />}
 
-      {isOpenChannel && (
-        <FormCreatingChannel setIsOpenChannel={setIsOpenChannel} />
-      )}
+        <p
+          className="relative text-2xl py-3 text-gray-600 font-medium rounded-md  hover:cursor-pointer"
+          onClick={() => {
+            dispatch({
+              type: "SHOW_MODAL",
+              payload: { name: "isOpenChannelForm", value: true },
+            });
+          }}
+        >
+          <i className="fa-solid fa-plus mr-2"></i> Add Channels
+        </p>
+        <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4">
+          <i className="fa-solid fa-caret-down mr-2"></i> Direct messages
+        </p>
+      </div>
+
+      {isOpenChannelForm && <FormCreatingChannel />}
     </section>
+  );
+}
+
+function AllChannelList() {
+  const {
+    state: { getAllChannels },
+  } = useAccountContext();
+
+  return (
+    <ul>
+      {getAllChannels.map((channel) => (
+        <NavLink
+          key={channel.id}
+          to={`${channel.id}`}
+          className="channel__list text-2xl flex gap-4 ml-4 mb-2 font-medium text-slate-600 py-2 px-4 rounded-lg hover:cursor-pointer hover:bg-[#daa5dc] hover:text-white "
+        >
+          <li className=" flex gap-4">
+            <span>
+              <i className="fa-solid fa-hashtag"></i>
+            </span>
+            <span>{channel.name}</span>
+          </li>
+        </NavLink>
+      ))}
+    </ul>
   );
 }
