@@ -1,5 +1,11 @@
 export function reducer(state, action) {
   switch (action.type) {
+    case "CREATE_CHANNEL":
+      return { ...state, channelName: "", userId: "" };
+    case "CREATE_ACCOUNT":
+      return { ...state, emailSignUpInput: "", password1: "", password2: "" };
+    case "CREATE_WORK_SPACE":
+      return { ...state, workSpaceName: action.payload, workSpaceInput: "" };
     case "SET_INPUT": {
       const { name, value } = action.payload;
       return {
@@ -19,6 +25,7 @@ export function reducer(state, action) {
       };
     }
     case "LOG_IN_SUCCESS": {
+      localStorage.setItem("isloggedIn", JSON.stringify(true));
       return {
         ...state,
         accountLogIn: action.payload,
@@ -27,12 +34,13 @@ export function reducer(state, action) {
         isloggedIn: true,
       };
     }
-    // case "LOG_OUT": {
-    //   return {
-    //     ...state,
-    //     isloggedIn: false,
-    //   };
-    // }
+    case "LOG_OUT": {
+      localStorage.setItem("isloggedIn", JSON.stringify(false));
+      return {
+        ...state,
+        isloggedIn: false,
+      };
+    }
 
     case "SHOW_MODAL": {
       const { name, value } = action.payload;
@@ -41,16 +49,16 @@ export function reducer(state, action) {
     case "GET_ALL_USERS": {
       return { ...state, allUsers: action.payload };
     }
+
     case "GET_USERS_CHANNEL": {
       return {
         ...state,
         allChannelUser: action.payload,
         filteredListMember: action.payload,
-        status: "success",
       };
     }
-    case "GET_USERS-CHANNEL-FAILED":
-      return { ...state, status: "error" };
+    case "NUMBER_OF_USERS":
+      return { ...state, numbersOfUser: action.payload };
     case "ADD_USER":
       return { ...state, allChannelUser: action.payload, addUserInput: "" };
     case "SEARCH_MEMBER": {
@@ -67,8 +75,8 @@ export function reducer(state, action) {
     case "SELECTED_USER":
       return { ...state, selectedUser: action.payload };
 
-      case "GET_ALL_CHANNELS":
-        return { ...state, getAllChannels: action.payload }
+    case "GET_ALL_CHANNELS":
+      return { ...state, getAllChannels: action.payload };
 
     default:
       return state;

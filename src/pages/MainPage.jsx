@@ -6,13 +6,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ProfilePage } from "./ProfilePage";
 import { useEffect } from "react";
 import { axiosFetch } from "../api/api-get";
-import { API_URL } from "../constant/apiUrl";
 import profileLogo from "../assets/profilelogo.png";
 import { AddUserChannel } from "../components/AddUserChannel/AddUserChannel";
 import { FormAddUser } from "../components/AddUserChannel/FormAddUser";
 
 export function MainPage() {
-  const { channelName } = useParams();
+  const { userId } = useParams();
   const { state, dispatch } = useAccountContext();
   const {
     isOpenChannelForm,
@@ -21,39 +20,29 @@ export function MainPage() {
     isProfileOpen,
   } = state;
 
-
   useEffect(() => {
-    if (channelName) {
+    if (userId) {
       dispatch({
         type: "SHOW_MODAL",
         payload: { name: "isProfileOpen", value: true },
       });
     }
-  }, [dispatch, channelName]);
+  }, [dispatch, userId]);
 
   useEffect(() => {
     async function getAllUsersChannel() {
-      const res = await axiosFetch.get(`${API_URL}/api/v1/users`);
+      const res = await axiosFetch.get(`/api/v1/users`);
 
-      const getAlluser = res.data.data.map((user) => ({
+      const allUsers = res.data.data.map((user) => ({
         ...user,
         name: user.email.split("@")[0],
         image: profileLogo,
       }));
-      console.log(getAlluser);
-      dispatch({ type: "GET_ALL_USERS", payload: getAlluser });
+
+      dispatch({ type: "GET_ALL_USERS", payload: allUsers });
     }
     getAllUsersChannel();
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   async function getUser() {
-  //     const res = await axiosFetch.get("/api/v1/users");
-  //     console.log(res.data.data);
-  //   }
-  //   getUser();
-  // }, []);
-
 
   return (
     <main
@@ -65,7 +54,7 @@ export function MainPage() {
     >
       <Header />
       <SideBarIcon />
-      <div className="grid grid-cols-[1fr,2fr] rounded-tl-lg overflow-hidden ">
+      <div className="grid grid-cols-[30rem,2fr] rounded-tl-lg overflow-hidden ">
         <SideBar />
         <div className="grid grid-cols-[2fr,auto]">
           <ChatPage />
@@ -91,6 +80,7 @@ function SideBarIcon() {
           onClick={() => {
             dispatch({ type: "LOG_OUT" });
             navigate("/");
+            localStorage.clear();
           }}
         ></i>
       </div>

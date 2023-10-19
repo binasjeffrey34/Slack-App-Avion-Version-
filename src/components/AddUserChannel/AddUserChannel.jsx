@@ -3,17 +3,27 @@ import { axiosFetch } from "../../api/api-get";
 import loading from "../../assets/loading.svg";
 import profileLogo from "../../assets/profilelogo.png";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { AllMemberList } from "./AllMemberList";
+import { SearchMember } from "./SearchMember";
+import { AddPeople } from "./AddPeople";
+import { useParams } from "react-router-dom";
 export function AddUserChannel() {
   const { state, dispatch } = useAccountContext();
-  const { status, allUsers } = state;
+  const [status, setStatus] = useState("loading");
+  const { allUsers, getAllChannels } = state;
+  const { channelId } = useParams();
+
+  const findChannel = getAllChannels.find(
+    (channel) => channel.id === +channelId
+  );
 
   useEffect(() => {
     async function getChannelDetails() {
       try {
-        const res = await axiosFetch.get("/api/v1/channels/5080");
-        const allMember = res.data.data.channel_members;
+        const res = await axiosFetch.get(`/api/v1/channels/${channelId}`);
+
+        const allMember = res.data?.data?.channel_members;
         const getallMember = allUsers
           .filter((user) =>
             allMember.some((userchannel) => user.id === userchannel.user_id)
@@ -28,13 +38,14 @@ export function AddUserChannel() {
           type: "GET_USERS_CHANNEL",
           payload: getallMember,
         });
+        setStatus("success");
       } catch (error) {
-        dispatch({ type: "GET_USERS-CHANNEL-FAILED" });
+        setStatus("error");
       }
     }
 
     getChannelDetails();
-  }, [dispatch, allUsers]);
+  }, [dispatch, allUsers, channelId]);
 
   return (
     <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-10 bg-white w-[55rem] h-[80vh] px-12 py-20 rounded-lg">
@@ -47,6 +58,13 @@ export function AddUserChannel() {
           });
         }}
       ></i>
+      <p className="text-4xl font-bold flex item-center gap-2 mb-6 ">
+        {" "}
+        <span>
+          <i className="fa-solid fa-hashtag"></i>
+        </span>
+        <span>{findChannel.name}</span>
+      </p>
       <SearchMember />
       <AddPeople />
       <div className="channel__member-list flex flex-col gap-4">
@@ -55,57 +73,6 @@ export function AddUserChannel() {
         {status === "success" && <AllMemberList />}
       </div>
     </section>
-  );
-}
-
-function AddPeople() {
-  const { dispatch } = useAccountContext();
-  return (
-    <div
-      className="text-2xl flex  items-center gap-4 mb-6 font-bold hover:cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
-      onClick={() => {
-        dispatch({
-          type: "SHOW_MODAL",
-          payload: { name: "isOpenAddUserForm", value: true },
-        });
-      }}
-    >
-      <i className="fa-solid fa-user-plus text-3xl p-2 bg-[#1d9bd11a] rounded-md text-slate-900"></i>
-      <span>Add People</span>
-    </div>
-  );
-}
-
-function SearchMember() {
-  const { dispatch } = useAccountContext();
-  const inputRef = useRef();
-
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
-
-  function handleSearchMember(e) {
-    const { name, value } = e.target;
-    dispatch({
-      type: "SET_INPUT",
-      payload: { name, value },
-    });
-
-    dispatch({ type: "SEARCH_MEMBER", payload: value });
-  }
-
-  return (
-    <div className="relative mb-8">
-      <input
-        type="text"
-        ref={inputRef}
-        onChange={handleSearchMember}
-        name="searchMemberInput"
-        placeholder="Find Member"
-        className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium "
-      />
-      <i className="fa-solid fa-magnifying-glass absolute left-8 top-1/2 translate-x-[-50%] translate-y-[-50%] text-2xl text-gray-400"></i>
-    </div>
   );
 }
 

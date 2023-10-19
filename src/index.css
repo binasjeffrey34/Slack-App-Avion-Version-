@@ -21,22 +21,22 @@ input {
   content: "";
   @apply absolute top-0 left-0 w-full h-full z-10;
   background: rgba(0, 0, 0, 0.2);
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(1.5px);
 }
 .overlay-form::before {
   content: "";
   @apply absolute top-0 left-0 w-full h-full z-40;
-  background: rgba(0, 0, 0, 0.2);
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(1.5px);
 }
 
 .search__bar::placeholder {
   @apply text-white;
 }
 .channel__member-list {
-  @apply overflow-y-scroll h-[85%];
+  @apply overflow-y-scroll h-[80%];
 }
 
 .channel__member-list::-webkit-scrollbar {
@@ -66,4 +66,10 @@ input {
   100% {
     transform: rotate(360deg);
   }
+}
+.channel__list.active {
+  @apply text-white bg-[#9c399d];
+}
+.btn__channel:hover i {
+  @apply block;
 }
