@@ -29,7 +29,11 @@ export function FormAddUser() {
       };
       //ADDING USER TO A CHANNEL
       const res = await axiosFetch.post(`/api/v1/channel/add_member`, addUser);
-      dispatch({ type: "ADD_USER", payload: res.data.data.channel_members });
+      dispatch({
+        type: "STORE_ADDED_USER_TO_CHANNEL",
+        payload: res.data.data.channel_members,
+      });
+      console.log(res);
 
       //UPDATE DISPLAYING ALL MEMBER IN A CHANNEL
       const updatedRes = await axiosFetch.get(`/api/v1/channels/${channelId}`);
@@ -43,6 +47,7 @@ export function FormAddUser() {
           name: user.email.split("@")[0],
           image: profileLogo,
         }));
+      console.log(getallMember);
       dispatch({
         type: "GET_USERS_CHANNEL",
         payload: getallMember,

@@ -59,7 +59,7 @@ export function reducer(state, action) {
     }
     case "NUMBER_OF_USERS":
       return { ...state, numbersOfUser: action.payload };
-    case "ADD_USER":
+    case "STORE_ADDED_USER_TO_CHANNEL":
       return { ...state, allChannelUser: action.payload, addUserInput: "" };
     case "SEARCH_MEMBER": {
       const { allChannelUser } = state;
@@ -74,10 +74,39 @@ export function reducer(state, action) {
     }
     case "SELECTED_USER":
       return { ...state, selectedUser: action.payload };
+    case "SELECTED_PROFILE":
+      return { ...state, selectedProfile: action.payload };
+    case "DELETE_USER_DIRECT_MESSAGE": {
+      const { allDirectMessage } = state;
+      const upDateAllDirectMessage = allDirectMessage.filter(
+        (directmsg) => directmsg.id !== action.payload
+      );
 
+      localStorage.setItem(
+        "allDirectMessage",
+        JSON.stringify(upDateAllDirectMessage)
+      );
+      return { ...state, allDirectMessage: upDateAllDirectMessage };
+    }
     case "GET_ALL_CHANNELS":
       return { ...state, getAllChannels: action.payload };
+    case "STORE_TO_DIRECT_MESSAGE": {
+      const { allUsers, allDirectMessage } = state;
 
+      const findUser = allUsers?.find((user) => user.id === +action.payload);
+      if (allDirectMessage.some((user) => user?.id === findUser?.id)) {
+        return state;
+      }
+      const upDateAllDirectMessage = [...allDirectMessage, findUser];
+
+      localStorage.setItem(
+        "allDirectMessage",
+        JSON.stringify(upDateAllDirectMessage)
+      );
+      return { ...state, allDirectMessage: upDateAllDirectMessage };
+    }
+    case "SEND_MESSAGE":
+      return { ...state, messageChannelInput: "" };
     default:
       return state;
   }

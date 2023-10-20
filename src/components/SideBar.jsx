@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useAccountContext } from "../Context/AccountContext";
-import { FormCreatingChannel } from "./FormCreatingChannel";
+import { FormCreatingChannel } from "./Forms/FormCreatingChannel";
 import { axiosFetch } from "../api/api-get";
 import { NavLink } from "react-router-dom";
 import { API_URL } from "../constant/apiUrl";
+
 export function SideBar() {
   const {
     dispatch,
-    state: { isOpenChannelForm, workSpaceName },
+    state: { isOpenChannelForm, workSpaceName, allDirectMessage },
   } = useAccountContext();
 
   const [isChannelHideList, setIsChannelHideList] = useState(true);
@@ -73,6 +74,32 @@ export function SideBar() {
         <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4">
           <i className="fa-solid fa-caret-down mr-2"></i> Direct messages
         </p>
+        <ul>
+          {allDirectMessage.map((user) => (
+            <NavLink
+              key={user?.id}
+              onClick={() => dispatch({ type: "SELECTED_USER", payload: user })}
+              to={`/dashboard/directMessage/${user?.id}`}
+              className="user__list text-2xl flex gap-4 ml-4 mb-2 font-medium text-slate-600 py-2 px-4 rounded-lg hover:cursor-pointer hover:bg-[#daa5dc] hover:text-white "
+            >
+              <li className=" flex gap-4">
+                <img src={user?.image} alt="" className="w-8 rounded-lg" />
+                <span>{user?.name}</span>
+                <span
+                  onClick={() =>
+                    dispatch({
+                      type: "DELETE_USER_DIRECT_MESSAGE",
+                      payload: user.id,
+                    })
+                  }
+                  className="btn__delete hidden"
+                >
+                  <i className="fa-solid fa-xmark"></i>
+                </span>
+              </li>
+            </NavLink>
+          ))}
+        </ul>
       </div>
 
       {isOpenChannelForm && <FormCreatingChannel />}
@@ -97,7 +124,7 @@ function AllChannelList() {
             <span>
               <i className="fa-solid fa-hashtag"></i>
             </span>
-            <span>{channel.name}</span>
+            <span>{channel?.name}</span>
           </li>
         </NavLink>
       ))}

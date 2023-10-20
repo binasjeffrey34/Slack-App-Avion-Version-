@@ -22,11 +22,15 @@ export function LogInPage() {
         `${API_URL}/api/v1/auth/sign_in`,
         userAccount
       );
-      const { headers, data } = res;
+      const {
+        headers,
+        data: { data },
+      } = res;
+      const accountData = { ...data, name: data.email.split("@")[0] };
       if (res.status === 200) {
         localStorage.setItem("headers", JSON.stringify(headers));
-        localStorage.setItem("accountLogin", JSON.stringify(data.data));
-        dispatch({ type: "LOG_IN_SUCCESS", payload: data.data });
+        localStorage.setItem("accountLogin", JSON.stringify(accountData));
+        dispatch({ type: "LOG_IN_SUCCESS", payload: accountData });
         axiosFetch.defaults.headers = {
           "access-token": headers["access-token"],
           client: headers.client,
