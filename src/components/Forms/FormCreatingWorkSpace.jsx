@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAccountContext } from "../Context/AccountContext";
+import { useAccountContext } from "../../Context/AccountContext";
 
 export function FormCreatingWorkSpace() {
   const {
@@ -11,7 +11,7 @@ export function FormCreatingWorkSpace() {
 
   function handleCreateWorkSpace(e) {
     e.preventDefault();
-
+    localStorage.setItem("workSpaceName", JSON.stringify(workSpaceInput));
     dispatch({ type: "CREATE_WORK_SPACE", payload: workSpaceInput });
 
     dispatch({

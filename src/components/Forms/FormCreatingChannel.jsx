@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useAccountContext } from "../Context/AccountContext";
-import { axiosFetch } from "../api/api-get";
+import { useAccountContext } from "../../Context/AccountContext";
+import { axiosFetch } from "../../api/api-get";
 import { useNavigate } from "react-router-dom";
 
 export function FormCreatingChannel(props) {
@@ -87,7 +87,7 @@ export function FormCreatingChannel(props) {
         </div>
         <div className="relative w-full">
           <input
-            type="text"
+            type="number"
             name="userId"
             className={`border border-slate-300 p-4 rounded-sm text-xl w-full `}
             placeholder="User ID"

@@ -3,11 +3,14 @@ import { useAccountContext } from "../Context/AccountContext";
 import profileLogo from "../assets/profilelogo.png";
 import { axiosFetch } from "../api/api-get";
 import { useParams } from "react-router-dom";
-import SendMessageToChannel from "./SendMessageToChannel";
+import { ChannelProfilePage } from "./ChannelProfilePage";
 
 export function ChatPage() {
   const { channelId } = useParams();
-  const { dispatch } = useAccountContext();
+  const {
+    dispatch,
+    state: { isProfileOpen },
+  } = useAccountContext();
   useEffect(() => {
     async function getChannelDetails() {
       try {
@@ -26,11 +29,14 @@ export function ChatPage() {
   }, [channelId, dispatch]);
 
   return (
-    <section className="bg-white relative grid grid-cols-1 grid-rows-[85%,15%]">
-      <HeaderChatPage />
-      <MessageChannels />
-      <SendMessageToChannel />
-    </section>
+    <>
+      <section className="bg-white relative grid grid-cols-1 grid-rows-[85%,15%]">
+        <HeaderChatPage />
+        <MessageChannels />
+        <FormSendMessageChannel />
+      </section>
+      {isProfileOpen && <ChannelProfilePage channelId={channelId} />}
+    </>
   );
 }
 function HeaderChatPage() {

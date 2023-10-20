@@ -1,11 +1,12 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useAccountContext } from "../Context/AccountContext";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useAccountContext } from "../../Context/AccountContext";
 import { useEffect } from "react";
 
-export function ProfilePage() {
+export function MesageProfilePage() {
   const { state, dispatch } = useAccountContext();
-  const { allUsers, selectedUser } = state;
-  const { userId, channelId } = useParams();
+  const { allUsers, selectedProfile } = state;
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
   const navigate = useNavigate();
   const option = {
     hour: "numeric",
@@ -13,19 +14,19 @@ export function ProfilePage() {
   };
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("selectedUser"));
+    const storedUser = JSON.parse(localStorage.getItem("selectedProfile"));
 
-    if (storedUser && storedUser.id === +userId) {
-      dispatch({ type: "SELECTED_USER", payload: storedUser });
+    if (storedUser && storedUser.id === +id) {
+      dispatch({ type: "SELECTED_PROFILE", payload: storedUser });
     } else {
-      const user = allUsers.find((user) => user.id === +userId);
+      const user = allUsers.find((user) => user.id === +id);
 
       if (user) {
-        dispatch({ type: "SELECTED_USER", payload: user });
-        localStorage.setItem("selectedUser", JSON.stringify(user));
+        dispatch({ type: "SELECTED_PROFILE", payload: user });
+        localStorage.setItem("selectedProfile", JSON.stringify(user));
       }
     }
-  }, [userId, allUsers, dispatch]);
+  }, [id, allUsers, dispatch]);
 
   return (
     <section className="bg-white w-[45rem]  text-xl border-l-[1px]">
@@ -36,20 +37,20 @@ export function ProfilePage() {
           onClick={() => {
             dispatch({
               type: "SHOW_MODAL",
-              payload: { name: "isProfileOpen", value: false },
+              payload: { name: "isDirectMessageOpen", value: false },
             });
-            navigate(`${channelId}`);
+            navigate(`/dashboard/directMessage/${id}`);
           }}
         ></i>
       </div>
       <div className="p-8  border-b-[1px]">
         <img
-          src={selectedUser?.image}
+          src={selectedProfile?.image}
           alt=""
           className="w-96 rounded-lg mx-auto mb-6"
         />
         <h1 className="text-3xl font-bold text-slate-900 mb-6">
-          {selectedUser?.name}
+          {selectedProfile?.name}
         </h1>
         <p className="flex gap-2 items-center mb-6 text-2xl">
           <i className="fa-regular fa-clock"></i>{" "}
@@ -60,10 +61,21 @@ export function ProfilePage() {
           </span>
           <span>local time</span>
         </p>
-        <button className="w-full py-3 rounded-md border-[1px] border-slate-400 font-medium text-2xl ">
-          {" "}
-          <i className="fa-regular fa-comment"></i> Message
-        </button>
+        <Link
+          to={`/dashboard/directMessage/${id}`}
+          onClick={() => {
+            dispatch({
+              type: "SHOW_MODAL",
+              payload: { name: "isDirectMessageOpen", value: false },
+            });
+            dispatch({ type: "STORE_TO_DIRECT_MESSAGE", payload: id });
+          }}
+        >
+          <button className="w-full py-3 rounded-md border-[1px] border-slate-400 font-medium text-2xl ">
+            {" "}
+            <i className="fa-regular fa-comment"></i> Message
+          </button>
+        </Link>
       </div>
 
       <div className="p-8 ">
@@ -80,7 +92,7 @@ export function ProfilePage() {
               href="#"
               className="hover:underline hover:cursor-pointer text-2xl text-blue-600"
             >
-              {selectedUser?.email}
+              {selectedProfile?.email}
             </a>
           </p>
         </div>

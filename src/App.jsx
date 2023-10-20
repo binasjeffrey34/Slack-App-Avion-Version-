@@ -1,13 +1,15 @@
 import { Route, Routes } from "react-router-dom";
 import { LogInPage } from "./pages/LogInPage";
-import { MainPage } from "./pages/MainPage";
+import { MainPage } from "./pages/Dashboard";
 import CreateAccount from "./pages/CreateAccount";
 import { ChatPage } from "./components/ChatPage";
 
-import { ProfilePage } from "./pages/ProfilePage";
+import { ChannelProfilePage } from "./components/ChannelProfilePage";
+import { MesageProfilePage } from "./components/SendingMessageToUsers/MessageProfilePage";
 import { useAccountContext } from "./Context/AccountContext";
-import { FormCreatingChannel } from "./components/FormCreatingChannel";
-import { FormCreatingWorkSpace } from "./components/FormCreatingWorkSpace";
+import { FormCreatingChannel } from "./components/Forms/FormCreatingChannel";
+import { FormCreatingWorkSpace } from "./components/Forms/FormCreatingWorkSpace";
+import SendingMessageUserPage from "./components/SendingMessageToUsers/SendingMessageUserPage";
 
 export default function App() {
   const {
@@ -27,7 +29,14 @@ export default function App() {
             <Route path="createChannel" element={<FormCreatingChannel />} />
             <Route path="dashboard" element={<MainPage />}>
               <Route path=":channelId" element={<ChatPage />}>
-                <Route path=":userId" element={<ProfilePage />} />
+                <Route path=":userId" element={<ChannelProfilePage />} />
+              </Route>
+              <Route
+                path="directMessage/:receiverId"
+                element={<SendingMessageUserPage />}
+              >
+                {" "}
+                <Route path="profile" element={<MesageProfilePage />} />
               </Route>
             </Route>
           </>
