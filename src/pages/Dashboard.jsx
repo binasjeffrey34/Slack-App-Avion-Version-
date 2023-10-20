@@ -1,9 +1,12 @@
 import { SideBar } from "../components/SideBar";
 import { Header } from "../components/Header";
-import { ChatPage } from "../components/ChatPage";
 import { useAccountContext } from "../Context/AccountContext";
-import { useNavigate, useParams } from "react-router-dom";
-import { ProfilePage } from "./ProfilePage";
+import {
+  Outlet,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { useEffect } from "react";
 import { axiosFetch } from "../api/api-get";
 import profileLogo from "../assets/profilelogo.png";
@@ -13,12 +16,9 @@ import { FormAddUser } from "../components/AddUserChannel/FormAddUser";
 export function MainPage() {
   const { userId } = useParams();
   const { state, dispatch } = useAccountContext();
-  const {
-    isOpenChannelForm,
-    isOpenAddUserForm,
-    isOpenAddUserChannel,
-    isProfileOpen,
-  } = state;
+  const { isOpenChannelForm, isOpenAddUserForm, isOpenAddUserChannel } = state;
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
 
   useEffect(() => {
     if (userId) {
@@ -30,6 +30,15 @@ export function MainPage() {
   }, [dispatch, userId]);
 
   useEffect(() => {
+    if (id) {
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: { name: "isDirectMessageOpen", value: true },
+      });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
     async function getAllUsersChannel() {
       const res = await axiosFetch.get(`/api/v1/users`);
 
@@ -37,6 +46,7 @@ export function MainPage() {
         ...user,
         name: user.email.split("@")[0],
         image: profileLogo,
+        messages: [],
       }));
 
       dispatch({ type: "GET_ALL_USERS", payload: allUsers });
@@ -57,8 +67,7 @@ export function MainPage() {
       <div className="grid grid-cols-[30rem,2fr] rounded-tl-lg overflow-hidden ">
         <SideBar />
         <div className="grid grid-cols-[2fr,auto]">
-          <ChatPage />
-          {isProfileOpen && <ProfilePage />}
+          <Outlet />
         </div>
       </div>
       {isOpenAddUserChannel && <AddUserChannel />}

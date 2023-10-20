@@ -38,15 +38,20 @@ input {
 .channel__member-list {
   @apply overflow-y-scroll h-[80%];
 }
-
+.direct__message-chat {
+  @apply pt-20 pb-12 overflow-y-scroll h-[75vh] w-full;
+}
+.direct__message-chat::-webkit-scrollbar,
 .channel__member-list::-webkit-scrollbar {
   width: 1rem;
 }
 
+.direct__message-chat::-webkit-scrollbar-track,
 .channel__member-list::-webkit-scrollbar-track {
   background: transparent;
 }
 
+.direct__message-chat::-webkit-scrollbar-thumb,
 .channel__member-list::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 6px;
@@ -67,8 +72,12 @@ input {
     transform: rotate(360deg);
   }
 }
-.channel__list.active {
+.channel__list.active,
+.user__list.active {
   @apply text-white bg-[#9c399d];
+}
+.user__list:hover .btn__delete {
+  @apply block;
 }
 .btn__channel:hover i {
   @apply block;

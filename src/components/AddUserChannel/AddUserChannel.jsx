@@ -33,7 +33,7 @@ export function AddUserChannel() {
             name: user.email.split("@")[0],
             image: profileLogo,
           }));
-        console.log(getallMember);
+
         dispatch({
           type: "GET_USERS_CHANNEL",
           payload: getallMember,
@@ -63,7 +63,7 @@ export function AddUserChannel() {
         <span>
           <i className="fa-solid fa-hashtag"></i>
         </span>
-        <span>{findChannel.name}</span>
+        <span>{findChannel?.name}</span>
       </p>
       <SearchMember />
       <AddPeople />
