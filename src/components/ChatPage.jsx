@@ -3,6 +3,7 @@ import { useAccountContext } from "../Context/AccountContext";
 import profileLogo from "../assets/profilelogo.png";
 import { axiosFetch } from "../api/api-get";
 import { useParams } from "react-router-dom";
+import SendMessageToChannel from "./SendMessageToChannel";
 
 export function ChatPage() {
   const { channelId } = useParams();
@@ -28,7 +29,7 @@ export function ChatPage() {
     <section className="bg-white relative grid grid-cols-1 grid-rows-[85%,15%]">
       <HeaderChatPage />
       <MessageChannels />
-      <FormSendMessageChannel />
+      <SendMessageToChannel />
     </section>
   );
 }
@@ -72,21 +73,4 @@ function HeaderChatPage() {
 
 function MessageChannels() {
   return <div className="flex items-end p-8 text-xl"> HELLO SLACK</div>;
-}
-function FormSendMessageChannel() {
-  return (
-    <form className="w-full h-full bg-white shadow-[0_0_1rem_rgba(0,0,0,0.1)] p-4 pt-12">
-      <input
-        type="text"
-        name="messageChannelInput"
-        placeholder={`Message to channelName`}
-        className="w-full border-[1px] text-xl p-4 rounded-md mb-2"
-      />
-      <div className="text-right">
-        <button className="bg-blue-400 text-white text-xl py-2 px-10 rounded-sm">
-          Send
-        </button>
-      </div>
-    </form>
-  );
 }

@@ -3,7 +3,7 @@ import { useAccountContext } from "../Context/AccountContext";
 import { axiosFetch } from "../api/api-get";
 import { useNavigate } from "react-router-dom";
 
-export function FormCreatingChannel() {
+export function FormCreatingChannel(props) {
   const { state, onSetInput, dispatch } = useAccountContext();
   const inputRef = useRef();
   const { channelName, userId } = state;
@@ -36,6 +36,27 @@ export function FormCreatingChannel() {
       console.error("Error creating channel:", error);
     }
   }
+
+  // const { messages } = props;
+  // const renderMessageToChannel = () => {
+  //   const keys = Object.keys(messages);
+
+  //   return keys.map((key, index) => {
+  //     const message = messages[key];
+  //     const lastMessageKey = index === 0 ? null : keys[index - 1];
+  //     const sendMessage = userName === message.sender.userName;
+
+  //     return (
+  //       <div key={`msg_${index}`}>
+  //         <div className="message=block">
+  //           {sendMessage ? <sendMessage /> : <receiveMessage />}
+  //         </div>
+  //       </div>
+  //     );
+  //   });
+  // };
+
+  // renderMessageToChannel();
 
   return (
     <>

@@ -23,4 +23,5 @@ export const initialState = {
   isOpenAddUserForm: false,
   isProfileOpen: false,
   isOpenWorkSpace: false,
+  sendMessage: "",
 };
