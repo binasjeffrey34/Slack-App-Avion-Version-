@@ -37,27 +37,6 @@ export function FormCreatingChannel(props) {
     }
   }
 
-  // const { messages } = props;
-  // const renderMessageToChannel = () => {
-  //   const keys = Object.keys(messages);
-
-  //   return keys.map((key, index) => {
-  //     const message = messages[key];
-  //     const lastMessageKey = index === 0 ? null : keys[index - 1];
-  //     const sendMessage = userName === message.sender.userName;
-
-  //     return (
-  //       <div key={`msg_${index}`}>
-  //         <div className="message=block">
-  //           {sendMessage ? <sendMessage /> : <receiveMessage />}
-  //         </div>
-  //       </div>
-  //     );
-  //   });
-  // };
-
-  // renderMessageToChannel();
-
   return (
     <>
       <form

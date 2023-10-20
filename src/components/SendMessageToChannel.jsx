@@ -4,7 +4,7 @@ import { useAccountContext } from "../Context/AccountContext";
 import { API_URL } from "../constant/apiUrl";
 import { axiosFetch } from "../api/api-get";
 
-function SendMessageToChannel() {
+export function SendMessageToChannel() {
   const [message, setMessage] = useState("");
   const { channelId } = useParams();
   const {
