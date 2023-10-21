@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAccountContext } from "../Context/AccountContext";
 import profileLogo from "../assets/profilelogo.png";
 import { axiosFetch } from "../api/api-get";
+import { SendMessageToChannel } from "../components/SendMessageToChannel";
 
 export function ChatPage() {
   const [members, setMembers] = useState(0);
@@ -23,7 +24,7 @@ export function ChatPage() {
     <section className="bg-white relative grid grid-cols-1 grid-rows-[85%,15%]">
       <HeaderChatPage members={members} />
       <MessageChannels />
-      <FormSendMessageChannel />
+      <SendMessageToChannel />
     </section>
   );
 }
@@ -51,22 +52,40 @@ function HeaderChatPage({ members }) {
 }
 
 function MessageChannels() {
-  return <div className="flex items-end p-8 text-xl"> HELLO SLACK</div>;
-}
-function FormSendMessageChannel() {
+  //   function FormSendMessageChannel() {
+  //   return (
+  //     <form className="w-full h-full bg-white shadow-[0_0_1rem_rgba(0,0,0,0.1)] p-4 pt-12">
+  //       <input
+  //         type="text"
+  //         name="messageChannelInput"
+  //         placeholder={`Message to channelName`}
+  //         className="w-full border-[1px] text-xl p-4 rounded-md mb-2"
+  //       />
+  //       <div className="text-right">
+  //         <button className="bg-blue-400 text-white text-xl py-2 px-10 rounded-sm">
+  //           Send
+  //         </button>
+  //       </div>
+  //     </form>
+  //   );
+  // }
+
+  // if (!chat) return 'Loading...';
+
   return (
-    <form className="w-full h-full bg-white shadow-[0_0_1rem_rgba(0,0,0,0.1)] p-4 pt-12">
-      <input
-        type="text"
-        name="messageChannelInput"
-        placeholder={`Message to channelName`}
-        className="w-full border-[1px] text-xl p-4 rounded-md mb-2"
-      />
-      <div className="text-right">
-        <button className="bg-blue-400 text-white text-xl py-2 px-10 rounded-sm">
-          Send
-        </button>
+    <div className="flex items-end p-8 text-xl">
+      {/* <div className="chat-title-container">
+      <div className="chat-title">{chat ?.title}</div>
+      <div className="chat-subtitle">
+        {chat.people.map((person) => `${person.person.username}`)}
       </div>
-    </form>
+    </div>  
+    {renderMessages()}
+    <div style={{ height: '100px' }} />
+    <div className="message-form-container">
+      <MessageForm {...props} chatId={activeChat} />  
+    </div> */}
+      HELLO SLACK
+    </div>
   );
 }

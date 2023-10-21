@@ -70,6 +70,9 @@ export function reducer(state, action) {
       case "GET_ALL_CHANNELS":
         return { ...state, getAllChannels: action.payload }
 
+        case "MESSAGE_TO_CHANNELS":
+          return { ...state, sendMessageToChannel: action.payload }
+
     default:
       return state;
   }

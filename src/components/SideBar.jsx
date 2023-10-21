@@ -9,13 +9,13 @@ export function SideBar() {
   const [isOpenChannel, setIsOpenChannel] = useState(false);
 
   const { getAllChannels } = state;
-  console.log(getAllChannels);
+  // console.log(getAllChannels);
 
   useEffect(() => {
     async function getAllChannels() {
       try {
         const res = await axiosFetch.get(`${API_URL}/api/v1/channels`);
-        console.log(res);
+        // console.log(res);
 
         dispatch({ type: "GET_ALL_CHANNELS", payload: res.data.data });
       } catch (error) {
