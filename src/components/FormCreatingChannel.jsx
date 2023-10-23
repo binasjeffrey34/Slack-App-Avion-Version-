@@ -3,7 +3,7 @@ import { useAccountContext } from "../Context/AccountContext";
 import { axiosFetch } from "../api/api-get";
 import { useNavigate } from "react-router-dom";
 
-export function FormCreatingChannel(props) {
+export function FormCreatingChannel() {
   const { state, onSetInput, dispatch } = useAccountContext();
   const inputRef = useRef();
   const { channelName, userId } = state;

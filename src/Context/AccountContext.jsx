@@ -16,7 +16,12 @@ function AccountProvider({ children }) {
   function validateInput(field, message) {
     dispatch({ type: "VALIDATE_INPUT", payload: { field, message } });
   }
-
+  function handleSelectUser() {
+    dispatch({
+      type: "SHOW_MODAL",
+      payload: { name: "isDirectMessageOpen", value: true },
+    });
+  }
   const checkError = (error) =>
     error ? "border-1 border-rose-500" : "border-[1px_solid_rgba(0,0,0,0.1)]";
 
@@ -28,6 +33,7 @@ function AccountProvider({ children }) {
         onSetInput: handleInput,
         validateInput,
         checkError,
+        handleSelectUser,
       }}
     >
       {children}

@@ -6,14 +6,8 @@ export function ChatSendingMessage() {
     state: {
       selectedUser: { messages, name, image, id },
     },
-    dispatch,
+    handleSelectUser,
   } = useAccountContext();
-  function handleSelectUser() {
-    dispatch({
-      type: "SHOW_MODAL",
-      payload: { name: "isDirectMessageOpen", value: true },
-    });
-  }
 
   return (
     <div className=" h-full  bg-white   gap-4 text-2xl pl-12 py-6 flex items-end">

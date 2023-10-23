@@ -4,7 +4,8 @@ import profileLogo from "../assets/profilelogo.png";
 import { axiosFetch } from "../api/api-get";
 import { useParams } from "react-router-dom";
 import { ChannelProfilePage } from "./ChannelProfilePage";
-import { SendMessageToChannel } from "../components/SendMessageToChannel";
+import SendMessageToChannel from "../components/ChannelMessages/SendMessageToChannel";
+import { ChannelFeed } from "./ChannelMessages/ChannelFeed";
 
 export function ChatPage() {
   const { channelId } = useParams();
@@ -33,7 +34,7 @@ export function ChatPage() {
     <>
       <section className="bg-white relative grid grid-cols-1 grid-rows-[85%,15%]">
         <HeaderChatPage />
-        <MessageChannels />
+        <ChannelFeed />
         <SendMessageToChannel />
       </section>
       {isProfileOpen && <ChannelProfilePage channelId={channelId} />}
@@ -76,29 +77,4 @@ function HeaderChatPage() {
       </div>
     </div>
   );
-}
-
-function MessageChannels() {
-  return <div className="flex items-end p-8 text-xl"> HELLO SLACK</div>;
-
-  // const { messages } = props;
-  // const renderMessageToChannel = () => {
-  //   const keys = Object.keys(messages);
-
-  //   return keys.map((key, index) => {
-  //     const message = messages[key];
-  //     const lastMessageKey = index === 0 ? null : keys[index - 1];
-  //     const sendMessage = userName === message.sender.userName;
-
-  //     return (
-  //       <div key={`msg_${index}`}>
-  //         <div className="message=block">
-  //           {sendMessage ? <sendMessage /> : <receiveMessage />}
-  //         </div>
-  //       </div>
-  //     );
-  //   });
-  // };
-
-  // renderMessageToChannel();
 }
