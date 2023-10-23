@@ -12,7 +12,7 @@ export function ChatSendingMessage({ status }) {
       selectedUser: { messages, name, image, id },
       accountLogIn,
     },
-    dispatch,
+    handleSelectUser,
   } = useAccountContext();
 
   useEffect(() => {

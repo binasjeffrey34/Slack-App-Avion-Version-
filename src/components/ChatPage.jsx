@@ -37,9 +37,9 @@ export function ChatPage() {
   return (
     <>
       <section className="bg-white relative grid grid-cols-1 grid-rows-[85%,15%]">
-        <HeaderChatPage status={status} />
+        <HeaderChatPage />
         <MessageChannels />
-        <SendMessageToChannel />
+        <FormSendMessageChannel />
       </section>
       {isProfileOpen && <ChannelProfilePage channelId={channelId} />}
     </>
@@ -83,8 +83,4 @@ function HeaderChatPage({ status }) {
       </div>
     </div>
   );
-}
-
-function MessageChannels() {
-  return <div className="flex items-end p-8 text-xl"> HELLO SLACK</div>;
 }

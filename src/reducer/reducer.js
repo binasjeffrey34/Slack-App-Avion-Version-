@@ -111,6 +111,9 @@ export function reducer(state, action) {
       case "MESSAGE_TO_CHANNELS":
         return {...state, sendMessage: action.payload };
 
+        case "FETCH_CHANNEL_MESSAGE":
+          return {...state, receivedMessages: action.payload };
+          
     default:
       return state;
   }

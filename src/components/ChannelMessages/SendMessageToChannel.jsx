@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useAccountContext } from "../Context/AccountContext";
-import { API_URL } from "../constant/apiUrl";
-import { axiosFetch } from "../api/api-get";
+import { useAccountContext } from "../../Context/AccountContext";
+import { API_URL } from "../../constant/apiUrl";
+import { axiosFetch } from "../../api/api-get";
+import profileLogo from "../../assets/profilelogo.png";
 
-export function SendMessageToChannel() {
+export default function SendMessageToChannel() {
   const [message, setMessage] = useState("");
   const { channelId } = useParams();
   const { dispatch } = useAccountContext();
@@ -16,11 +17,29 @@ export function SendMessageToChannel() {
         receiver_class: "Channel",
         body: message,
       });
-      console.log(res);
+      const data = res.data;
       dispatch({
         type: "MESSAGE_TO_CHANNELS",
         payload: res.data.data,
       });
+      localStorage.setItem("MESSAGE_TO_CHANNELS", JSON.stringify(data));
+      console.log(data);
+
+      const updateRes = await axiosFetch.get(
+        `/api/v1/messages?receiver_id=${channelId}&receiver_class=Channel`
+      );
+
+      const senderData = updateRes.data.data;
+      const senderAPIdata = senderData.map((msg) => ({
+        ...msg,
+        sender: {
+          ...msg.sender,
+          image: profileLogo,
+          name: msg.sender.email.split("@")[0],
+        },
+      }));
+
+      dispatch({ type: "FETCH_CHANNEL_MESSAGE", payload: senderAPIdata });
 
       setMessage("");
     } catch (error) {
@@ -35,7 +54,13 @@ export function SendMessageToChannel() {
   const handleSubmit = (e) => {
     e.preventDefault();
     sendMessageToChannel();
+    setMessage;
+    ({ message });
   };
+
+  useEffect(() => {
+    sendMessageToChannel();
+  }, []);
 
   return (
     <form
@@ -45,7 +70,7 @@ export function SendMessageToChannel() {
       <input
         type="text"
         name="messageChannelInput"
-        placeholder={`Message to channelName`}
+        placeholder={`Message to ChannelName`}
         className="w-full border-[1px] text-xl p-4 rounded-md mb-2"
         value={message}
         onChange={handleInputChange}
@@ -61,5 +86,3 @@ export function SendMessageToChannel() {
     </form>
   );
 }
-
-export default SendMessageToChannel;
