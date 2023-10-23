@@ -1,13 +1,14 @@
 import { useAccountContext } from "../../Context/AccountContext";
 import { axiosFetch } from "../../api/api-get";
-import loading from "../../assets/loading.svg";
-import profileLogo from "../../assets/profilelogo.png";
 
 import { useEffect, useState } from "react";
 import { AllMemberList } from "./AllMemberList";
-import { SearchMember } from "./SearchMember";
+import { SearchMember } from "../SearchMember";
 import { AddPeople } from "./AddPeople";
 import { useParams } from "react-router-dom";
+import { Loading } from "../Loading";
+import { ErrorMessage } from "../ErrorMessage";
+
 export function AddUserChannel() {
   const { state, dispatch } = useAccountContext();
   const [status, setStatus] = useState("loading");
@@ -24,15 +25,10 @@ export function AddUserChannel() {
         const res = await axiosFetch.get(`/api/v1/channels/${channelId}`);
 
         const allMember = res.data?.data?.channel_members;
-        const getallMember = allUsers
-          .filter((user) =>
-            allMember.some((userchannel) => user.id === userchannel.user_id)
-          )
-          .map((user) => ({
-            ...user,
-            name: user.email.split("@")[0],
-            image: profileLogo,
-          }));
+
+        const getallMember = allUsers.filter((user) =>
+          allMember.some((userchannel) => user.id === userchannel.user_id)
+        );
 
         dispatch({
           type: "GET_USERS_CHANNEL",
@@ -68,23 +64,10 @@ export function AddUserChannel() {
       <SearchMember />
       <AddPeople />
       <div className="channel__member-list flex flex-col gap-4">
-        {status === "loading" && <Loading />}
+        {status === "loading" && <Loading size={"text-2xl"} />}
         {status === "error" && <ErrorMessage />}
         {status === "success" && <AllMemberList />}
       </div>
     </section>
   );
-}
-
-function Loading() {
-  return (
-    <div className="spinner text-2xl">
-      <img src={loading} alt="loading" />
-      <span>Loading members. . .</span>
-    </div>
-  );
-}
-
-function ErrorMessage() {
-  return <p className="error__message">Error: User Not Found</p>;
 }

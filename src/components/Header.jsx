@@ -1,6 +1,8 @@
 import { useAccountContext } from "../Context/AccountContext";
+import { ErrorMessage } from "./ErrorMessage";
+import { Loading } from "./Loading";
 
-export function Header() {
+export function Header({ status }) {
   const {
     state: { accountLogIn, allUsers },
   } = useAccountContext();
@@ -16,14 +18,22 @@ export function Header() {
         />
       </div>
       <div className="absolute right-0 top-1/2 translate-x-[-50%] translate-y-[-50%] flex items-center gap-4">
-        <img
-          src={findAccount?.image}
-          className="w-10 h-10 rounded-full"
-          alt=""
-        />
-        <span className="text-2xl text-white font-medium">
-          {findAccount?.name}
-        </span>
+        {status === "loading" && (
+          <Loading fontsize={"text-lg"} fonttext={"text-white"} w={8} h={8} />
+        )}
+        {status === "error" && <ErrorMessage />}
+        {status === "success" && (
+          <>
+            <img
+              src={findAccount?.image}
+              className="w-10 h-10 rounded-full"
+              alt=""
+            />
+            <span className="text-2xl text-white font-medium">
+              {findAccount?.name}
+            </span>
+          </>
+        )}
       </div>
     </section>
   );

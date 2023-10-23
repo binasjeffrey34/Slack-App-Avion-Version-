@@ -1,13 +1,30 @@
 import { Link } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
+import { useEffect, useRef } from "react";
+import { Loading } from "../Loading";
+import { ErrorMessage } from "../ErrorMessage";
 
-export function ChatSendingMessage() {
+export function ChatSendingMessage({ status }) {
+  const messagesRef = useRef();
+  const lastMessageRef = useRef(null);
   const {
     state: {
       selectedUser: { messages, name, image, id },
+      accountLogIn,
     },
     dispatch,
   } = useAccountContext();
+
+  useEffect(() => {
+    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+  }, [messagesRef]);
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   function handleSelectUser() {
     dispatch({
       type: "SHOW_MODAL",
@@ -17,7 +34,7 @@ export function ChatSendingMessage() {
 
   return (
     <div className=" h-full  bg-white   gap-4 text-2xl pl-12 py-6 flex items-end">
-      <div className="direct__message-chat flex  flex-col  ">
+      <div className="direct__message-chat flex flex-col  " ref={messagesRef}>
         <div className="mb-12">
           <p>
             <Link
@@ -56,38 +73,49 @@ export function ChatSendingMessage() {
             View Profile
           </Link>
         </div>
-        {messages?.map(({ body, sender, created_at }, i) => {
-          const option = {
-            hour: "numeric",
-            minute: "numeric",
-          };
+        {status === "loading" && <Loading font-size={"text-2xl"} />}
+        {status === "error" && <ErrorMessage />}
+        {status === "success" &&
+          messages?.map(({ body, sender, created_at }, i) => {
+            const option = {
+              hour: "numeric",
+              minute: "numeric",
+            };
+            const createdDate = new Date(created_at);
+            const date = new Intl.DateTimeFormat(
+              navigator.language,
+              option
+            ).format(createdDate);
 
-          const date = new Intl.DateTimeFormat(
-            navigator.language,
-            option
-          ).format(new Date(created_at));
-
-          const { id, image, name } = sender;
-          return (
-            <div key={i} className="flex item-center gap-4 mb-4">
-              <img src={image} alt="" className="w-12 h-12 rounded-md" />
-              <p className="flex flex-col">
-                {" "}
-                <span className="flex items-center gap-2">
-                  <Link
-                    to={`profile?id=${id}`}
-                    onClick={handleSelectUser}
-                    className="text-3xl font-bold mb-2"
-                  >
-                    {name}
-                  </Link>
-                  <small className="text-xl tracking-[1px]">{date}</small>
-                </span>
-                <span>{body}</span>
-              </p>
-            </div>
-          );
-        })}
+            const { id, image, name } = sender;
+            return (
+              <div
+                key={i}
+                ref={i === messages.length - 1 ? lastMessageRef : null}
+              >
+                <div className="flex item-center gap-4 mb-4">
+                  <img src={image} alt="" className="w-12 h-12 rounded-md" />
+                  <p className="flex flex-col">
+                    {" "}
+                    <span className="flex items-center gap-2">
+                      <Link
+                        to={`profile?id=${id}`}
+                        onClick={handleSelectUser}
+                        className="text-3xl font-bold mb-2"
+                      >
+                        {name}{" "}
+                        <span className="text-gray-600 font-normal text-2xl">
+                          {accountLogIn.id === id ? "(you)" : ""}{" "}
+                        </span>
+                      </Link>
+                      <small className="text-xl tracking-[1px]">{date}</small>
+                    </span>
+                    <span>{body}</span>
+                  </p>
+                </div>
+              </div>
+            );
+          })}{" "}
       </div>
     </div>
   );

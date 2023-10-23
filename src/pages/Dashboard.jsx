@@ -7,17 +7,18 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { axiosFetch } from "../api/api-get";
 import profileLogo from "../assets/profilelogo.png";
 import { AddUserChannel } from "../components/AddUserChannel/AddUserChannel";
 import { FormAddUser } from "../components/AddUserChannel/FormAddUser";
 
-export function MainPage() {
+export function Dashboard() {
   const { userId } = useParams();
   const { state, dispatch } = useAccountContext();
   const { isOpenChannelForm, isOpenAddUserForm, isOpenAddUserChannel } = state;
   const [searchParams] = useSearchParams();
+  const [status, setStatus] = useState("loading");
   const id = searchParams.get("id");
 
   useEffect(() => {
@@ -40,31 +41,37 @@ export function MainPage() {
 
   useEffect(() => {
     async function getAllUsersChannel() {
-      const res = await axiosFetch.get(`/api/v1/users`);
+      try {
+        const res = await axiosFetch.get(`/api/v1/users`);
 
-      const allUsers = res.data.data.map((user) => ({
-        ...user,
-        name: user.email.split("@")[0],
-        image: profileLogo,
-        messages: [],
-      }));
+        const allUsers = res.data.data.map((user) => ({
+          ...user,
+          name: user.email.split("@")[0],
+          image: profileLogo,
+          messages: [],
+        }));
 
-      dispatch({ type: "GET_ALL_USERS", payload: allUsers });
+        dispatch({ type: "GET_ALL_USERS", payload: allUsers });
+        setStatus("success");
+      } catch (error) {
+        setStatus("error");
+        console.log(error);
+      }
     }
     getAllUsersChannel();
   }, [dispatch]);
 
   return (
     <main
-      className={`main__page grid grid-cols-[6rem,1fr] grid-rows-[4rem,4fr] min-h-screen ${
+      className={`main__page grid grid-cols-[4%,96%]  min-h-screen ${
         isOpenAddUserChannel || isOpenAddUserForm || isOpenChannelForm
           ? "overlay"
           : ""
       } ${isOpenAddUserForm ? "overlay-form" : ""} `}
     >
-      <Header />
+      <Header status={status} />
       <SideBarIcon />
-      <div className="grid grid-cols-[30rem,2fr] rounded-tl-lg overflow-hidden ">
+      <div className="grid grid-cols-[30rem,2fr] h-full w-full rounded-tl-lg overflow-hidden ">
         <SideBar />
         <div className="grid grid-cols-[2fr,auto]">
           <Outlet />
@@ -89,7 +96,11 @@ function SideBarIcon() {
           onClick={() => {
             dispatch({ type: "LOG_OUT" });
             navigate("/");
-            localStorage.clear();
+            localStorage.removeItem("getAllChannels");
+            localStorage.removeItem("headers");
+            localStorage.removeItem("accountLogin");
+            localStorage.removeItem("selectedUser");
+            localStorage.removeItem("selectedProfile");
           }}
         ></i>
       </div>

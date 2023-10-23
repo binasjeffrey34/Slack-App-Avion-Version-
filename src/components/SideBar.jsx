@@ -8,10 +8,11 @@ import { API_URL } from "../constant/apiUrl";
 export function SideBar() {
   const {
     dispatch,
-    state: { isOpenChannelForm, workSpaceName, allDirectMessage },
+    state: { isOpenChannelForm, workSpaceName },
   } = useAccountContext();
 
   const [isChannelHideList, setIsChannelHideList] = useState(true);
+  const [isDirectMessageList, setIsDirectMessageList] = useState(true);
 
   useEffect(() => {
     async function getAllChannels() {
@@ -26,10 +27,15 @@ export function SideBar() {
       }
     }
     getAllChannels();
+    const interval = setInterval(() => {
+      getAllChannels();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, [dispatch]);
 
   return (
-    <section className="bg-[rgba(255,255,255,0.75)]">
+    <section className="bg-[rgba(255,255,255,0.75)] h-screen">
       <div className=" text-3xl font-bold h-[5rem] border-b-[1px] border-b-gray-400 p-6 flex gap-2 items-center justify-between">
         <p>
           <span>{workSpaceName || "Avion School"}</span>
@@ -38,7 +44,7 @@ export function SideBar() {
 
         <i className="fa-regular fa-pen-to-square text-gray-600 text-2xl"></i>
       </div>
-      <div className="relative p-6">
+      <div className="relative p-6 ">
         <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4 cursor-pointer">
           <span
             onClick={() => setIsChannelHideList((list) => !list)}
@@ -60,50 +66,75 @@ export function SideBar() {
 
         {isChannelHideList && <AllChannelList />}
 
-        <p
-          className="relative text-2xl py-3 text-gray-600 font-medium rounded-md  hover:cursor-pointer"
-          onClick={() => {
-            dispatch({
-              type: "SHOW_MODAL",
-              payload: { name: "isOpenChannelForm", value: true },
-            });
-          }}
-        >
-          <i className="fa-solid fa-plus mr-2"></i> Add Channels
+        <p className="relative text-2xl py-3 text-gray-600 font-medium rounded-md  hover:cursor-pointer">
+          <i
+            className="fa-solid fa-plus mr-2"
+            onClick={() => {
+              dispatch({
+                type: "SHOW_MODAL",
+                payload: { name: "isOpenChannelForm", value: true },
+              });
+            }}
+          ></i>{" "}
+          Add Channels
         </p>
-        <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4">
-          <i className="fa-solid fa-caret-down mr-2"></i> Direct messages
+        <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4 cursor-pointer">
+          <span
+            onClick={() => setIsDirectMessageList((msg) => !msg)}
+            className="hover:bg-[rgba(255,255,255,0.25)] py-1 px-2 rounded-lg "
+          >
+            <i
+              className={`${
+                isDirectMessageList
+                  ? "fa-solid fa-caret-down"
+                  : "fa-solid fa-caret-right"
+              } `}
+            ></i>{" "}
+          </span>
+          Direct messages
         </p>
-        <ul>
-          {allDirectMessage.map((user) => (
-            <NavLink
-              key={user?.id}
-              onClick={() => dispatch({ type: "SELECTED_USER", payload: user })}
-              to={`/dashboard/directMessage/${user?.id}`}
-              className="user__list text-2xl flex gap-4 ml-4 mb-2 font-medium text-slate-600 py-2 px-4 rounded-lg hover:cursor-pointer hover:bg-[#daa5dc] hover:text-white "
-            >
-              <li className=" flex gap-4">
-                <img src={user?.image} alt="" className="w-8 rounded-lg" />
-                <span>{user?.name}</span>
-                <span
-                  onClick={() =>
-                    dispatch({
-                      type: "DELETE_USER_DIRECT_MESSAGE",
-                      payload: user.id,
-                    })
-                  }
-                  className="btn__delete hidden"
-                >
-                  <i className="fa-solid fa-xmark"></i>
-                </span>
-              </li>
-            </NavLink>
-          ))}
-        </ul>
+        {isDirectMessageList && <AllDirectMessage />}
       </div>
 
       {isOpenChannelForm && <FormCreatingChannel />}
     </section>
+  );
+}
+
+function AllDirectMessage() {
+  const {
+    state: { allDirectMessage, accountLogIn },
+    dispatch,
+  } = useAccountContext();
+  return (
+    <ul>
+      {allDirectMessage.map((user) => (
+        <NavLink
+          key={user?.id}
+          onClick={() => dispatch({ type: "SELECTED_USER", payload: user })}
+          to={`/dashboard/directMessage/${user?.id}`}
+          className="user__list text-2xl flex gap-4 ml-4 mb-2 font-medium text-slate-600 py-2 px-4 rounded-lg hover:cursor-pointer hover:bg-[#daa5dc] hover:text-white "
+        >
+          <li className=" flex gap-4">
+            <img src={user?.image} alt="" className="w-8 rounded-lg" />
+            <span>
+              {user?.name} {accountLogIn.id === user?.id ? "(you)" : ""}{" "}
+            </span>
+            <span
+              onClick={() =>
+                dispatch({
+                  type: "DELETE_USER_DIRECT_MESSAGE",
+                  payload: user.id,
+                })
+              }
+              className="btn__delete hidden"
+            >
+              <i className="fa-solid fa-xmark"></i>
+            </span>
+          </li>
+        </NavLink>
+      ))}
+    </ul>
   );
 }
 

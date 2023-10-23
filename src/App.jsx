@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { LogInPage } from "./pages/LogInPage";
-import { MainPage } from "./pages/Dashboard";
+import { Dashboard } from "./pages/Dashboard";
 import CreateAccount from "./pages/CreateAccount";
 import { ChatPage } from "./components/ChatPage";
 
@@ -27,7 +27,7 @@ export default function App() {
           <>
             <Route path="workSpace" element={<FormCreatingWorkSpace />} />
             <Route path="createChannel" element={<FormCreatingChannel />} />
-            <Route path="dashboard" element={<MainPage />}>
+            <Route path="dashboard" element={<Dashboard />}>
               <Route path=":channelId" element={<ChatPage />}>
                 <Route path=":userId" element={<ChannelProfilePage />} />
               </Route>

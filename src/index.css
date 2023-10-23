@@ -10,7 +10,9 @@ html {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
+  box-sizing: inherit;
 }
+
 input {
   @apply outline-1 outline-blue-300;
 }
@@ -39,28 +41,33 @@ input {
   @apply overflow-y-scroll h-[80%];
 }
 .direct__message-chat {
-  @apply pt-20 pb-12 overflow-y-scroll h-[75vh] w-full;
+  @apply py-14  overflow-y-scroll h-[95%] my-auto w-full;
 }
+.channel__list::-webkit-scrollbar,
+.directMessage__list::-webkit-scrollbar,
 .direct__message-chat::-webkit-scrollbar,
 .channel__member-list::-webkit-scrollbar {
   width: 1rem;
 }
 
+.channel__list::-webkit-scrollbar-track,
+.directMessage__list::-webkit-scrollbar-track,
 .direct__message-chat::-webkit-scrollbar-track,
 .channel__member-list::-webkit-scrollbar-track {
   background: transparent;
 }
 
+.channel__list::-webkit-scrollbar-thumb,
+.directMessage__list::-webkit-scrollbar-thumb,
 .direct__message-chat::-webkit-scrollbar-thumb,
 .channel__member-list::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 6px;
 }
 .spinner {
-  @apply flex items-center justify-center gap-4 w-full;
+  @apply flex items-center justify-center gap-2 w-full;
 }
 .spinner img {
-  @apply w-12 h-12;
   animation: 2s linear infinite rotate;
 }
 @keyframes rotate {

@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAccountContext } from "../Context/AccountContext";
 import { API_URL } from "../constant/apiUrl";
 import { axiosFetch } from "../api/api-get";
 
-function SendMessageToChannel() {
+export function SendMessageToChannel() {
   const [message, setMessage] = useState("");
   const { channelId } = useParams();
-  const {
-    state: { sendMessage },
-    dispatch,
-  } = useAccountContext();
-
-  console.log(sendMessage);
+  const { dispatch } = useAccountContext();
 
   const sendMessageToChannel = async () => {
     try {

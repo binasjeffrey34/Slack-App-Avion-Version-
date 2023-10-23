@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { axiosFetch } from "../../api/api-get";
 import { useParams } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
@@ -12,6 +12,7 @@ export default function SendingMessageUserPage() {
   const { receiverId } = useParams();
   const { dispatch, state } = useAccountContext();
   const { selectedUser, isDirectMessageOpen } = state;
+  const [status, setStatus] = useState("loading");
 
   useEffect(() => {
     async function getMessage(selectedUser) {
@@ -42,7 +43,9 @@ export default function SendingMessageUserPage() {
           "selectedUser",
           JSON.stringify({ ...selectedUser, messages: allMessageData })
         );
+        setStatus("success");
       } catch (error) {
+        setStatus("error");
         console.log(error);
       }
     }
@@ -53,9 +56,9 @@ export default function SendingMessageUserPage() {
   return (
     <>
       {" "}
-      <section className=" relative grid grid-cols-1 grid-rows-[85%,15%]">
+      <section className=" relative grid grid-cols-1 grid-rows-[85%,15%] h-screen">
         <HeaderSendingMessage />
-        <ChatSendingMessage />
+        <ChatSendingMessage status={status} />
         <FormChatSendingMessage />
       </section>
       {isDirectMessageOpen && <MesageProfilePage />}
