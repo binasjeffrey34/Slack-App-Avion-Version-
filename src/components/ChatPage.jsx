@@ -4,6 +4,8 @@ import profileLogo from "../assets/profilelogo.png";
 import { axiosFetch } from "../api/api-get";
 import { useParams } from "react-router-dom";
 import { ChannelProfilePage } from "./ChannelProfilePage";
+import SendMessageToChannel from "../components/ChannelMessages/SendMessageToChannel";
+import { ChannelFeed } from "./ChannelMessages/ChannelFeed";
 
 export function ChatPage() {
   const { channelId } = useParams();
@@ -32,8 +34,8 @@ export function ChatPage() {
     <>
       <section className="bg-white relative grid grid-cols-1 grid-rows-[85%,15%]">
         <HeaderChatPage />
-        <MessageChannels />
-        <FormSendMessageChannel />
+        <ChannelFeed />
+        <SendMessageToChannel />
       </section>
       {isProfileOpen && <ChannelProfilePage channelId={channelId} />}
     </>
@@ -75,8 +77,4 @@ function HeaderChatPage() {
       </div>
     </div>
   );
-}
-
-function MessageChannels() {
-  return <div className="flex items-end p-8 text-xl"> HELLO SLACK</div>;
 }

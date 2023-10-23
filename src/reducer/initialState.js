@@ -18,6 +18,7 @@ export const initialState = {
   allDirectMessage: JSON.parse(localStorage.getItem("allDirectMessage")) || [],
   allChannelUserList: [],
   filteredListMember: [],
+  receivedMessages: [],
   getAllChannels: JSON.parse(localStorage.getItem("getAllChannels")) || [],
   selectedUser: JSON.parse(localStorage.getItem("selectedUser")) || null,
   selectedProfile: JSON.parse(localStorage.getItem("selectedProfile")) || null,
@@ -29,4 +30,5 @@ export const initialState = {
   isOpenWorkSpace: false,
   sendMessage: "",
   isDirectMessageOpen: false,
+
 };
