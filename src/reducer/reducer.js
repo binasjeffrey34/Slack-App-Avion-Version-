@@ -24,21 +24,30 @@ export function reducer(state, action) {
         validError: "",
       };
     }
-    case "LOG_IN_SUCCESS": {
-      localStorage.setItem("isloggedIn", JSON.stringify(true));
+    case "INVALID_INPUT":
+      return {
+        ...state,
+        validError: action.payload,
+        isvalidError: true,
+      };
+    case "LOG_IN": {
+      localStorage.setItem("isAuthenticated", JSON.stringify(true));
       return {
         ...state,
         accountLogIn: action.payload,
         emailInput: "",
         passwordInput: "",
-        isloggedIn: true,
+        validError: "",
+        isvalidError: false,
+        isAuthenticated: true,
       };
     }
+
     case "LOG_OUT": {
-      localStorage.setItem("isloggedIn", JSON.stringify(false));
+      localStorage.setItem("isAuthenticated", JSON.stringify(false));
       return {
         ...state,
-        isloggedIn: false,
+        isAuthenticated: false,
       };
     }
 
@@ -89,7 +98,7 @@ export function reducer(state, action) {
       return { ...state, allDirectMessage: upDateAllDirectMessage };
     }
     case "GET_ALL_CHANNELS":
-      return { ...state, getAllChannels: action.payload };
+      return { ...state, allChannels: action.payload };
     case "STORE_TO_DIRECT_MESSAGE": {
       const { allUsers, allDirectMessage } = state;
 
@@ -105,16 +114,17 @@ export function reducer(state, action) {
       );
       return { ...state, allDirectMessage: upDateAllDirectMessage };
     }
-    case "SEND_MESSAGE":
+    case "MESSAGE_TO_CHANNELS":
       return { ...state, messageChannelInput: "" };
+    case "MESSAGE_TO_USERS":
+      return { ...state, messageUserInput: "" };
 
-      case "MESSAGE_TO_CHANNELS":
-        return {...state, sendMessage: action.payload };
+    case "FETCH_CHANNEL_MESSAGE":
+      return { ...state, channelMessages: action.payload };
+    case "FETCH_USERS_MESSAGE":
+      return { ...state, userMessages: action.payload };
 
-        case "FETCH_CHANNEL_MESSAGE":
-          return {...state, receivedMessages: action.payload };
-          
     default:
-      return state;
+      throw new Error("Unknown Action");
   }
 }

@@ -7,6 +7,7 @@ export function Header({ status }) {
     state: { accountLogIn, allUsers },
   } = useAccountContext();
   const findAccount = allUsers.find((user) => user.id === accountLogIn.id);
+
   return (
     <section className="col-span-4 text-center py-2 relative">
       <div>

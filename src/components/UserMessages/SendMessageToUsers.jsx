@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
 import profileLogo from "../../assets/profilelogo.png";
 
-export function FormChatSendingMessage() {
+export function SendMessageToUsers() {
   const {
-    state: { messageChannelInput, selectedUser },
+    state: { messageUserInput, selectedUser },
     onSetInput,
     dispatch,
   } = useAccountContext();
@@ -17,38 +17,29 @@ export function FormChatSendingMessage() {
       const message = {
         receiver_id: receiverId,
         receiver_class: "User",
-        body: messageChannelInput,
+        body: messageUserInput,
       };
 
-      await axiosFetch.post("/api/v1/messages", message);
-      dispatch({ type: "SEND_MESSAGE" });
+      await axiosFetch.post("/messages", message);
+      dispatch({ type: "MESSAGE_TO_USERS" });
 
       const res = await axiosFetch.get(
-        `/api/v1/messages?receiver_id=${receiverId}&receiver_class=User`
+        `/messages?receiver_id=${receiverId}&receiver_class=User`
       );
       const { data } = res.data;
-      const allMessageData = data.map((msg) => ({
+      const userMessages = data.map((msg) => ({
         ...msg,
         sender: {
           ...msg.sender,
           image: profileLogo,
           name: msg.sender.email.split("@")[0],
         },
-        receiver: {
-          ...msg.receiver,
-          image: profileLogo,
-          name: msg.receiver.email.split("@")[0],
-        },
       }));
-      console.log(allMessageData);
       dispatch({
-        type: "SELECTED_USER",
-        payload: { ...selectedUser, messages: allMessageData },
+        type: "FETCH_USERS_MESSAGE",
+        payload: userMessages,
       });
-      localStorage.setItem(
-        "selectedUser",
-        JSON.stringify({ ...selectedUser, messages: allMessageData })
-      );
+      localStorage.setItem("userMessages", JSON.stringify(userMessages));
     } catch (error) {
       console.log(error);
     }
@@ -57,19 +48,19 @@ export function FormChatSendingMessage() {
   return (
     <div className="bg-white  h-full">
       <form
-        className=" w-[95%]  mx-auto bg-white shadow-[0_0_1rem_rgba(0,0,0,0.2)] p-8 rounded-lg relative bottom-16"
+        className=" w-[95%]  mx-auto bg-white shadow-[0_0_1rem_rgba(0,0,0,0.2)] p-8 rounded-lg relative bottom-20"
         onSubmit={handleDirectMessageToUser}
       >
         <input
           type="text"
-          name="messageChannelInput"
+          name="messageUserInput"
           placeholder={`Message ${selectedUser.name}`}
-          value={messageChannelInput}
+          value={messageUserInput}
           onChange={onSetInput}
-          className="w-full border-[1px] text-[1.4rem] p-4 rounded-md mb-6"
+          className="w-full border-[1px] text-[1.4rem] p-4 rounded-md mb-4"
         />
         <div className="text-right ">
-          <button className="bg-blue-400 text-white text-xl py-3 px-16 rounded-md">
+          <button className="bg-blue-400 text-white text-xl py-2 px-12 rounded-md">
             Send
           </button>
         </div>

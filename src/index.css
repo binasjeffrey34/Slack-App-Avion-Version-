@@ -41,7 +41,7 @@ input {
   @apply overflow-y-scroll h-[80%];
 }
 .direct__message-chat {
-  @apply py-14  overflow-y-scroll h-[95%] my-auto w-full;
+  @apply py-20  overflow-y-scroll h-[95%] my-auto w-full;
 }
 .channel__list::-webkit-scrollbar,
 .directMessage__list::-webkit-scrollbar,

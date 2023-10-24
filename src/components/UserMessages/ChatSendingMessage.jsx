@@ -1,40 +1,21 @@
 import { Link } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
-import { useEffect, useRef } from "react";
 import { Loading } from "../Loading";
 import { ErrorMessage } from "../ErrorMessage";
 
 export function ChatSendingMessage({ status }) {
-  const messagesRef = useRef();
-  const lastMessageRef = useRef(null);
   const {
     state: {
-      selectedUser: { messages, name, image, id },
+      userMessages,
+      selectedUser: { id, image, name },
       accountLogIn,
     },
     handleSelectUser,
   } = useAccountContext();
 
-  useEffect(() => {
-    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
-  }, [messagesRef]);
-
-  useEffect(() => {
-    if (lastMessageRef.current) {
-      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
-
-  function handleSelectUser() {
-    dispatch({
-      type: "SHOW_MODAL",
-      payload: { name: "isDirectMessageOpen", value: true },
-    });
-  }
-
   return (
     <div className=" h-full  bg-white   gap-4 text-2xl pl-12 py-6 flex items-end">
-      <div className="direct__message-chat flex flex-col  " ref={messagesRef}>
+      <div className="direct__message-chat flex flex-col  ">
         <div className="mb-12">
           <p>
             <Link
@@ -76,7 +57,7 @@ export function ChatSendingMessage({ status }) {
         {status === "loading" && <Loading font-size={"text-2xl"} />}
         {status === "error" && <ErrorMessage />}
         {status === "success" &&
-          messages?.map(({ body, sender, created_at }, i) => {
+          userMessages?.map(({ body, sender, created_at }, i) => {
             const option = {
               hour: "numeric",
               minute: "numeric",
@@ -88,12 +69,14 @@ export function ChatSendingMessage({ status }) {
             ).format(createdDate);
 
             const { id, image, name } = sender;
+            const checkAccountMessage = accountLogIn.id === id;
+
             return (
               <div
                 key={i}
-                ref={i === messages.length - 1 ? lastMessageRef : null}
+                className={checkAccountMessage ? "flex justify-end mr-6" : ""}
               >
-                <div className="flex item-center gap-4 mb-4">
+                <div className="flex item-center gap-4 mb-4 w-1/2">
                   <img src={image} alt="" className="w-12 h-12 rounded-md" />
                   <p className="flex flex-col">
                     {" "}

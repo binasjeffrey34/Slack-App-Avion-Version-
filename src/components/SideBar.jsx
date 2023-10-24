@@ -3,7 +3,6 @@ import { useAccountContext } from "../Context/AccountContext";
 import { FormCreatingChannel } from "./Forms/FormCreatingChannel";
 import { axiosFetch } from "../api/api-get";
 import { NavLink } from "react-router-dom";
-import { API_URL } from "../constant/apiUrl";
 
 export function SideBar() {
   const {
@@ -17,9 +16,8 @@ export function SideBar() {
   useEffect(() => {
     async function getAllChannels() {
       try {
-        const res = await axiosFetch.get(`${API_URL}/api/v1/channels`);
+        const res = await axiosFetch.get(`/channels`);
         const allChannel = res.data.data;
-
         localStorage.setItem("getAllChannels", JSON.stringify(allChannel));
         dispatch({ type: "GET_ALL_CHANNELS", payload: allChannel });
       } catch (error) {
@@ -27,15 +25,10 @@ export function SideBar() {
       }
     }
     getAllChannels();
-    const interval = setInterval(() => {
-      getAllChannels();
-    }, 5000);
-
-    return () => clearInterval(interval);
   }, [dispatch]);
 
   return (
-    <section className="bg-[rgba(255,255,255,0.75)] h-screen">
+    <section className="bg-[rgba(255,255,255,0.75)]">
       <div className=" text-3xl font-bold h-[5rem] border-b-[1px] border-b-gray-400 p-6 flex gap-2 items-center justify-between">
         <p>
           <span>{workSpaceName || "Avion School"}</span>
@@ -140,12 +133,12 @@ function AllDirectMessage() {
 
 function AllChannelList() {
   const {
-    state: { getAllChannels },
+    state: { allChannels },
   } = useAccountContext();
 
   return (
     <ul>
-      {getAllChannels.map((channel) => (
+      {allChannels.map((channel) => (
         <NavLink
           key={channel.id}
           to={`${channel.id}`}

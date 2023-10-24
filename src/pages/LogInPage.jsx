@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAccountContext } from "../Context/AccountContext";
 import axios from "axios";
@@ -8,37 +8,24 @@ import { axiosFetch } from "../api/api-get";
 export function LogInPage() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { dispatch, state, onSetInput } = useAccountContext();
-  const { emailInput, passwordInput } = state;
+  const { dispatch, state, onSetInput, validateInput, checkError } =
+    useAccountContext();
+  const {
+    emailInput,
+    passwordInput,
+    isAuthenticated,
+    emailInputError,
+    isemailInputError,
+    passwordInputError,
+    ispasswordInputError,
+    isvalidError,
+    validError,
+  } = state;
 
-  async function handleLogIn(e) {
-    e.preventDefault();
-    try {
-      const userAccount = {
-        email: emailInput,
-        password: passwordInput,
-      };
-      const res = await axios.post(
-        `${API_URL}/api/v1/auth/sign_in`,
-        userAccount
-      );
-      const {
-        headers,
-        data: { data },
-      } = res;
-      const accountData = { ...data, name: data.email.split("@")[0] };
-      if (res.status === 200) {
-        localStorage.setItem("headers", JSON.stringify(headers));
-        localStorage.setItem("accountLogin", JSON.stringify(accountData));
-        dispatch({ type: "LOG_IN_SUCCESS", payload: accountData });
-        axiosFetch.defaults.headers = {
-          "access-token": headers["access-token"],
-          client: headers.client,
-          expiry: headers.expiry,
-          uid: headers.uid,
-        };
-
-        const channelsRes = await axiosFetch.get(`/api/v1/channels`);
+  useEffect(() => {
+    async function login() {
+      if (isAuthenticated) {
+        const channelsRes = await axiosFetch.get(`channels`);
         const allChannels = channelsRes?.data?.data;
 
         if (allChannels?.length > 0) {
@@ -52,8 +39,49 @@ export function LogInPage() {
           navigate("workSpace");
         }
       }
+    }
+    login();
+  }, [isAuthenticated, navigate, dispatch]);
+
+  async function handleLogIn(e) {
+    e.preventDefault();
+    try {
+      const userAccount = {
+        email: emailInput,
+        password: passwordInput,
+      };
+      if (!emailInput) {
+        validateInput("emailInput", "Email can't be empty");
+        return;
+      }
+
+      if (!passwordInput) {
+        validateInput("passwordInput", "Password can't be empty");
+        return;
+      }
+      const res = await axios.post(`${API_URL}/auth/sign_in`, userAccount);
+      console.log(res);
+      const {
+        headers,
+        data: { data },
+      } = res;
+      const accountData = { ...data, name: data.email.split("@")[0] };
+      if (res.status === 200) {
+        localStorage.setItem("headers", JSON.stringify(headers));
+        localStorage.setItem("accountLogin", JSON.stringify(accountData));
+        dispatch({ type: "LOG_IN", payload: accountData });
+        axiosFetch.defaults.headers = {
+          "access-token": headers["access-token"],
+          client: headers.client,
+          expiry: headers.expiry,
+          uid: headers.uid,
+        };
+      }
     } catch (error) {
-      console.log(...error.response.data.errors);
+      dispatch({
+        type: "INVALID_INPUT",
+        payload: error.response.data.errors[0],
+      });
     }
   }
 
@@ -73,10 +101,17 @@ export function LogInPage() {
               type="email"
               name="emailInput"
               value={emailInput}
-              className={`border p-4 rounded-sm text-xl w-full`}
+              className={`border p-4 rounded-sm text-xl w-full ${checkError(
+                isemailInputError
+              )}`}
               placeholder="example@gmail.com"
               onChange={onSetInput}
             />
+            {isemailInputError && (
+              <small className="text-lg text-red-500 absolute bottom-[-1.8rem] left-0">
+                {emailInputError}
+              </small>
+            )}
           </div>
 
           <div className="relative">
@@ -84,7 +119,9 @@ export function LogInPage() {
               type={isOpen ? "text" : "password"}
               name="passwordInput"
               value={passwordInput}
-              className={`border p-4 rounded-sm text-xl w-full`}
+              className={`border p-4 rounded-sm text-xl w-full ${checkError(
+                ispasswordInputError
+              )}`}
               placeholder="Password"
               onChange={onSetInput}
             />
@@ -94,8 +131,18 @@ export function LogInPage() {
                 isOpen ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"
               }`}
             ></i>
+            {ispasswordInputError && (
+              <small className="text-lg text-red-500 absolute bottom-[-1.8rem] left-0">
+                {passwordInputError}
+              </small>
+            )}
           </div>
 
+          {isvalidError && (
+            <small className="text-lg text-red-500 absolute bottom-[4rem] left-0">
+              {validError}
+            </small>
+          )}
           <button className="w-full text-xl bg-blue-600 font-bold uppercase text-white py-4 rounded-md">
             Log In
           </button>

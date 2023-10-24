@@ -15,7 +15,7 @@ export function FormCreatingChannel() {
   async function handleCreateChannel(e) {
     e.preventDefault();
     try {
-      const res = await axiosFetch.post(`/api/v1/channels`, {
+      const res = await axiosFetch.post(`/channels`, {
         name: channelName,
         user_ids: [userId],
       });

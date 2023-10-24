@@ -1,32 +1,31 @@
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
-import { API_URL } from "../../constant/apiUrl";
+
 import { axiosFetch } from "../../api/api-get";
 import profileLogo from "../../assets/profilelogo.png";
 
 export default function SendMessageToChannel() {
-  const [message, setMessage] = useState("");
   const { channelId } = useParams();
-  const { dispatch } = useAccountContext();
+  const {
+    dispatch,
+    onSetInput,
+    state: { messageChannelInput },
+  } = useAccountContext();
 
   const sendMessageToChannel = async () => {
     try {
-      const res = await axiosFetch.post(`${API_URL}/api/v1/messages`, {
+      await axiosFetch.post(`/messages`, {
         receiver_id: channelId,
         receiver_class: "Channel",
-        body: message,
+        body: messageChannelInput,
       });
-      const data = res.data;
+
       dispatch({
         type: "MESSAGE_TO_CHANNELS",
-        payload: res.data.data,
       });
-      localStorage.setItem("MESSAGE_TO_CHANNELS", JSON.stringify(data));
-      console.log(data);
 
       const updateRes = await axiosFetch.get(
-        `/api/v1/messages?receiver_id=${channelId}&receiver_class=Channel`
+        `/messages?receiver_id=${channelId}&receiver_class=Channel`
       );
 
       const senderData = updateRes.data.data;
@@ -40,49 +39,39 @@ export default function SendMessageToChannel() {
       }));
 
       dispatch({ type: "FETCH_CHANNEL_MESSAGE", payload: senderAPIdata });
-
-      setMessage("");
     } catch (error) {
       console.error("Failed to send message:", error);
     }
   };
 
-  const handleInputChange = (e) => {
-    setMessage(e.target.value);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     sendMessageToChannel();
-    setMessage;
-    ({ message });
   };
 
-  useEffect(() => {
-    sendMessageToChannel();
-  }, []);
-
   return (
-    <form
-      className="w-full h-full bg-white shadow-[0_0_1rem_rgba(0,0,0,0.1)] p-4 pt-12"
-      onSubmit={handleSubmit}
-    >
-      <input
-        type="text"
-        name="messageChannelInput"
-        placeholder={`Message to ChannelName`}
-        className="w-full border-[1px] text-xl p-4 rounded-md mb-2"
-        value={message}
-        onChange={handleInputChange}
-      />
-      <div className="text-right">
-        <button
-          type="submit"
-          className="bg-blue-400 text-white text-xl py-2 px-10 rounded-sm"
-        >
-          Send
-        </button>
-      </div>
-    </form>
+    <div className="bg-white  h-full">
+      <form
+        className="w-[95%]  mx-auto bg-white shadow-[0_0_1rem_rgba(0,0,0,0.2)] p-8 rounded-lg relative bottom-20"
+        onSubmit={handleSubmit}
+      >
+        <input
+          type="text"
+          name="messageChannelInput"
+          placeholder={`Message to ChannelName`}
+          className="w-full border-[1px] text-xl p-4 rounded-md mb-4"
+          value={messageChannelInput}
+          onChange={onSetInput}
+        />
+        <div className="text-right">
+          <button
+            type="submit"
+            className="bg-blue-400 text-white text-xl py-2 px-12 rounded-sm"
+          >
+            Send
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

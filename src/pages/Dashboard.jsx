@@ -42,7 +42,7 @@ export function Dashboard() {
   useEffect(() => {
     async function getAllUsersChannel() {
       try {
-        const res = await axiosFetch.get(`/api/v1/users`);
+        const res = await axiosFetch.get(`/users`);
 
         const allUsers = res.data.data.map((user) => ({
           ...user,
@@ -63,7 +63,7 @@ export function Dashboard() {
 
   return (
     <main
-      className={`main__page grid grid-cols-[4%,96%]  min-h-screen ${
+      className={`main__page grid grid-cols-[4%,96%] grid-rows-[4%,96%] h-screen ${
         isOpenAddUserChannel || isOpenAddUserForm || isOpenChannelForm
           ? "overlay"
           : ""
@@ -71,7 +71,7 @@ export function Dashboard() {
     >
       <Header status={status} />
       <SideBarIcon />
-      <div className="grid grid-cols-[30rem,2fr] h-full w-full rounded-tl-lg overflow-hidden ">
+      <div className="grid grid-cols-[30rem,auto]  rounded-tl-lg  overflow-hidden ">
         <SideBar />
         <div className="grid grid-cols-[2fr,auto]">
           <Outlet />

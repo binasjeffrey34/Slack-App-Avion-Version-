@@ -28,7 +28,7 @@ export function FormAddUser() {
         member_id: getUser.id,
       };
       //ADDING USER TO A CHANNEL
-      const res = await axiosFetch.post(`/api/v1/channel/add_member`, addUser);
+      const res = await axiosFetch.post(`/channel/add_member`, addUser);
       dispatch({
         type: "STORE_ADDED_USER_TO_CHANNEL",
         payload: res.data.data.channel_members,
@@ -36,7 +36,7 @@ export function FormAddUser() {
       console.log(res);
 
       //UPDATE DISPLAYING ALL MEMBER IN A CHANNEL
-      const updatedRes = await axiosFetch.get(`/api/v1/channels/${channelId}`);
+      const updatedRes = await axiosFetch.get(`/channels/${channelId}`);
       const allMember = updatedRes.data?.data?.channel_members;
       const getallMember = allUsers
         .filter((user) =>

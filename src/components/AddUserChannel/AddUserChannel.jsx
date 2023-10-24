@@ -12,17 +12,15 @@ import { ErrorMessage } from "../ErrorMessage";
 export function AddUserChannel() {
   const { state, dispatch } = useAccountContext();
   const [status, setStatus] = useState("loading");
-  const { allUsers, getAllChannels } = state;
+  const { allUsers, allChannels } = state;
   const { channelId } = useParams();
 
-  const findChannel = getAllChannels.find(
-    (channel) => channel.id === +channelId
-  );
+  const findChannel = allChannels.find((channel) => channel.id === +channelId);
 
   useEffect(() => {
     async function getChannelDetails() {
       try {
-        const res = await axiosFetch.get(`/api/v1/channels/${channelId}`);
+        const res = await axiosFetch.get(`/channels/${channelId}`);
 
         const allMember = res.data?.data?.channel_members;
 

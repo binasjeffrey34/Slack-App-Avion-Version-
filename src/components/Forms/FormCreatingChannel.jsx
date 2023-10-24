@@ -3,11 +3,24 @@ import { useAccountContext } from "../../Context/AccountContext";
 import { axiosFetch } from "../../api/api-get";
 import { useNavigate } from "react-router-dom";
 
-export function FormCreatingChannel(props) {
-  const { state, onSetInput, dispatch } = useAccountContext();
+export function FormCreatingChannel() {
+  const { state, onSetInput, dispatch, validateInput, checkError } =
+    useAccountContext();
   const inputRef = useRef();
-  const { channelName, userId } = state;
+  const {
+    channelName,
+    userId,
+    isuserIdError,
+    userIdError,
+    channelNameError,
+    ischannelNameError,
+    validError,
+    isvalidError,
+    allUsers,
+  } = state;
   const navigate = useNavigate();
+  const checkIncluded = allUsers.map((user) => user.id).includes(+userId);
+  console.log(checkIncluded);
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -15,10 +28,27 @@ export function FormCreatingChannel(props) {
   async function handleCreateChannel(e) {
     e.preventDefault();
     try {
-      const res = await axiosFetch.post(`/api/v1/channels`, {
+      if (!channelName) {
+        validateInput("channelName", "Channel Name can't be empty");
+        return;
+      }
+
+      if (!userId) {
+        validateInput("userId", "User Id can't be empty");
+        return;
+      }
+      if (!checkIncluded) {
+        dispatch({
+          type: "INVALID_INPUT",
+          payload: "User does not exist.",
+        });
+        return;
+      }
+      const res = await axiosFetch.post(`/channels`, {
         name: channelName,
-        user_ids: [userId],
+        user_ids: [+userId],
       });
+      console.log(res);
 
       navigate(`/dashboard/${res.data.data.id}`);
 
@@ -29,39 +59,19 @@ export function FormCreatingChannel(props) {
       dispatch({ type: "CREATE_CHANNEL" });
 
       //UPDATE DISPLAYING CHANNELS
-      const updatedRes = await axiosFetch.get(`/api/v1/channels`);
+      const updatedRes = await axiosFetch.get(`/channels`);
       const updatedChannels = updatedRes.data.data;
       dispatch({ type: "GET_ALL_CHANNELS", payload: updatedChannels });
     } catch (error) {
-      console.error("Error creating channel:", error);
+      console.log(error.data.errors);
+      // throw new Error(error);
     }
   }
-
-  // const { messages } = props;
-  // const renderMessageToChannel = () => {
-  //   const keys = Object.keys(messages);
-
-  //   return keys.map((key, index) => {
-  //     const message = messages[key];
-  //     const lastMessageKey = index === 0 ? null : keys[index - 1];
-  //     const sendMessage = userName === message.sender.userName;
-
-  //     return (
-  //       <div key={`msg_${index}`}>
-  //         <div className="message=block">
-  //           {sendMessage ? <sendMessage /> : <receiveMessage />}
-  //         </div>
-  //       </div>
-  //     );
-  //   });
-  // };
-
-  // renderMessageToChannel();
 
   return (
     <>
       <form
-        className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-10 shadow-[0_0_1rem_rgba(0,0,0,0.3)]  w-[40rem]  justify-center flex flex-col gap-6 mx-auto bg-white px-12 pt-16 pb-12 rounded-md"
+        className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-10 shadow-[0_0_1rem_rgba(0,0,0,0.3)]  w-[40rem]  justify-center flex flex-col gap-8 mx-auto bg-white px-12 pt-16 pb-12 rounded-md"
         onSubmit={handleCreateChannel}
       >
         <i
@@ -79,23 +89,42 @@ export function FormCreatingChannel(props) {
             type="text"
             ref={inputRef}
             name="channelName"
-            className={`border border-slate-300 p-4 rounded-sm text-xl w-full `}
+            className={`border p-4 rounded-sm text-xl w-full ${checkError(
+              ischannelNameError
+            )} `}
             placeholder="Create a new channel"
             value={channelName}
             onChange={onSetInput}
           />
+          {ischannelNameError && (
+            <small className="text-lg text-red-500 absolute bottom-[-1.8rem] left-0">
+              {channelNameError}
+            </small>
+          )}
         </div>
         <div className="relative w-full">
           <input
             type="number"
             name="userId"
-            className={`border border-slate-300 p-4 rounded-sm text-xl w-full `}
+            className={`border p-4 rounded-sm text-xl w-full ${checkError(
+              isuserIdError
+            )} `}
             placeholder="User ID"
             value={userId}
             onChange={onSetInput}
           />
+          {isuserIdError && (
+            <small className="text-lg text-red-500 absolute bottom-[-1.8rem] left-0">
+              {userIdError}
+            </small>
+          )}
         </div>
-        <div className="text-right">
+        {isvalidError && (
+          <small className="text-lg text-red-500 absolute bottom-[7rem] left-12">
+            {validError}
+          </small>
+        )}
+        <div>
           <button className="bg-blue-500 text-white text-xl py-4 px-6 rounded-md">
             Create Channel
           </button>
