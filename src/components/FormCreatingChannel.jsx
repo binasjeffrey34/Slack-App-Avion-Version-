@@ -28,7 +28,6 @@ export function FormCreatingChannel() {
       });
       dispatch({ type: "CREATE_CHANNEL" });
 
-      //UPDATE DISPLAYING CHANNELS
       const updatedRes = await axiosFetch.get(`/api/v1/channels`);
       const updatedChannels = updatedRes.data.data;
       dispatch({ type: "GET_ALL_CHANNELS", payload: updatedChannels });
