@@ -1,10 +1,10 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
-import { useEffect } from "react";
+import useUpdateSelectedAccount from "../../hooks/useUpdateSelectedAccount";
 
 export function MesageProfilePage() {
-  const { state, dispatch } = useAccountContext();
-  const { allUsers, selectedProfile } = state;
+  const { state, dispatch, handleModal } = useAccountContext();
+  const { selectedProfile } = state;
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const navigate = useNavigate();
@@ -13,20 +13,7 @@ export function MesageProfilePage() {
     minute: "numeric",
   };
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("selectedProfile"));
-
-    if (storedUser && storedUser.id === +id) {
-      dispatch({ type: "SELECTED_PROFILE", payload: storedUser });
-    } else {
-      const user = allUsers.find((user) => user.id === +id);
-
-      if (user) {
-        dispatch({ type: "SELECTED_PROFILE", payload: user });
-        localStorage.setItem("selectedProfile", JSON.stringify(user));
-      }
-    }
-  }, [id, allUsers, dispatch]);
+  useUpdateSelectedAccount("selectedProfile", "SELECTED_PROFILE", id);
 
   return (
     <section className="bg-white w-[45rem]  text-xl border-l-[1px]">
@@ -35,10 +22,8 @@ export function MesageProfilePage() {
         <i
           className="fa-solid fa-xmark cursor-pointer"
           onClick={() => {
-            dispatch({
-              type: "SHOW_MODAL",
-              payload: { name: "isDirectMessageOpen", value: false },
-            });
+            handleModal("isDirectMessageOpen", false);
+
             navigate(`/dashboard/directMessage/${id}`);
           }}
         ></i>
@@ -47,7 +32,7 @@ export function MesageProfilePage() {
         <img
           src={selectedProfile?.image}
           alt=""
-          className="w-96 rounded-lg mx-auto mb-6"
+          className=" w-96 h-96 rounded-lg mx-auto mb-6"
         />
         <h1 className="text-3xl font-bold text-slate-900 mb-6">
           {selectedProfile?.name}
@@ -64,10 +49,8 @@ export function MesageProfilePage() {
         <Link
           to={`/dashboard/directMessage/${id}`}
           onClick={() => {
-            dispatch({
-              type: "SHOW_MODAL",
-              payload: { name: "isDirectMessageOpen", value: false },
-            });
+            handleModal("isDirectMessageOpen", false);
+
             dispatch({ type: "STORE_TO_DIRECT_MESSAGE", payload: id });
           }}
         >

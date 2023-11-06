@@ -1,23 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
+import { InputElement } from "../InputElement";
+import { InputError } from "../InputError";
 
 export function FormCreatingWorkSpace() {
   const {
     dispatch,
-    state: { workSpaceInput },
-    onSetInput,
+    state: { workSpaceInput, workSpaceInputError, isworkSpaceInputError },
+    validateInput,
+    handleModal,
   } = useAccountContext();
   const navigate = useNavigate();
 
   function handleCreateWorkSpace(e) {
     e.preventDefault();
+    if (!workSpaceInput) {
+      validateInput("workSpaceInput", "workspace can't be Empty");
+      return;
+    }
     localStorage.setItem("workSpaceName", JSON.stringify(workSpaceInput));
     dispatch({ type: "CREATE_WORK_SPACE", payload: workSpaceInput });
+    handleModal("isOpenWorkSpace", false);
 
-    dispatch({
-      type: "SHOW_MODAL",
-      payload: { name: "isOpenWorkSpace", value: false },
-    });
     navigate("/createChannel");
   }
   return (
@@ -28,14 +32,16 @@ export function FormCreatingWorkSpace() {
       >
         <h1 className="text-3xl font-bold mb-4">Create a WorkSpace</h1>
         <div className="relative w-full">
-          <input
+          <InputElement
             type="text"
-            name="workSpaceInput"
-            className={`border border-slate-300 p-4 rounded-sm text-xl w-full `}
-            placeholder="WorkSpace Name"
-            value={workSpaceInput}
-            onChange={onSetInput}
+            field="workSpaceInput"
+            isError={isworkSpaceInputError}
+            holderInfo="WorkSpace Name"
           />
+
+          {isworkSpaceInputError && (
+            <InputError>{workSpaceInputError}</InputError>
+          )}
         </div>
         <div className="text-right">
           <button className="bg-blue-500 text-white text-xl py-4 px-6 rounded-md">

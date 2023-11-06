@@ -2,11 +2,26 @@ import { useEffect, useRef } from "react";
 import { useAccountContext } from "../../Context/AccountContext";
 import { axiosFetch } from "../../api/api-get";
 import { useParams } from "react-router-dom";
-import profileLogo from "../../assets/profilelogo.png";
+import { InputError } from "../InputError";
+import { useServices } from "../../services/useServices";
 
 export function FormAddUser() {
-  const { onSetInput, state, dispatch } = useAccountContext();
-  const { addUserInput, allUsers } = state;
+  const {
+    onSetInput,
+    state,
+    dispatch,
+    validateInput,
+    inputStyle,
+    handleModal,
+  } = useAccountContext();
+  const {
+    addUserInput,
+    allUsers,
+    addUserInputError,
+    isaddUserInputError,
+    validError,
+    isvalidError,
+  } = state;
   const { channelId } = useParams();
   const inputRef = useRef();
 
@@ -18,51 +33,45 @@ export function FormAddUser() {
   async function handleAddUser(e) {
     e.preventDefault();
     //FINDING THE USER BY NAME OR EMAIL
+    const inputVal = addUserInput.toLowerCase();
     const getUser = allUsers.find(
-      (user) => user.uid === addUserInput || user.name === addUserInput
+      (user) => user.uid === inputVal || user.name === inputVal
     );
-    console.log(getUser);
+    const addUser = {
+      id: channelId,
+      member_id: getUser.id,
+    };
+    if (!inputVal) {
+      validateInput("addUserInput", "Input can't be empty");
+      return;
+    }
+
     try {
-      const addUser = {
-        id: channelId,
-        member_id: getUser.id,
-      };
       //ADDING USER TO A CHANNEL
       const res = await axiosFetch.post(`/channel/add_member`, addUser);
       dispatch({
         type: "STORE_ADDED_USER_TO_CHANNEL",
         payload: res.data.data.channel_members,
       });
-      console.log(res);
 
       //UPDATE DISPLAYING ALL MEMBER IN A CHANNEL
-      const updatedRes = await axiosFetch.get(`/channels/${channelId}`);
-      const allMember = updatedRes.data?.data?.channel_members;
-      const getallMember = allUsers
-        .filter((user) =>
-          allMember.some((userchannel) => user.id === userchannel.user_id)
-        )
-        .map((user) => ({
-          ...user,
-          name: user.email.split("@")[0],
-          image: profileLogo,
-        }));
-      console.log(getallMember);
+
+      const getAllMember = await useServices.getChannelMembers(
+        allUsers,
+        channelId
+      );
       dispatch({
         type: "GET_USERS_CHANNEL",
-        payload: getallMember,
+        payload: getAllMember,
       });
 
       //DISPLAYING THE NUMBERS OF USERS
       dispatch({
         type: "NUMBER_OF_USERS",
-        payload: getallMember.length,
+        payload: getAllMember.length,
       });
       //CLOSING THE ADDING USER FORM MODAL
-      dispatch({
-        type: "SHOW_MODAL",
-        payload: { name: "isOpenAddUserForm", value: false },
-      });
+      handleModal("isOpenAddUserForm", false);
     } catch (error) {
       console.log(error);
     }
@@ -75,24 +84,22 @@ export function FormAddUser() {
     >
       <i
         className="fa-solid fa-xmark absolute top-4 right-6 text-2xl cursor-pointer"
-        onClick={() => {
-          dispatch({
-            type: "SHOW_MODAL",
-            payload: { name: "isOpenAddUserForm", value: false },
-          });
-        }}
+        onClick={() => handleModal("isOpenAddUserForm", false)}
       ></i>
       <div className="relative w-full">
         <input
           ref={inputRef}
           type="text"
           name="addUserInput"
-          className={`border p-6 text-xl w-full rounded-md `}
+          className={inputStyle(isaddUserInputError)}
           placeholder="Enter a name or email"
           value={addUserInput}
           onChange={onSetInput}
         />
+        {isaddUserInputError && <InputError>{addUserInputError}</InputError>}
+        {isvalidError && <InputError>{validError}</InputError>}
       </div>
+
       <div className="text-right">
         <button className="bg-blue-500 text-white text-xl py-4 px-6 rounded-md w-1/4">
           Add User
