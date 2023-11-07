@@ -7,40 +7,56 @@ import { Loading } from "../Loading";
 import { ErrorMessage } from "../ErrorMessage";
 import ChannelAbout from "../ChannelMessages/ChannelAbout";
 import useChannelMembers from "../../hooks/useChannelMembers";
+import { useState } from "react";
 
 export function AddUserChannel() {
   const { state, handleModal } = useAccountContext();
-  const { allChannels } = state;
+  const { allChannels, numbersOfUser } = state;
   const { channelId } = useParams();
+  const [activeTab, setActiveTab] = useState("about");
 
   const findChannel = allChannels.find((channel) => channel.id === +channelId);
 
   const status = useChannelMembers(channelId, "GET_ALL_MEMBER");
   return (
-    <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-10 bg-white w-[55rem] h-[80vh] px-12 py-20 rounded-lg">
+    <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-10 bg-white w-[55rem] h-[80vh]  rounded-lg">
       <i
         className="fa-solid fa-xmark absolute top-4 right-6 text-2xl cursor-pointer"
         onClick={() => handleModal("isOpenAddUserChannel", false)}
       ></i>
-      <p className="text-4xl font-bold flex item-center gap-2 mb-6 ">
-        {" "}
-        <span>
-          <i className="fa-solid fa-hashtag"></i>
-        </span>
-        <span>{findChannel?.name}</span>
-      </p>
-      <button>
-        <ChannelAbout />
-      </button>
-      <button>
-        <AddPeople />
-        <SearchMember />
-        <div className="channel__member-list flex flex-col gap-4">
-          {status === "loading" && <Loading />}
-          {status === "error" && <ErrorMessage />}
-          {status === "success" && <AllMemberList />}
-        </div>
-      </button>
+      <div className="px-12 pt-20">
+        <p className="text-4xl font-bold flex item-center gap-2 mb-6 ">
+          {" "}
+          <span>
+            <i className="fa-solid fa-hashtag"></i>
+          </span>
+          <span>{findChannel?.name}</span>
+        </p>
+      </div>
+
+      <ul className="flex items-center gap-12 px-12 py-4 text-2xl border-b-[1px] border-slate-300 ">
+        <li onClick={() => setActiveTab("about")} className="cursor-pointer">
+          About
+        </li>
+        <li onClick={() => setActiveTab("member")} className="cursor-pointer">
+          Member {numbersOfUser}
+        </li>
+      </ul>
+      {activeTab === "about" && <ChannelAbout />}
+      {activeTab === "member" && <Members status={status} />}
     </section>
+  );
+}
+function Members({ status }) {
+  return (
+    <div className="px-12 pt-8">
+      <SearchMember />
+      <AddPeople />
+      <div className="channel__member-list flex flex-col gap-4">
+        {status === "loading" && <Loading />}
+        {status === "error" && <ErrorMessage />}
+        {status === "success" && <AllMemberList />}
+      </div>
+    </div>
   );
 }

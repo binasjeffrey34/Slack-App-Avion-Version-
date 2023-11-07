@@ -32,7 +32,7 @@ function ChannelAbout() {
   };
 
   return (
-    <ul className="about-channel-container">
+    <ul className="about-channel-container px-12 pt-8">
       <li className="about-channel-list-item">
         <div className="about-channel-list-item-top">
           <h3 className="about-item-title">Topic</h3>
