@@ -5,6 +5,7 @@ import { AddPeople } from "./AddPeople";
 import { useParams } from "react-router-dom";
 import { Loading } from "../Loading";
 import { ErrorMessage } from "../ErrorMessage";
+import ChannelAbout from "../ChannelMessages/ChannelAbout";
 import useChannelMembers from "../../hooks/useChannelMembers";
 
 export function AddUserChannel() {
@@ -28,13 +29,18 @@ export function AddUserChannel() {
         </span>
         <span>{findChannel?.name}</span>
       </p>
-      <SearchMember />
-      <AddPeople />
-      <div className="channel__member-list flex flex-col gap-4">
-        {status === "loading" && <Loading />}
-        {status === "error" && <ErrorMessage />}
-        {status === "success" && <AllMemberList />}
-      </div>
+      <button>
+        <ChannelAbout />
+      </button>
+      <button>
+        <AddPeople />
+        <SearchMember />
+        <div className="channel__member-list flex flex-col gap-4">
+          {status === "loading" && <Loading />}
+          {status === "error" && <ErrorMessage />}
+          {status === "success" && <AllMemberList />}
+        </div>
+      </button>
     </section>
   );
 }
