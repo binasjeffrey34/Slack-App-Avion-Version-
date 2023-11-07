@@ -1,15 +1,10 @@
 import loading from "../assets/loading.svg";
 
-export function Loading({
-  fontsize = "text-2xl",
-  fonttext = "",
-  w = 12,
-  h = 12,
-}) {
+export function Loading() {
   return (
-    <div className={`spinner ${fontsize} `}>
-      <img src={loading} alt="loading" className={`w-${w} h-${h}`} />
-      <span className={`${fonttext}`}>Loading...</span>
+    <div className={`spinner text-xl `}>
+      <img src={loading} alt="loading" className=" w-10 h-10" />
+      <span>Loading...</span>
     </div>
   );
 }

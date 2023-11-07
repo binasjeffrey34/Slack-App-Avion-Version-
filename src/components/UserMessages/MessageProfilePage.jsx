@@ -1,45 +1,36 @@
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
-import { useEffect } from "react";
+import useUpdateSelectedAccount from "../../hooks/useUpdateSelectedAccount";
 
 export function MesageProfilePage() {
-  const { state, dispatch } = useAccountContext();
-  const { allUsers, selectedProfile } = state;
+  const { state, dispatch, handleModal } = useAccountContext();
+  const { selectedProfile } = state;
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
+  const { receiverId } = useParams();
   const navigate = useNavigate();
   const option = {
     hour: "numeric",
     minute: "numeric",
   };
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("selectedProfile"));
-
-    if (storedUser && storedUser.id === +id) {
-      dispatch({ type: "SELECTED_PROFILE", payload: storedUser });
-    } else {
-      const user = allUsers.find((user) => user.id === +id);
-
-      if (user) {
-        dispatch({ type: "SELECTED_PROFILE", payload: user });
-        localStorage.setItem("selectedProfile", JSON.stringify(user));
-      }
-    }
-  }, [id, allUsers, dispatch]);
+  useUpdateSelectedAccount("selectedProfile", "SELECTED_PROFILE", id);
 
   return (
-    <section className="bg-white w-[45rem]  text-xl border-l-[1px]">
+    <section className="bg-white w-[40rem]  text-xl border-l-[1px]">
       <div className=" h-[5rem] border-b-[1px] flex items-center justify-between px-8 text-3xl text-slate-800">
         <h1 className=" font-bold">Profile</h1>
         <i
           className="fa-solid fa-xmark cursor-pointer"
           onClick={() => {
-            dispatch({
-              type: "SHOW_MODAL",
-              payload: { name: "isDirectMessageOpen", value: false },
-            });
-            navigate(`/dashboard/directMessage/${id}`);
+            handleModal("isDirectMessageOpen", false);
+
+            navigate(`/dashboard/direct_message/${receiverId}`);
           }}
         ></i>
       </div>
@@ -47,7 +38,7 @@ export function MesageProfilePage() {
         <img
           src={selectedProfile?.image}
           alt=""
-          className="w-96 rounded-lg mx-auto mb-6"
+          className=" w-96 h-96 rounded-lg mx-auto mb-6"
         />
         <h1 className="text-3xl font-bold text-slate-900 mb-6">
           {selectedProfile?.name}
@@ -62,12 +53,10 @@ export function MesageProfilePage() {
           <span>local time</span>
         </p>
         <Link
-          to={`/dashboard/directMessage/${id}`}
+          to={`/dashboard/direct_message/${id}`}
           onClick={() => {
-            dispatch({
-              type: "SHOW_MODAL",
-              payload: { name: "isDirectMessageOpen", value: false },
-            });
+            handleModal("isDirectMessageOpen", false);
+
             dispatch({ type: "STORE_TO_DIRECT_MESSAGE", payload: id });
           }}
         >

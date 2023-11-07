@@ -2,63 +2,53 @@ import { useParams } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
 
 import { axiosFetch } from "../../api/api-get";
-import profileLogo from "../../assets/profilelogo.png";
+import { useServices } from "../../services/useServices";
 
 export default function SendMessageToChannel() {
   const { channelId } = useParams();
   const {
     dispatch,
     onSetInput,
-    state: { messageChannelInput },
+    state: { messageChannelInput, allChannels, allUsers },
   } = useAccountContext();
 
-  const sendMessageToChannel = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      await axiosFetch.post(`/messages`, {
+      const message = {
         receiver_id: channelId,
         receiver_class: "Channel",
         body: messageChannelInput,
-      });
+      };
+      await axiosFetch.post(`/messages`, message);
 
       dispatch({
         type: "MESSAGE_TO_CHANNELS",
       });
 
-      const updateRes = await axiosFetch.get(
-        `/messages?receiver_id=${channelId}&receiver_class=Channel`
+      const messageData = await useServices.getMessages(
+        allUsers,
+        channelId,
+        "Channel"
       );
-
-      const senderData = updateRes.data.data;
-      const senderAPIdata = senderData.map((msg) => ({
-        ...msg,
-        sender: {
-          ...msg.sender,
-          image: profileLogo,
-          name: msg.sender.email.split("@")[0],
-        },
-      }));
-
-      dispatch({ type: "FETCH_CHANNEL_MESSAGE", payload: senderAPIdata });
+      dispatch({ type: "FETCH_CHANNEL_MESSAGE", payload: messageData });
     } catch (error) {
       console.error("Failed to send message:", error);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    sendMessageToChannel();
-  };
+  const findChannel = allChannels.find((channel) => channel.id === +channelId);
 
   return (
     <div className="bg-white  h-full">
       <form
-        className="w-[95%]  mx-auto bg-white shadow-[0_0_1rem_rgba(0,0,0,0.2)] p-8 rounded-lg relative bottom-20"
+        className="w-[95%]  mx-auto bg-white shadow-[0_0_1rem_rgba(0,0,0,0.2)] p-8 rounded-lg relative bottom-10"
         onSubmit={handleSubmit}
       >
         <input
           type="text"
           name="messageChannelInput"
-          placeholder={`Message to ChannelName`}
+          placeholder={`Message to ${findChannel?.name}`}
           className="w-full border-[1px] text-xl p-4 rounded-md mb-4"
           value={messageChannelInput}
           onChange={onSetInput}

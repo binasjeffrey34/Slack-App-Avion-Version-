@@ -2,13 +2,24 @@ import { useEffect, useRef } from "react";
 import { useAccountContext } from "../../Context/AccountContext";
 import { axiosFetch } from "../../api/api-get";
 import { useNavigate } from "react-router-dom";
+import { InputError } from "../InputError";
+import { InputElement } from "../InputElement";
 
 export function FormCreatingChannel() {
-  const { state, onSetInput, dispatch, validateInput, checkError } =
-    useAccountContext();
   const inputRef = useRef();
+  const navigate = useNavigate();
+  const {
+    state,
+    onSetInput,
+    dispatch,
+    validateInput,
+    inputStyle,
+    handleModal,
+  } = useAccountContext();
+
   const {
     channelName,
+    allChannels,
     userId,
     isuserIdError,
     userIdError,
@@ -18,24 +29,38 @@ export function FormCreatingChannel() {
     isvalidError,
     allUsers,
   } = state;
-  const navigate = useNavigate();
+
   const checkIncluded = allUsers.map((user) => user.id).includes(+userId);
-  console.log(checkIncluded);
+  const validateChannelNameIfExist = allChannels
+    .map((channel) => channel.name.toLowerCase())
+    .includes(channelName.toLowerCase());
+  console.log(validateChannelNameIfExist);
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
   async function handleCreateChannel(e) {
     e.preventDefault();
-    try {
-      if (!channelName) {
-        validateInput("channelName", "Channel Name can't be empty");
-        return;
-      }
+    const fields = ["channelName", "userId"];
 
-      if (!userId) {
-        validateInput("userId", "User Id can't be empty");
-        return;
+    try {
+      for (const field of fields) {
+        switch (field) {
+          case "channelName":
+            if (!state[field]) {
+              validateInput("channelName", "Channel Name can't be empty");
+              return;
+            }
+            break;
+          case "userId":
+            if (!state[field]) {
+              validateInput("userId", "User Id can't be empty");
+              return;
+            }
+            break;
+          default:
+            throw new Error("field not found");
+        }
       }
       if (!checkIncluded) {
         dispatch({
@@ -48,22 +73,16 @@ export function FormCreatingChannel() {
         name: channelName,
         user_ids: [+userId],
       });
-      console.log(res);
-
       navigate(`/dashboard/${res.data.data.id}`);
-
-      dispatch({
-        type: "SHOW_MODAL",
-        payload: { name: "isOpenChannelForm", value: false },
-      });
       dispatch({ type: "CREATE_CHANNEL" });
 
       //UPDATE DISPLAYING CHANNELS
       const updatedRes = await axiosFetch.get(`/channels`);
       const updatedChannels = updatedRes.data.data;
       dispatch({ type: "GET_ALL_CHANNELS", payload: updatedChannels });
+      handleModal("isOpenChannelForm", false);
     } catch (error) {
-      console.log(error.data.errors);
+      console.log(error);
       // throw new Error(error);
     }
   }
@@ -76,12 +95,7 @@ export function FormCreatingChannel() {
       >
         <i
           className="fa-solid fa-xmark absolute top-6 right-10 text-3xl cursor-pointer"
-          onClick={() => {
-            dispatch({
-              type: "SHOW_MODAL",
-              payload: { name: "isOpenChannelForm", value: false },
-            });
-          }}
+          onClick={() => handleModal("isOpenChannelForm", false)}
         ></i>
         <h1 className="text-4xl font-bold mb-4">Create a Channel</h1>
         <div className="relative w-full">
@@ -89,43 +103,29 @@ export function FormCreatingChannel() {
             type="text"
             ref={inputRef}
             name="channelName"
-            className={`border p-4 rounded-sm text-xl w-full ${checkError(
-              ischannelNameError
-            )} `}
+            className={inputStyle(ischannelNameError)}
             placeholder="Create a new channel"
             value={channelName}
             onChange={onSetInput}
           />
-          {ischannelNameError && (
-            <small className="text-lg text-red-500 absolute bottom-[-1.8rem] left-0">
-              {channelNameError}
-            </small>
-          )}
+          {ischannelNameError && <InputError>{channelNameError}</InputError>}
         </div>
         <div className="relative w-full">
-          <input
+          <InputElement
             type="number"
-            name="userId"
-            className={`border p-4 rounded-sm text-xl w-full ${checkError(
-              isuserIdError
-            )} `}
-            placeholder="User ID"
-            value={userId}
-            onChange={onSetInput}
+            field="userId"
+            isError={isuserIdError}
+            holderInfo="User ID"
           />
-          {isuserIdError && (
-            <small className="text-lg text-red-500 absolute bottom-[-1.8rem] left-0">
-              {userIdError}
-            </small>
-          )}
+          {isuserIdError && <InputError>{userIdError}</InputError>}
         </div>
         {isvalidError && (
-          <small className="text-lg text-red-500 absolute bottom-[7rem] left-12">
+          <InputError btmSize="7rem" lftSize="3rem">
             {validError}
-          </small>
+          </InputError>
         )}
         <div>
-          <button className="bg-blue-500 text-white text-xl py-4 px-6 rounded-md">
+          <button className="bg-fuchsia-950 text-white text-xl py-4 px-6 rounded-md">
             Create Channel
           </button>
         </div>
