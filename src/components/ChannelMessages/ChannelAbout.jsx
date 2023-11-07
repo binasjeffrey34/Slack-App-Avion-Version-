@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 function ChannelAbout() {
   const [isEditingTopic, setIsEditingTopic] = useState(false);
@@ -94,13 +94,13 @@ function ChannelAbout() {
         <div className="about-channel-list-item-top">
           <h3 className="about-item-title">Created By</h3>
         </div>
-        <span className="about-item-detail">{`${ownerId} on ${createdAt}`}</span>
+        {/* <span className="about-item-detail">{`${ownerId} on ${createdAt}`}</span> */}
       </li>
       <li className="channel-files-container">
         <div className="channel-files">
           <h3 className="channel-files-title">Channel Files</h3>
         </div>
-        <span className="channel-files-list">{channelFiles}</span>
+        {/* <span className="channel-files-list">{channelFiles}</span> */}
       </li>
     </ul>
   );
