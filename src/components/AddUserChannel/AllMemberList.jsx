@@ -10,6 +10,7 @@ export function AllMemberList() {
     <ul>
       {[...filteredListMember].reverse().map(({ name, image, id }) => {
         const checkOwner = accountLogIn.id === id;
+
         return (
           <Link
             key={id}

@@ -12,16 +12,20 @@ export function ChannelChatPage() {
   const [status, setStatus] = useState("loading");
   const {
     dispatch,
-    state: { isProfileOpen },
+    state: { isProfileOpen, allUsers },
   } = useAccountContext();
 
   useEffect(() => {
     async function getChannelDetails() {
       try {
         const res = await axiosFetch.get(`/channels/${channelId}`);
+        const filterMember = res.data.data.channel_members.filter((member) =>
+          allUsers.some((user) => user.id === member.user_id)
+        );
+
         dispatch({
           type: "NUMBER_OF_USERS",
-          payload: res.data.data.channel_members.length,
+          payload: filterMember.length,
         });
         setStatus("success");
       } catch (error) {
@@ -35,7 +39,7 @@ export function ChannelChatPage() {
 
   return (
     <>
-      <section className="relative grid grid-cols-1 grid-rows-[85%,15%] h-screen">
+      <section className="relative grid grid-cols-1 grid-rows-[80%,20%] h-screen">
         <HeaderChannelPage status={status} />
         <ChannelFeed />
         <SendMessageToChannel />

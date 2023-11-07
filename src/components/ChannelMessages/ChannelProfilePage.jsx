@@ -14,7 +14,7 @@ export function ChannelProfilePage({ channelId }) {
   useUpdateSelectedAccount("selectedUser", "SELECTED_USER", userId);
 
   return (
-    <section className="bg-white w-[45rem]  text-xl border-l-[1px]">
+    <section className="bg-white w-[40rem]  text-xl border-l-[1px]">
       <div className=" h-[5rem] border-b-[1px] flex items-center justify-between px-8 text-3xl text-slate-800">
         <h1 className=" font-bold">Profile</h1>
         <i
@@ -45,7 +45,7 @@ export function ChannelProfilePage({ channelId }) {
           <span>local time</span>
         </p>
         <Link
-          to={`/dashboard/directMessage/${userId}`}
+          to={`/dashboard/direct_message/${userId}`}
           onClick={() => {
             handleModal("isProfileOpen", false);
             handleModal("isDirectMessageOpen", false);

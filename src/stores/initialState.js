@@ -14,6 +14,7 @@ export const initialState = {
   messageChannelInput: "",
   numbersOfUser: 0,
   allUsers: JSON.parse(localStorage.getItem("allUsers")) || [],
+  filteredAllUsers: [],
   allDirectMessage: JSON.parse(localStorage.getItem("allDirectMessage")) || [],
   filteredListMember: [],
   channelListMember: [],

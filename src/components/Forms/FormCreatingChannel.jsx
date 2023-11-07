@@ -2,11 +2,12 @@ import { useEffect, useRef } from "react";
 import { useAccountContext } from "../../Context/AccountContext";
 import { axiosFetch } from "../../api/api-get";
 import { useNavigate } from "react-router-dom";
-import profileLogo from "../../assets/profilelogo.png";
 import { InputError } from "../InputError";
 import { InputElement } from "../InputElement";
 
 export function FormCreatingChannel() {
+  const inputRef = useRef();
+  const navigate = useNavigate();
   const {
     state,
     onSetInput,
@@ -15,9 +16,10 @@ export function FormCreatingChannel() {
     inputStyle,
     handleModal,
   } = useAccountContext();
-  const inputRef = useRef();
+
   const {
     channelName,
+    allChannels,
     userId,
     isuserIdError,
     userIdError,
@@ -27,43 +29,34 @@ export function FormCreatingChannel() {
     isvalidError,
     allUsers,
   } = state;
-  const navigate = useNavigate();
+
   const checkIncluded = allUsers.map((user) => user.id).includes(+userId);
+  const validateChannelNameIfExist = allChannels
+    .map((channel) => channel.name.toLowerCase())
+    .includes(channelName.toLowerCase());
+  console.log(validateChannelNameIfExist);
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
-  useEffect(() => {
-    async function getAllUsersChannel() {
-      try {
-        const res = await axiosFetch.get(`/users`);
-
-        const allUsersData = res.data.data.map((user) => ({
-          ...user,
-          name: user.email.split("@")[0],
-          image: profileLogo,
-          messages: [],
-        }));
-        dispatch({ type: "GET_ALL_USERS", payload: allUsersData });
-        localStorage.setItem("allUsers", JSON.stringify(allUsersData));
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getAllUsersChannel();
-  }, [dispatch]);
-
   async function handleCreateChannel(e) {
     e.preventDefault();
+    const fields = ["channelName", "userId"];
+
     try {
-      const fields = ["channelName", "userId"];
       for (const field of fields) {
         switch (field) {
           case "channelName":
-            validateInput(state[field], "Channel Name can't be empty");
+            if (!state[field]) {
+              validateInput("channelName", "Channel Name can't be empty");
+              return;
+            }
             break;
           case "userId":
-            validateInput(state[field], "User Id can't be empty");
+            if (!state[field]) {
+              validateInput("userId", "User Id can't be empty");
+              return;
+            }
             break;
           default:
             throw new Error("field not found");
@@ -80,18 +73,16 @@ export function FormCreatingChannel() {
         name: channelName,
         user_ids: [+userId],
       });
-      console.log(res);
-
       navigate(`/dashboard/${res.data.data.id}`);
-      handleModal("isOpenChannelForm", false);
       dispatch({ type: "CREATE_CHANNEL" });
 
       //UPDATE DISPLAYING CHANNELS
       const updatedRes = await axiosFetch.get(`/channels`);
       const updatedChannels = updatedRes.data.data;
       dispatch({ type: "GET_ALL_CHANNELS", payload: updatedChannels });
+      handleModal("isOpenChannelForm", false);
     } catch (error) {
-      console.log(error.data.errors);
+      console.log(error);
       // throw new Error(error);
     }
   }
@@ -134,7 +125,7 @@ export function FormCreatingChannel() {
           </InputError>
         )}
         <div>
-          <button className="bg-blue-500 text-white text-xl py-4 px-6 rounded-md">
+          <button className="bg-fuchsia-950 text-white text-xl py-4 px-6 rounded-md">
             Create Channel
           </button>
         </div>

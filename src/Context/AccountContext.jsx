@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useCallback, useContext, useReducer } from "react";
 import { reducer } from "../stores/reducer";
 import { initialState } from "../stores/initialState";
 
@@ -14,18 +14,15 @@ function AccountProvider({ children }) {
   }
 
   function validateInput(field, message) {
-    if (!state[field]) {
-      dispatch({ type: "VALIDATE_INPUT", payload: { field, message } });
-      return;
-    }
+    dispatch({ type: "VALIDATE_INPUT", payload: { field, message } });
   }
 
-  function handleModal(name, value) {
+  const handleModal = useCallback((name, value) => {
     dispatch({
       type: "SHOW_MODAL",
       payload: { name, value },
     });
-  }
+  }, []);
 
   const checkError = (error) =>
     error ? "border-1 border-rose-500" : "border-[1px_solid_rgba(0,0,0,0.1)]";

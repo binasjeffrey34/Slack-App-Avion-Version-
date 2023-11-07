@@ -61,10 +61,16 @@ export function LogInPage() {
       for (const field of fields) {
         switch (field) {
           case "emailInput":
-            validateInput(state[field], "Email can't be empty");
+            if (!state[field]) {
+              validateInput("emailInput", "Email can't be empty");
+              return;
+            }
             break;
           case "passwordInput":
-            validateInput(state[field], "Password can't be empty");
+            if (!state[field]) {
+              validateInput("passwordInput", "Password can't be empty");
+              return;
+            }
             break;
           default:
             throw new Error("field not found");

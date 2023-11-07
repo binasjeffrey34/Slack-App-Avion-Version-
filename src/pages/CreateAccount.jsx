@@ -36,32 +36,45 @@ function CreateAccount() {
   function invalidInput(message) {
     dispatch({
       type: "INVALID_INPUT",
-      payload: message[0],
+      payload: message,
     });
   }
   async function handleCreateAccount(e) {
     e.preventDefault();
+
     try {
       const fields = ["emailSignUpInput", "password1", "password2"];
       for (const field of fields) {
         switch (field) {
           case "emailSignUpInput":
-            validateInput(state[field], "Email can't be empty");
+            if (!state[field]) {
+              validateInput("emailSignUpInput", "Email can't be empty");
+              return;
+            }
             break;
           case "password1":
+            if (!state[field]) {
+              validateInput("password1", "Password can't be empty");
+              return;
+            }
+            break;
           case "password2":
-            validateInput(state[field], "Password can't be empty");
+            if (!state[field]) {
+              validateInput("password2", "Password can't be empty");
+              return;
+            }
             break;
           default:
             throw new Error("field not found");
         }
       }
-
       await axios.post(`${API_URL}/auth`, newUser);
+
       dispatch({ type: "CREATE_ACCOUNT" });
       navigate("/sign_in");
     } catch (error) {
       const { full_messages } = error.response.data.errors;
+
       if (password1 !== password2) {
         invalidInput(full_messages[0]);
         return;
@@ -117,7 +130,7 @@ function CreateAccount() {
 
             {ispassword2Error && <InputError>{password2Error}</InputError>}
           </div>
-          {isvalidError && <InputError btmSize="4rem">{validError}</InputError>}
+          {isvalidError && <InputError btmSize="8rem">{validError}</InputError>}
           <button className="w-full text-xl bg-fuchsia-950  font-bold uppercase text-white py-4 rounded-md">
             Sign Up
           </button>
@@ -127,7 +140,11 @@ function CreateAccount() {
           >
             <p className=" text-xl md:text-2xl font-medium">
               Already have account?{" "}
-              <Link to="/sign_in" className="text-blue-700 ml-2">
+              <Link
+                to="/sign_in"
+                className="text-blue-700 ml-2"
+                onClick={() => dispatch({ type: "CREATE_ACCOUNT" })}
+              >
                 Sign In
               </Link>
             </p>

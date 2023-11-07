@@ -17,7 +17,7 @@ export const ChannelFeed = () => {
 
   return (
     <div className=" h-full  bg-white   gap-4 text-2xl pl-12 py-6 flex items-end ">
-      <div className="direct__message-chat flex flex-col  justify-end  ">
+      <div className="direct__message-chat flex flex-col    ">
         <div>
           <div className="mb-12">
             <h1 className="text-5xl font-bold text-gray-800 mb-4">

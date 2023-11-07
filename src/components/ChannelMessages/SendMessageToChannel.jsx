@@ -42,7 +42,7 @@ export default function SendMessageToChannel() {
   return (
     <div className="bg-white  h-full">
       <form
-        className="w-[95%]  mx-auto bg-white shadow-[0_0_1rem_rgba(0,0,0,0.2)] p-8 rounded-lg relative bottom-20"
+        className="w-[95%]  mx-auto bg-white shadow-[0_0_1rem_rgba(0,0,0,0.2)] p-8 rounded-lg relative bottom-10"
         onSubmit={handleSubmit}
       >
         <input

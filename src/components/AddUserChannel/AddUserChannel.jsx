@@ -14,7 +14,7 @@ export function AddUserChannel() {
 
   const findChannel = allChannels.find((channel) => channel.id === +channelId);
 
-  useChannelMembers(channelId, "GET_ALL_MEMBER");
+  const status = useChannelMembers(channelId, "GET_ALL_MEMBER");
   return (
     <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-10 bg-white w-[55rem] h-[80vh] px-12 py-20 rounded-lg">
       <i

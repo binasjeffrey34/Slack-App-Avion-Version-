@@ -17,7 +17,7 @@ export function AllDirectMessage() {
             dispatch({ type: "SELECTED_USER", payload: user });
             handleModal("isDirectMessageOpen", false);
           }}
-          to={`/dashboard/directMessage/${user?.id}`}
+          to={`/dashboard/direct_message/${user?.id}`}
           className="user__list text-2xl flex gap-4 ml-4 mb-2 font-medium text-slate-600 py-2 px-4 rounded-lg hover:cursor-pointer hover:bg-[#daa5dc] hover:text-white "
         >
           <li className=" flex items-center gap-4">

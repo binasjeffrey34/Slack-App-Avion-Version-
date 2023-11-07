@@ -44,7 +44,7 @@ export function FormCreatingWorkSpace() {
           )}
         </div>
         <div className="text-right">
-          <button className="bg-blue-500 text-white text-xl py-4 px-6 rounded-md">
+          <button className="bg-fuchsia-950 text-white text-xl py-4 px-6 rounded-md">
             Create WorkPlace
           </button>
         </div>

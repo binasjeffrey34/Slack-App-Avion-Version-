@@ -16,7 +16,7 @@ export default function UserChatPage() {
 
   return (
     <>
-      <section className=" relative grid grid-cols-1 grid-rows-[85%,15%] h-screen">
+      <section className=" relative grid grid-cols-1 grid-rows-[80%,20%] h-screen">
         <HeaderUserPage />
         <UserFeed status={status} />
         <SendMessageToUsers />

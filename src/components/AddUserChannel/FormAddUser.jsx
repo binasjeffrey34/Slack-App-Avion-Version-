@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAccountContext } from "../../Context/AccountContext";
 import { axiosFetch } from "../../api/api-get";
 import { useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import { InputError } from "../InputError";
 import { useServices } from "../../services/useServices";
 
 export function FormAddUser() {
+  const [isUser, setIsUser] = useState(false);
   const {
     onSetInput,
     state,
@@ -17,38 +18,58 @@ export function FormAddUser() {
   const {
     addUserInput,
     allUsers,
+    filteredAllUsers,
     addUserInputError,
     isaddUserInputError,
     validError,
     isvalidError,
+    channelListMember,
   } = state;
   const { channelId } = useParams();
   const inputRef = useRef();
 
+  const addUserInputLower = addUserInput.toLowerCase();
+  const validateUserNameIfExist = channelListMember.some(
+    (member) => member.name.toLowerCase() === addUserInputLower
+  );
+  const validateUserEmailIfExist = channelListMember.some(
+    (member) => member.email.toLowerCase() === addUserInputLower
+  );
+
   //FOCUS ON INPUT
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+    if (addUserInput.length > 0) {
+      setIsUser(true);
+      dispatch({ type: "ADD_MEMBER", payload: addUserInput });
+    } else {
+      setIsUser(false);
+    }
+  }, [addUserInput, dispatch]);
 
   async function handleAddUser(e) {
     e.preventDefault();
     //FINDING THE USER BY NAME OR EMAIL
     const inputVal = addUserInput.toLowerCase();
-    const getUser = allUsers.find(
+    if (!inputVal) {
+      validateInput("addUserInput", "Input can't be empty");
+      return;
+    }
+    if (validateUserEmailIfExist || validateUserNameIfExist) {
+      validateInput("addUserInput", "Member already exists");
+      return;
+    }
+    const getUser = filteredAllUsers.find(
       (user) => user.uid === inputVal || user.name === inputVal
     );
     const addUser = {
       id: channelId,
       member_id: getUser.id,
     };
-    if (!inputVal) {
-      validateInput("addUserInput", "Input can't be empty");
-      return;
-    }
-
     try {
       //ADDING USER TO A CHANNEL
       const res = await axiosFetch.post(`/channel/add_member`, addUser);
+
       dispatch({
         type: "STORE_ADDED_USER_TO_CHANNEL",
         payload: res.data.data.channel_members,
@@ -61,7 +82,7 @@ export function FormAddUser() {
         channelId
       );
       dispatch({
-        type: "GET_USERS_CHANNEL",
+        type: "GET_ALL_MEMBER",
         payload: getAllMember,
       });
 
@@ -99,9 +120,25 @@ export function FormAddUser() {
         {isaddUserInputError && <InputError>{addUserInputError}</InputError>}
         {isvalidError && <InputError>{validError}</InputError>}
       </div>
+      {isUser && (
+        <div className="list__all-users  w-full bg-white overflow-y-scroll flex flex-col gap-4">
+          {filteredAllUsers.map(({ name, id, image }) => (
+            <p
+              key={id}
+              className="flex gap-4 items-center text-2xl border-b-[1px]  hover:cursor-pointer hover:bg-gray-100 py-4 rounded-lg"
+              onClick={() =>
+                dispatch({ type: "SELECT_ADD_MEMBER", payload: name })
+              }
+            >
+              <img src={image} alt="" className="w-12 h-12 rounded-lg" />
+              <span>{name}</span>
+            </p>
+          ))}
+        </div>
+      )}
 
       <div className="text-right">
-        <button className="bg-blue-500 text-white text-xl py-4 px-6 rounded-md w-1/4">
+        <button className="bg-fuchsia-950 text-white text-xl py-4 px-6 rounded-md w-1/4">
           Add User
         </button>
       </div>

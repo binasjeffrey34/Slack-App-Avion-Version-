@@ -7,8 +7,10 @@ export const useServices = {
       const res = await axiosFetch.get(
         `/messages?receiver_id=${id}&receiver_class=${classType}`
       );
+
       const { data } = res.data;
       const messageData = messageUtils(data, allUsers);
+
       return messageData;
     } catch (error) {
       console.log(`Fetch Error: ${error}`);

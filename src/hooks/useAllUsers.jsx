@@ -4,15 +4,8 @@ import generateImg from "../ramdomImage";
 import { useAccountContext } from "../Context/AccountContext";
 
 function useAllUsers() {
-  const {
-    dispatch,
-    state: { allUser },
-  } = useAccountContext();
+  const { dispatch } = useAccountContext();
   useEffect(() => {
-    if (allUser?.length > 0) {
-      return;
-    }
-
     async function getAllUsersChannel() {
       try {
         const res = await axiosFetch.get(`/users`);
@@ -32,7 +25,7 @@ function useAllUsers() {
       }
     }
     getAllUsersChannel();
-  }, [dispatch, allUser?.length]);
+  }, [dispatch]);
 }
 
 export default useAllUsers;

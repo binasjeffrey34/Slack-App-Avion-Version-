@@ -51,7 +51,7 @@ input {
   @apply text-white;
 }
 .channel__member-list {
-  @apply overflow-y-scroll overflow-x-hidden h-[80%];
+  @apply overflow-y-scroll overflow-x-hidden h-[70%];
 }
 .direct__message-chat {
   @apply py-10  overflow-y-scroll overflow-x-hidden h-[90%] my-auto w-full;
@@ -62,16 +62,20 @@ input {
 .directMesage__box {
   @apply overflow-y-scroll overflow-x-hidden h-[25vh];
 }
+.list__all-users {
+  @apply overflow-y-scroll overflow-x-hidden h-[25vh];
+}
 .channel__box::-webkit-scrollbar,
+.list__all-users::-webkit-scrollbar,
 .directMesage__box::-webkit-scrollbar,
 .directMessage__list::-webkit-scrollbar,
 .direct__message-chat::-webkit-scrollbar,
 .channel__member-list::-webkit-scrollbar {
   width: 1rem;
-  height: 10rem;
 }
 
 .channel__box::-webkit-scrollbar-track,
+.list__all-users::-webkit-scrollbar-track,
 .directMesage__box::-webkit-scrollbar-track,
 .directMessage__list::-webkit-scrollbar-track,
 .direct__message-chat::-webkit-scrollbar-track,
@@ -80,6 +84,7 @@ input {
 }
 
 .channel__box::-webkit-scrollbar-thumb,
+.list__all-users::-webkit-scrollbar-thumb,
 .directMesage__box::-webkit-scrollbar-thumb,
 .directMessage__list::-webkit-scrollbar-thumb,
 .direct__message-chat::-webkit-scrollbar-thumb,

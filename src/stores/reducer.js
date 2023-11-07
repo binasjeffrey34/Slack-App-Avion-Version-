@@ -5,7 +5,14 @@ export function reducer(state, action) {
     case "CREATE_CHANNEL":
       return { ...state, channelName: "", userId: "" };
     case "CREATE_ACCOUNT":
-      return { ...state, emailSignUpInput: "", password1: "", password2: "" };
+      return {
+        ...state,
+        emailSignUpInput: "",
+        password1: "",
+        password2: "",
+        validError: "",
+        isvalidError: false,
+      };
     case "CREATE_WORK_SPACE":
       return { ...state, workSpaceName: action.payload, workSpaceInput: "" };
     case "SET_INPUT": {
@@ -55,14 +62,17 @@ export function reducer(state, action) {
       return { ...state, [name]: value };
     }
     case "GET_ALL_USERS": {
-      return { ...state, allUsers: action.payload };
+      return {
+        ...state,
+        allUsers: action.payload,
+        filteredAllUsers: action.payload,
+      };
     }
 
     case "GET_ALL_CHANNELS": {
       return {
         ...state,
         allChannels: action.payload,
-        filteredListMember: action.payload,
       };
     }
     case "NUMBER_OF_USERS":
@@ -70,7 +80,11 @@ export function reducer(state, action) {
     case "STORE_ADDED_USER_TO_CHANNEL":
       return { ...state, allChannelUser: action.payload, addUserInput: "" };
     case "GET_ALL_MEMBER":
-      return { ...state, channelListMember: action.payload };
+      return {
+        ...state,
+        channelListMember: action.payload,
+        filteredListMember: action.payload,
+      };
     case "SEARCH_MEMBER": {
       const { allChannelUser } = state;
       const query = action.payload.toLowerCase();
@@ -82,6 +96,22 @@ export function reducer(state, action) {
         : allChannelUser;
       return { ...state, filteredListMember };
     }
+    case "ADD_MEMBER": {
+      const { allUsers } = state;
+      const query = action.payload.toLowerCase();
+
+      const filteredAllUsers = query
+        ? allUsers.filter(
+            (user) =>
+              user.name.toLowerCase().includes(query) ||
+              user.email.toLowerCase().includes(query)
+          )
+        : allUsers;
+
+      return { ...state, filteredAllUsers };
+    }
+    case "SELECT_ADD_MEMBER":
+      return { ...state, addUserInput: action.payload };
     case "SELECTED_USER":
       return { ...state, selectedUser: action.payload };
     case "SELECTED_PROFILE":
