@@ -34,7 +34,7 @@ export function FormCreatingChannel() {
   const validateChannelNameIfExist = allChannels
     .map((channel) => channel.name.toLowerCase())
     .includes(channelName.toLowerCase());
-  console.log(validateChannelNameIfExist);
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);
