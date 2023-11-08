@@ -1,42 +1,12 @@
-import { useNavigate } from "react-router-dom";
-import { AccountProfile } from "../components/AccountProfile";
-import { useState } from "react";
-import { useAccountContext } from "../Context/AccountContext";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useAccountContext } from "../../Context/AccountContext";
 
-export function SidebarIcon() {
-  const [isModalProfileOpen, setIsModalProfileOpen] = useState();
-
-  return (
-    <section className="text-white  text-3xl text-center flex flex-col items-center justify-around">
-      <div className=" flex flex-col gap-8">
-        <p className="flex flex-col items-center gap-1">
-          <i className="fa-solid fa-house text-2xl py-3 px-4 bg-[rgba(255,255,255,0.3)] rounded-xl cursor-pointer "></i>
-          <span className="text-xl block">Home</span>
-        </p>
-        <p className="flex flex-col items-center gap-1">
-          <i className="fa-regular fa-comments text-3xl py-3 px-4 hover:bg-[rgba(255,255,255,0.3)]  rounded-xl  cursor-pointer"></i>
-          <span className="text-xl block">DMs</span>
-        </p>
-        <p className="flex flex-col items-center gap-1">
-          <i className="fa-regular fa-bell text-3xl py-3 px-4 hover:bg-[rgba(255,255,255,0.3)] rounded-xl  cursor-pointer"></i>
-          <span className="text-xl block">Activity</span>
-        </p>
-        <p className="flex flex-col items-center gap-1">
-          <i className="fa-solid fa-ellipsis text-3xl py-3 px-4 hover:bg-[rgba(255,255,255,0.3)] rounded-xl  cursor-pointer"></i>
-          <span className="text-xl block">More</span>
-        </p>
-      </div>
-      <AccountProfile onSetOpenProfile={setIsModalProfileOpen} />
-      {isModalProfileOpen && <LogOut />}
-    </section>
-  );
-}
-
-function LogOut() {
+export function LogOut() {
   const {
     dispatch,
     state: { accountLogIn, allUsers },
   } = useAccountContext();
+  const { channelId } = useParams();
   const navigate = useNavigate();
   const findAccount = allUsers.find((user) => user.id === accountLogIn.id);
   const account = findAccount && {
@@ -69,7 +39,9 @@ function LogOut() {
         </p>
       </div>
       <ul className="py-6 px-10  border-b-[1px] flex flex-col">
-        <li className="mb-4">Profile</li>
+        <li className="mb-4">
+          <Link to={`/dashboard/${channelId}/${accountLogIn.id}`}>Profile</Link>
+        </li>
         <li>Preference</li>
         <li></li>
       </ul>
