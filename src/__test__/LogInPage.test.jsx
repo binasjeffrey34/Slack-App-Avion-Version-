@@ -1,9 +1,10 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { LogInPage } from "../pages/LogInPage";
 import { AccountProvider } from "../Context/AccountContext";
+import { test, expect } from "vitest";
 
-it("render log in page", () => {
+test("render log in page", () => {
   render(
     <Router>
       <AccountProvider>
