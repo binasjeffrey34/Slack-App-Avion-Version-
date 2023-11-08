@@ -3,6 +3,7 @@ import { useState } from "react";
 import { LogOut } from "./LogOut";
 
 export function SidebarIcon() {
+
   const [isModalProfileOpen, setIsModalProfileOpen] = useState(false);
 
   return (
@@ -26,9 +27,13 @@ export function SidebarIcon() {
         </p>
       </div>
       <AccountProfile onSetOpenProfile={setIsModalProfileOpen} />
+
       {isModalProfileOpen && (
         <LogOut onSetOpenProfile={setIsModalProfileOpen} />
       )}
+
+      {isModalProfileOpen && <LogOut />}
+
     </section>
   );
 }
