@@ -7,7 +7,6 @@ import { Loading } from "../Loading";
 import { ErrorMessage } from "../ErrorMessage";
 import ChannelAbout from "../ChannelMessages/ChannelAbout";
 import useChannelMembers from "../../hooks/useChannelMembers";
-import { useState } from "react";
 
 export function AddUserChannel() {
   const { state, handleModal, dispatch } = useAccountContext();
@@ -40,16 +39,20 @@ export function AddUserChannel() {
         </p>
       </div>
 
-      <ul className="flex items-center gap-12 px-12 py-4 text-2xl border-b-[1px] border-slate-300 ">
+      <ul className="flex items-center gap-12 px-12 pt-4 text-2xl border-b-[1px] border-slate-300 ">
         <li
           onClick={() => handleOpenMemberTab("about")}
-          className="cursor-pointer"
+          className={`cursor-pointer pb-4 ${
+            activeTab === "about" ? "active__tab" : ""
+          }`}
         >
           About
         </li>
         <li
           onClick={() => handleOpenMemberTab("member")}
-          className="cursor-pointer"
+          className={`cursor-pointer pb-4 ${
+            activeTab === "member" ? "active__tab" : ""
+          }`}
         >
           Member {numbersOfUser}
         </li>

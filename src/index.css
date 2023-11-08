@@ -131,5 +131,5 @@ input {
   transform: translate(-50%, -50%);
 }
 .active__tab {
-  border-bottom: 2px solid green;
+  border-bottom: 2px solid rgb(70, 12, 70);
 }
