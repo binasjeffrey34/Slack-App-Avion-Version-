@@ -8,7 +8,7 @@ export function Home() {
     state: { isOpenLink },
   } = useAccountContext();
   return (
-    <main className={`${isOpenLink ? "overlay" : ""} mb-10 md:mb-0`}>
+    <main className={`${isOpenLink ? "overlay" : ""} home mb-10 md:mb-0`}>
       <header className="">
         <nav className="w-[clamp(30rem,90%,120rem)] mx-auto flex items-center  justify-between py-8">
           <div className="flex items-center  gap-6 md:gap-20">

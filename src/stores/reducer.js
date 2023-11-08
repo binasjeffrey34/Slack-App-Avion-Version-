@@ -86,14 +86,14 @@ export function reducer(state, action) {
         filteredListMember: action.payload,
       };
     case "SEARCH_MEMBER": {
-      const { allChannelUser } = state;
+      const { channelListMember } = state;
       const query = action.payload.toLowerCase();
-
+      console.log(channelListMember);
       const filteredListMember = query
-        ? allChannelUser.filter((user) =>
+        ? channelListMember.filter((user) =>
             user.name.toLowerCase().includes(query)
           )
-        : allChannelUser;
+        : channelListMember;
       return { ...state, filteredListMember };
     }
     case "ADD_MEMBER": {

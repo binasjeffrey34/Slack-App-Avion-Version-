@@ -35,7 +35,7 @@ export function ChannelChatPage() {
     }
 
     getChannelDetails();
-  }, [channelId, dispatch]);
+  }, [channelId, dispatch, allUsers]);
 
   return (
     <>
@@ -44,7 +44,7 @@ export function ChannelChatPage() {
         <ChannelFeed />
         <SendMessageToChannel />
       </section>
-      {isProfileOpen && <ChannelProfilePage channelId={channelId} />}
+      {isProfileOpen && <ChannelProfilePage />}
     </>
   );
 }

@@ -13,8 +13,9 @@ html {
   box-sizing: inherit;
 }
 body {
-  @apply overflow-x-hidden min-h-screen;
+  @apply overflow-x-hidden md:overflow-hidden min-h-screen;
 }
+
 .or_login::before,
 .or_login::after {
   content: "";
@@ -30,7 +31,7 @@ input {
   @apply outline-1 outline-blue-300;
 }
 .main__page {
-  background: linear-gradient(to top left, #4f0b51 40%, #9c399d 60%);
+  background: linear-gradient(to top left, #300631, #7e2780);
 }
 .overlay::before {
   content: "";
@@ -51,10 +52,10 @@ input {
   @apply text-white;
 }
 .channel__member-list {
-  @apply overflow-y-scroll overflow-x-hidden h-[70%];
+  @apply overflow-y-scroll overflow-x-hidden h-[60%];
 }
 .direct__message-chat {
-  @apply py-10  overflow-y-scroll overflow-x-hidden h-[90%] my-auto w-full;
+  @apply pt-10  overflow-y-scroll overflow-x-hidden h-[90%] my-auto w-full;
 }
 .channel__box {
   @apply overflow-y-scroll overflow-x-hidden h-[35vh];
@@ -65,7 +66,11 @@ input {
 .list__all-users {
   @apply overflow-y-scroll overflow-x-hidden h-[25vh];
 }
+.channel__profile {
+  @apply overflow-y-scroll overflow-x-hidden h-[88vh];
+}
 .channel__box::-webkit-scrollbar,
+.channel__profile::-webkit-scrollbar,
 .list__all-users::-webkit-scrollbar,
 .directMesage__box::-webkit-scrollbar,
 .directMessage__list::-webkit-scrollbar,
@@ -75,6 +80,7 @@ input {
 }
 
 .channel__box::-webkit-scrollbar-track,
+.channel__profile::-webkit-scrollbar-track,
 .list__all-users::-webkit-scrollbar-track,
 .directMesage__box::-webkit-scrollbar-track,
 .directMessage__list::-webkit-scrollbar-track,
@@ -84,6 +90,7 @@ input {
 }
 
 .channel__box::-webkit-scrollbar-thumb,
+.channel__profile::-webkit-scrollbar-thumb,
 .list__all-users::-webkit-scrollbar-thumb,
 .directMesage__box::-webkit-scrollbar-thumb,
 .directMessage__list::-webkit-scrollbar-thumb,
@@ -109,7 +116,7 @@ input {
 }
 .channel__list.active,
 .user__list.active {
-  @apply text-white bg-[#9c399d];
+  @apply text-white bg-[#7e2780];
 }
 
 .user__list:hover .btn__delete {
@@ -122,4 +129,7 @@ input {
   content: "";
   @apply absolute top-[-80%] left-1/2 h-[1px] bg-[rgba(0,0,0,0.2)] z-0 w-full;
   transform: translate(-50%, -50%);
+}
+.active__tab {
+  border-bottom: 2px solid green;
 }

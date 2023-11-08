@@ -25,6 +25,16 @@ export function SideBar() {
 
         <i className="fa-regular fa-pen-to-square text-gray-600 text-2xl"></i>
       </div>
+      <ul className="pt-6 px-6 flex gap-4 flex-col text-2xl ">
+        <li className="flex items-center gap-4">
+          <i className="fa-regular fa-comment-dots text-gray-600"></i>
+          <span>Threads</span>
+        </li>
+        <li className="flex items-center gap-4">
+          <i className="fa-regular fa-paper-plane text-gray-600"></i>
+          <span>Drafts & Sent</span>
+        </li>
+      </ul>
       <div className="relative p-6 ">
         <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4 cursor-pointer">
           <span

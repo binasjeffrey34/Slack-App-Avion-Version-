@@ -38,7 +38,7 @@ export default function App() {
               <Route path=":userId" element={<ChannelProfilePage />} />
             </Route>
             <Route
-              path="direct_message/:receiverId"
+              path="direct_message/:channelId/:receiverId"
               element={<MessageUserFeed />}
             >
               <Route path="profile" element={<MesageProfilePage />} />

@@ -1,16 +1,18 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
 import useUpdateSelectedAccount from "../../hooks/useUpdateSelectedAccount";
+import { ProfileContactInformation } from "../ProfileContactInformation";
 
-export function ChannelProfilePage({ channelId }) {
+export function ChannelProfilePage() {
   const { state, dispatch, handleModal } = useAccountContext();
-  const { selectedUser } = state;
-  const { userId } = useParams();
+  const { selectedUser, accountLogIn } = state;
+  const { userId, channelId } = useParams();
   const navigate = useNavigate();
   const option = {
     hour: "numeric",
     minute: "numeric",
   };
+
   useUpdateSelectedAccount("selectedUser", "SELECTED_USER", userId);
 
   return (
@@ -26,57 +28,55 @@ export function ChannelProfilePage({ channelId }) {
           }}
         ></i>
       </div>
-      <div className="p-8  border-b-[1px]">
-        <img
-          src={selectedUser?.image}
-          alt=""
-          className="w-[34rem] h-[25rem] rounded-xl mx-auto mb-6 shadow-[0_0__rgba(0,0,0,0.1)]"
-        />
-        <h1 className="text-3xl font-bold text-slate-900 mb-6">
-          {selectedUser?.name}
-        </h1>
-        <p className="flex gap-2 items-center mb-6 text-2xl">
-          <i className="fa-regular fa-clock"></i>{" "}
-          <span>
-            {new Intl.DateTimeFormat(navigator.language, option).format(
-              new Date()
-            )}
-          </span>
-          <span>local time</span>
-        </p>
-        <Link
-          to={`/dashboard/direct_message/${userId}`}
-          onClick={() => {
-            handleModal("isProfileOpen", false);
-            handleModal("isDirectMessageOpen", false);
-            dispatch({ type: "STORE_TO_DIRECT_MESSAGE", payload: userId });
-          }}
-        >
-          <button className="w-full py-3 rounded-md border-[1px] border-slate-400 font-medium text-2xl ">
-            {" "}
-            <i className="fa-regular fa-comment"></i> Message
-          </button>
-        </Link>
-      </div>
-
-      <div className="p-8 ">
-        <h2 className="font-bold mb-6 text-2xl text-slate-700">
-          Contact Information
-        </h2>
-        <div className="flex items-center gap-4">
-          <i className="fa-regular fa-envelope p-4 rounded-lg bg-gray-100 text-3xl"></i>
-          <p>
-            <span className="block text-gray-400 font-medium mb-1">
-              Email Address
+      <div className="channel__profile">
+        <div className="p-8  border-b-[1px]">
+          <img
+            src={selectedUser?.image}
+            alt=""
+            className="w-[34rem] h-[25rem] rounded-xl mx-auto mb-6 shadow-[0_0__rgba(0,0,0,0.1)]"
+          />
+          <h1 className="text-3xl font-bold text-slate-900 mb-6">
+            {selectedUser?.name}
+          </h1>
+          <p className="flex gap-2 items-center mb-6 text-2xl">
+            <i className="fa-regular fa-clock"></i>{" "}
+            <span>
+              {new Intl.DateTimeFormat(navigator.language, option).format(
+                new Date()
+              )}
             </span>
-            <a
-              href="#"
-              className="hover:underline hover:cursor-pointer text-2xl text-blue-600"
+            <span>local time</span>
+          </p>
+
+          <p className="flex items-center gap-4">
+            <Link
+              to={`/dashboard/direct_message/${channelId}/${userId}`}
+              onClick={() => {
+                handleModal("isProfileOpen", false);
+                handleModal("isDirectMessageOpen", false);
+                dispatch({
+                  type: "STORE_TO_DIRECT_MESSAGE",
+                  payload: userId,
+                });
+              }}
+              className="w-full py-3 rounded-md border-[1px] border-slate-400 font-medium text-2xl text-center"
             >
-              {selectedUser?.email}
-            </a>
+              <button>
+                {" "}
+                <i className="fa-regular fa-comment"></i> Message
+              </button>
+            </Link>
+            <button className="py-3 px-6 rounded-md border-[1px] border-slate-400 font-medium text-2xl ">
+              <i className="fa-solid fa-ellipsis-vertical"></i>
+            </button>
           </p>
         </div>
+        <ProfileContactInformation
+          option={option}
+          url="/dashboard"
+          selectedAcc={accountLogIn.id}
+          selectedProf={selectedUser}
+        />
       </div>
     </section>
   );
