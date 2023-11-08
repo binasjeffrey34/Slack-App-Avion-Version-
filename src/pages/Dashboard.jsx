@@ -6,7 +6,7 @@ import { AddUserChannel } from "../components/AddUserChannel/AddUserChannel";
 import { FormAddUser } from "../components/AddUserChannel/FormAddUser";
 import useAllUsers from "../hooks/useAllUsers";
 import useOpenProfile from "../hooks/useOpenProfile";
-import { SidebarIcon } from "./SidebarIcon";
+import { SidebarIcon } from "../components/SidebarIcon/SidebarIcon";
 
 export function Dashboard() {
   const { userId } = useParams();
