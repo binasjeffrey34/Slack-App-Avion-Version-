@@ -10,14 +10,20 @@ import useChannelMembers from "../../hooks/useChannelMembers";
 import { useState } from "react";
 
 export function AddUserChannel() {
-  const { state, handleModal } = useAccountContext();
-  const { allChannels, numbersOfUser } = state;
+  const { state, handleModal, dispatch } = useAccountContext();
+  const { allChannels, numbersOfUser, activeTab } = state;
   const { channelId } = useParams();
-  const [activeTab, setActiveTab] = useState("about");
 
   const findChannel = allChannels.find((channel) => channel.id === +channelId);
 
   const status = useChannelMembers(channelId, "GET_ALL_MEMBER");
+
+  const handleOpenMemberTab = (active) => {
+    // Call handleModal to open the modal and set activeTab to "member".
+    handleModal("isOpenAddUserChannel", true);
+    dispatch({ type: "SET_ACTIVE_TAB", payload: active });
+  };
+
   return (
     <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-10 bg-white w-[55rem] h-[80vh]  rounded-lg">
       <i
@@ -34,20 +40,16 @@ export function AddUserChannel() {
         </p>
       </div>
 
-      <ul className="flex items-center gap-12 px-12  text-2xl border-b-[1px] border-slate-300 ">
+      <ul className="flex items-center gap-12 px-12 py-4 text-2xl border-b-[1px] border-slate-300 ">
         <li
-          onClick={() => setActiveTab("about")}
-          className={`cursor-pointer py-4 ${
-            activeTab === "about" ? "active__tab" : ""
-          }`}
+          onClick={() => handleOpenMemberTab("about")}
+          className="cursor-pointer"
         >
           About
         </li>
         <li
-          onClick={() => setActiveTab("member")}
-          className={`cursor-pointer py-4 ${
-            activeTab === "member" ? " active__tab" : ""
-          }`}
+          onClick={() => handleOpenMemberTab("member")}
+          className="cursor-pointer"
         >
           Member {numbersOfUser}
         </li>
