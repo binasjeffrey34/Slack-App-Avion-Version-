@@ -72,7 +72,7 @@ export function MesageProfilePage() {
         <ProfileContactInformation
           option={option}
           url="/dashboard/direct_message"
-          selectedAcc={selectedProfile.id}
+          selectedAcc={selectedProfile?.id}
           selectedProf={selectedProfile}
           endpoint={`profile?id=${accountLogIn.id}`}
         />

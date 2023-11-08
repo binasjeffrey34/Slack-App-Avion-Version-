@@ -10,7 +10,7 @@ export function AllDirectMessage() {
   const { channelId } = useParams();
 
   return (
-    <ul className={allDirectMessage.length > 4 ? "directMesage__box" : ""}>
+    <ul className={allDirectMessage.length > 3 ? "directMesage__box" : ""}>
       {allDirectMessage.map((user) => (
         <NavLink
           key={user?.id}

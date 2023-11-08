@@ -1,7 +1,9 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
 
-export function LogOut() {
+
+export function LogOut({ onSetOpenProfile }) {
+
   const {
     dispatch,
     state: { accountLogIn, allUsers },
@@ -40,7 +42,16 @@ export function LogOut() {
       </div>
       <ul className="py-6 px-10  border-b-[1px] flex flex-col">
         <li className="mb-4">
+
+          <Link
+            to={`/dashboard/${channelId}/${accountLogIn.id}`}
+            onClick={() => onSetOpenProfile(false)}
+          >
+            Profile
+          </Link>
+
           <Link to={`/dashboard/${channelId}/${accountLogIn.id}`}>Profile</Link>
+
         </li>
         <li>Preference</li>
         <li></li>

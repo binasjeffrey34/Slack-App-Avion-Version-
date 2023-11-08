@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "vitest"
   },
   "dependencies": {
     "@dicebear/avatars": "^4.10.8",
@@ -41,7 +41,12 @@
     "react-test-renderer": "^18.2.0",
     "tailwindcss": "^3.3.3",
     "ts-jest": "^29.1.1",
+
+    "vite": "^4.4.5",
+    "vitest": "^0.34.6"
+
     "vite": "^4.4.5"
+
   },
   "jest": {
     "testEnvironment": "jsdom",
