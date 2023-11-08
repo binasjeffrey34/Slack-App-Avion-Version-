@@ -6,6 +6,7 @@ export function HeaderChannelPage({ status }) {
   const {
     state: { allUsers, numbersOfUser, accountLogIn },
     handleModal,
+    dispatch,
   } = useAccountContext();
 
   const findAccount = allUsers.find((user) => user.id === accountLogIn.id);
@@ -22,11 +23,22 @@ export function HeaderChannelPage({ status }) {
         <span>
           <i className="fa-solid fa-hashtag"></i>
         </span>
-        <span className="ml-2">{account?.name}</span>
+        <span
+          onClick={() => {
+            handleModal("isOpenAddUserChannel", true);
+            dispatch({ type: "SET_ACTIVE_TAB", payload: "about" });
+          }}
+          className="ml-2 cursor-pointer"
+        >
+          {account?.name}
+        </span>
       </p>
       <div
         className="flex items-center gap-4 py-1 px-2 hover:cursor-pointer hover:bg-gray-100 rounded-md "
-        onClick={() => handleModal("isOpenAddUserChannel", true)}
+        onClick={() => {
+          handleModal("isOpenAddUserChannel", true);
+          dispatch({ type: "SET_ACTIVE_TAB", payload: "member" });
+        }}
       >
         <img src={account?.image} alt="" className="w-10 h-10 rounded-md" />
         {status === "loading" && <Loading />}
