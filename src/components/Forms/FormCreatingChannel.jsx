@@ -34,7 +34,7 @@ export function FormCreatingChannel() {
   const validateChannelNameIfExist = allChannels
     .map((channel) => channel.name.toLowerCase())
     .includes(channelName.toLowerCase());
-  console.log(validateChannelNameIfExist);
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -69,6 +69,13 @@ export function FormCreatingChannel() {
         });
         return;
       }
+      if (validateChannelNameIfExist) {
+        dispatch({
+          type: "INVALID_INPUT",
+          payload: "Channel already exist.",
+        });
+        return;
+      }
       const res = await axiosFetch.post(`/channels`, {
         name: channelName,
         user_ids: [+userId],
@@ -88,7 +95,11 @@ export function FormCreatingChannel() {
   }
 
   return (
-    <>
+    <div
+      className={`h-screen ${
+        allChannels.length === 0 ? "creating__channel" : ""
+      }`}
+    >
       <form
         className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-10 shadow-[0_0_1rem_rgba(0,0,0,0.3)]  w-[40rem]  justify-center flex flex-col gap-8 mx-auto bg-white px-12 pt-16 pb-12 rounded-md"
         onSubmit={handleCreateChannel}
@@ -130,6 +141,6 @@ export function FormCreatingChannel() {
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 }
