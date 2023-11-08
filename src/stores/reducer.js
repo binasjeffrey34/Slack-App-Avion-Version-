@@ -154,6 +154,9 @@ export function reducer(state, action) {
     case "FETCH_USERS_MESSAGE":
       return { ...state, userMessages: action.payload };
 
+    case "SET_ACTIVE_TAB":
+      return {...state, activeTab: action.payload};
+
     default:
       throw new Error("Unknown Action");
   }

@@ -1,3 +1,4 @@
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { LogInPage } from "../pages/LogInPage";
@@ -15,4 +16,13 @@ it("render log in page", () => {
   const password = screen.getByPlaceholderText("Password");
   expect(email).toBeInTheDocument();
   expect(password).toBeInTheDocument();
+=======
+import { render, screen } from "@testing-library/react";
+import { LogInPage } from "../pages/LogInPage";
+
+test("renders Create Account", () => {
+  render(<LogInPage />);
+  const create = screen.getByText(/Create Account/i);
+  expect(create).toBeInTheDocument();
+
 });
