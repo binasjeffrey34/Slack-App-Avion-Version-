@@ -1,5 +1,5 @@
 import { useAccountContext } from "../../Context/AccountContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 export function AllDirectMessage() {
   const {
@@ -7,6 +7,7 @@ export function AllDirectMessage() {
     dispatch,
     handleModal,
   } = useAccountContext();
+  const { channelId } = useParams();
 
   return (
     <ul className={allDirectMessage.length > 4 ? "directMesage__box" : ""}>
@@ -17,7 +18,7 @@ export function AllDirectMessage() {
             dispatch({ type: "SELECTED_USER", payload: user });
             handleModal("isDirectMessageOpen", false);
           }}
-          to={`/dashboard/direct_message/${user?.id}`}
+          to={`/dashboard/direct_message/${channelId}/${user?.id}`}
           className="user__list text-2xl flex gap-4 ml-4 mb-2 font-medium text-slate-600 py-2 px-4 rounded-lg hover:cursor-pointer hover:bg-[#daa5dc] hover:text-white "
         >
           <li className=" flex items-center gap-4">

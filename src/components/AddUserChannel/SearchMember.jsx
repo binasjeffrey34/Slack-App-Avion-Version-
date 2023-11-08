@@ -20,7 +20,7 @@ export function SearchMember() {
   }
 
   return (
-    <div className="relative mb-8">
+    <div className="relative mb-4">
       <input
         type="text"
         ref={inputRef}

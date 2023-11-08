@@ -21,10 +21,10 @@ export function AddUserChannel() {
   return (
     <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-10 bg-white w-[55rem] h-[80vh]  rounded-lg">
       <i
-        className="fa-solid fa-xmark absolute top-4 right-6 text-2xl cursor-pointer"
+        className="fa-solid fa-xmark absolute top-12 right-12 text-4xl cursor-pointer"
         onClick={() => handleModal("isOpenAddUserChannel", false)}
       ></i>
-      <div className="px-12 pt-20">
+      <div className="px-12 pt-12">
         <p className="text-4xl font-bold flex item-center gap-2 mb-6 ">
           {" "}
           <span>
@@ -34,11 +34,21 @@ export function AddUserChannel() {
         </p>
       </div>
 
-      <ul className="flex items-center gap-12 px-12 py-4 text-2xl border-b-[1px] border-slate-300 ">
-        <li onClick={() => setActiveTab("about")} className="cursor-pointer">
+      <ul className="flex items-center gap-12 px-12  text-2xl border-b-[1px] border-slate-300 ">
+        <li
+          onClick={() => setActiveTab("about")}
+          className={`cursor-pointer py-4 ${
+            activeTab === "about" ? "active__tab" : ""
+          }`}
+        >
           About
         </li>
-        <li onClick={() => setActiveTab("member")} className="cursor-pointer">
+        <li
+          onClick={() => setActiveTab("member")}
+          className={`cursor-pointer py-4 ${
+            activeTab === "member" ? " active__tab" : ""
+          }`}
+        >
           Member {numbersOfUser}
         </li>
       </ul>
@@ -49,7 +59,7 @@ export function AddUserChannel() {
 }
 function Members({ status }) {
   return (
-    <div className="px-12 pt-8">
+    <div className="px-12 pt-8 w-full h-full">
       <SearchMember />
       <AddPeople />
       <div className="channel__member-list flex flex-col gap-4">

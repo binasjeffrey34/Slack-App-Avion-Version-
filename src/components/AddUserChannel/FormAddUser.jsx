@@ -122,18 +122,24 @@ export function FormAddUser() {
       </div>
       {isUser && (
         <div className="list__all-users  w-full bg-white overflow-y-scroll flex flex-col gap-4">
-          {filteredAllUsers.map(({ name, id, image }) => (
-            <p
-              key={id}
-              className="flex gap-4 items-center text-2xl border-b-[1px]  hover:cursor-pointer hover:bg-gray-100 py-4 rounded-lg"
-              onClick={() =>
-                dispatch({ type: "SELECT_ADD_MEMBER", payload: name })
-              }
-            >
-              <img src={image} alt="" className="w-12 h-12 rounded-lg" />
-              <span>{name}</span>
+          {filteredAllUsers.length > 0 ? (
+            filteredAllUsers.map(({ name, id, image }) => (
+              <p
+                key={id}
+                className="flex gap-4 items-center text-2xl border-b-[1px]  hover:cursor-pointer hover:bg-gray-100 py-4 rounded-lg"
+                onClick={() =>
+                  dispatch({ type: "SELECT_ADD_MEMBER", payload: name })
+                }
+              >
+                <img src={image} alt="" className="w-12 h-12 rounded-lg" />
+                <span>{name}</span>
+              </p>
+            ))
+          ) : (
+            <p className="h-full flex items-center justify-center text-gray-400 text-2xl">
+              User not Found
             </p>
-          ))}
+          )}
         </div>
       )}
 

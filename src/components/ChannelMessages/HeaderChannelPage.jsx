@@ -1,12 +1,16 @@
 import { useAccountContext } from "../../Context/AccountContext";
 import { Loading } from "../Loading";
 import { ErrorMessage } from "../ErrorMessage";
+import { useParams } from "react-router-dom";
 
 export function HeaderChannelPage({ status }) {
   const {
-    state: { allUsers, numbersOfUser, accountLogIn },
+    state: { allUsers, allChannels, numbersOfUser, accountLogIn },
     handleModal,
   } = useAccountContext();
+  const { channelId } = useParams();
+
+  const findChannel = allChannels.find((channel) => channel.id === +channelId);
 
   const findAccount = allUsers.find((user) => user.id === accountLogIn.id);
   const account = findAccount && {
@@ -22,7 +26,7 @@ export function HeaderChannelPage({ status }) {
         <span>
           <i className="fa-solid fa-hashtag"></i>
         </span>
-        <span className="ml-2">{account?.name}</span>
+        <span className="ml-2">{findChannel?.name}</span>
       </p>
       <div
         className="flex items-center gap-4 py-1 px-2 hover:cursor-pointer hover:bg-gray-100 rounded-md "
