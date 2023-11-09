@@ -8,46 +8,43 @@ import { MesageProfilePage } from "./components/UserMessages/MessageProfilePage"
 import { FormCreatingChannel } from "./components/Forms/FormCreatingChannel";
 import { FormCreatingWorkSpace } from "./components/Forms/FormCreatingWorkSpace";
 import MessageUserFeed from "./components/UserMessages/UserChatPage";
-import { AccountProvider } from "./Context/AccountContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { HomePage } from "./pages/HomePage";
 import { Home } from "./pages/Home";
 
 export default function App() {
   return (
-    <AccountProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<HomePage />} />
-            <Route path="sign_in" element={<LogInPage />} />
-            <Route path="create_account" element={<CreateAccount />} />
-          </Route>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}>
+          <Route index element={<HomePage />} />
+          <Route path="sign_in" element={<LogInPage />} />
+          <Route path="create_account" element={<CreateAccount />} />
+        </Route>
 
-          <Route path="work_space" element={<FormCreatingWorkSpace />} />
-          <Route path="create_channel" element={<FormCreatingChannel />} />
-          <Route
-            path="dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          >
-            <Route path=":channelId" element={<ChannelChatPage />}>
-              <Route path=":userId" element={<ChannelProfilePage />} />
-            </Route>
-            <Route
-              path="direct_message/:channelId/:receiverId"
-              element={<MessageUserFeed />}
-            >
-              <Route path="profile" element={<MesageProfilePage />} />
-            </Route>
+        <Route path="work_space" element={<FormCreatingWorkSpace />} />
+        <Route path="create_channel" element={<FormCreatingChannel />} />
+        <Route
+          path="dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
+          <Route path=":channelId" element={<ChannelChatPage />}>
+            <Route path=":userId" element={<ChannelProfilePage />} />
           </Route>
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </AccountProvider>
+          <Route
+            path="direct_message/:channelId/:receiverId"
+            element={<MessageUserFeed />}
+          >
+            <Route path="profile" element={<MesageProfilePage />} />
+          </Route>
+        </Route>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

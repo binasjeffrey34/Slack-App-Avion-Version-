@@ -55,10 +55,10 @@ input {
   @apply overflow-y-scroll overflow-x-hidden h-[60%];
 }
 .direct__message-chat {
-  @apply pt-10  overflow-y-scroll overflow-x-hidden h-[90%] my-auto w-full;
+  @apply pt-10  overflow-y-scroll overflow-x-hidden h-[85%] my-auto w-full;
 }
 .channel__box {
-  @apply overflow-y-scroll overflow-x-hidden h-[35vh];
+  @apply overflow-y-scroll overflow-x-hidden h-[30vh];
 }
 .directMesage__box {
   @apply overflow-y-scroll overflow-x-hidden h-[25vh];
@@ -132,4 +132,8 @@ input {
 }
 .active__tab {
   border-bottom: 2px solid rgb(70, 12, 70);
+}
+.work__space,
+.creating__channel {
+  background: url("./assets/bglogin.png") no-repeat center / cover;
 }

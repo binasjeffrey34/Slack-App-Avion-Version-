@@ -1,5 +1,6 @@
-import '@testing-library/jest-dom'
+import "@testing-library/jest-dom";
+import { test, expect } from "vitest";
 
-test('demo', () => {
-    expect(true).toBe(true)
-})
+test("demo", () => {
+  expect(true).toBe(true);
+});

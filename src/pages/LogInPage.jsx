@@ -4,7 +4,6 @@ import { useAccountContext } from "../Context/AccountContext";
 import axios from "axios";
 import { API_URL } from "../constant/apiUrl";
 import { axiosFetch } from "../api/api-get";
-import profileLogo from "../assets/profilelogo.png";
 import { InputError } from "../components/InputError";
 import { InputElement } from "../components/InputElement";
 import { ViewPassWord } from "../components/ViewPassWord";
@@ -42,7 +41,7 @@ export function LogInPage() {
             type: "SHOW_MODAL",
             payload: { name: "isOpenWorkSpace", value: true },
           });
-          navigate("workSpace");
+          navigate("/work_space");
         }
       }
     }
@@ -86,7 +85,6 @@ export function LogInPage() {
       const accountData = {
         ...data,
         name: data?.email.split("@")[0],
-        image: profileLogo,
       };
       if (res.status === 200) {
         localStorage.setItem("headers", JSON.stringify(headers));
