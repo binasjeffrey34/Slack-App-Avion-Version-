@@ -5,6 +5,7 @@ function ChannelAbout() {
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [topic, setTopic] = useState("Initial Topic");
   const [description, setDescription] = useState("Initial Description");
+  // const { userId, channelId } = useParams();
 
   const handleEditClick = (field) => {
     if (field === "topic") {
@@ -32,21 +33,21 @@ function ChannelAbout() {
   };
 
   return (
-    <div className="about-channel-container px-12 pt-8 flex flex-col gap-4">
+    <div className="about-channel-container px-12 pt-8">
       <ul className="about-channel-unlist-item">
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title">Topic</h3>
+            <h3 className="about-item-title text-2xl">Topic</h3>
             {isEditingTopic ? (
               <div>
                 <input
+                  className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium"
                   type="text"
                   value={topic}
                   onChange={(e) => handleInputChange("topic", e)}
-                  className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium"
                 />
                 <button
-                  className="about-channel-save-button"
+                  className="about-channel-save-button pt-4 pb-4"
                   onClick={() => handleSaveClick("topic")}
                 >
                   Save
@@ -54,7 +55,7 @@ function ChannelAbout() {
               </div>
             ) : (
               <button
-                className="about-channel-edit-button"
+                className="about-channel-edit-button pt-4 pb-4"
                 onClick={() => handleEditClick("topic")}
               >
                 Edit
@@ -67,7 +68,7 @@ function ChannelAbout() {
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title">Description</h3>
+            <h3 className="about-item-title pt-16 text-2xl">Description</h3>
             {isEditingDescription ? (
               <div>
                 <textarea
@@ -76,7 +77,7 @@ function ChannelAbout() {
                   className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium"
                 />
                 <button
-                  className="about-channel-save-button"
+                  className="about-channel-save-button pt-4 pb-4"
                   onClick={() => handleSaveClick("description")}
                 >
                   Save
@@ -84,7 +85,7 @@ function ChannelAbout() {
               </div>
             ) : (
               <button
-                className="about-channel-edit-button"
+                className="about-channel-edit-button pt-4 pb-4"
                 onClick={() => handleEditClick("description")}
               >
                 Edit
@@ -97,13 +98,15 @@ function ChannelAbout() {
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title">Created By</h3>
+            <h3 className="about-item-title pt-16 text-2xl">Created By</h3>
           </div>
           {/* <span className="about-item-detail">{`${ownerId} on ${createdAt}`}</span> */}
         </li>
         <li className="channel-files-container">
           <div className="channel-files">
-            <h3 className="channel-files-title">Channel Files</h3>
+            <h3 className="channel-files-title pt-16 text-2xl">
+              Channel Files
+            </h3>
           </div>
           {/* <span className="channel-files-list">{channelFiles}</span> */}
         </li>
