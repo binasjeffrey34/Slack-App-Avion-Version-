@@ -4,13 +4,14 @@ import SendMessageToChannel from "../components/ChannelMessages/SendMessageToCha
 import { AccountProvider } from "../Context/AccountContext";
 import { test, expect } from "vitest";
 
-
 test("send message to channel", () => {
-    render(    <Router>
-        <AccountProvider>
-          <SendMessageToChannel />
-        </AccountProvider>
-      </Router>);
-    const sendButton = screen.getByTestId("Send");
-    expect(sendButton).toBeInTheDocument();
+  render(
+    <Router>
+      <AccountProvider>
+        <SendMessageToChannel />
+      </AccountProvider>
+    </Router>
+  );
+  const sendButton = screen.getByTestId("Send");
+  expect(sendButton).toBeInTheDocument();
 });

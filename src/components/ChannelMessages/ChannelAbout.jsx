@@ -1,11 +1,28 @@
 import { useState } from "react";
+import { useAccountContext } from "../../Context/AccountContext";
+import { useParams } from "react-router-dom";
 
 function ChannelAbout() {
   const [isEditingTopic, setIsEditingTopic] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [topic, setTopic] = useState("Initial Topic");
   const [description, setDescription] = useState("Initial Description");
-  // const { userId, channelId } = useParams();
+  const { channelId } = useParams();
+  const {
+    state: { accountLogIn, allChannels },
+  } = useAccountContext();
+
+  const option = {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
+
+  const getChannel = allChannels.find((channel) => channel.id === +channelId);
+  const date = new Date(getChannel?.created_at);
+  const newDate = new Intl.DateTimeFormat(navigator.language, option).format(
+    date
+  );
 
   const handleEditClick = (field) => {
     if (field === "topic") {
@@ -94,7 +111,11 @@ function ChannelAbout() {
           <div className="about-channel-list-item-top">
             <h3 className="about-item-title pt-16 text-2xl">Created By</h3>
           </div>
-          {/* <span className="about-item-detail">{`${ownerId} on ${createdAt}`}</span> */}
+          <div className="about-item-detail">
+            <span>{accountLogIn?.name}</span>
+            <span>{`on ${newDate}`}</span>
+            <span></span>
+          </div>
         </li>
         <li className="channel-files-container">
           <div className="channel-files">

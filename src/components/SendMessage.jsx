@@ -4,7 +4,7 @@ function SendMessage({ onSubmit, name, inputVal }) {
   const { onSetInput, state, handleModalEmoji } = useAccountContext();
 
   return (
-    <div className="bg-white  h-full">
+    <div className="bg-white  h-full" data-testid="Send">
       <div
         className={`w-[95%]  mx-auto bg-white border
     rounded-xl relative z-10 bottom-24 overflow-hidden ${
