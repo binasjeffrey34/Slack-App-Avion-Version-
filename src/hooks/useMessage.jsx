@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAccountContext } from "../Context/AccountContext";
 import { useServices } from "../services/useServices";
+import removeDuplicateMessage from "../utils/removeDuplicateMessage";
 
 function useMessage(id, type, classType) {
   const [status, setStatus] = useState("loading");
@@ -17,10 +18,10 @@ function useMessage(id, type, classType) {
           id,
           classType
         );
-
+        const uniqueMessage = removeDuplicateMessage(messageData);
         dispatch({
           type,
-          payload: messageData,
+          payload: uniqueMessage,
         });
 
         setStatus("success");

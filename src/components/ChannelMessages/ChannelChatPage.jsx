@@ -7,12 +7,14 @@ import SendMessageToChannel from "./SendMessageToChannel";
 import { ChannelFeed } from "./ChannelFeed";
 import { HeaderChannelPage } from "./HeaderChannelPage";
 
+import { EmojiModal } from "../EmojiModal";
+
 export function ChannelChatPage() {
   const { channelId } = useParams();
   const [status, setStatus] = useState("loading");
   const {
     dispatch,
-    state: { isProfileOpen, allUsers },
+    state: { isProfileOpen, allUsers, ismessageChannelInput },
   } = useAccountContext();
 
   useEffect(() => {
@@ -39,10 +41,11 @@ export function ChannelChatPage() {
 
   return (
     <>
-      <section className="relative grid grid-cols-1 grid-rows-[80%,20%] h-screen">
+      <section className="relative grid grid-cols-1 grid-rows-[85%,15%]  h-screen">
         <HeaderChannelPage status={status} />
         <ChannelFeed />
         <SendMessageToChannel />
+        {ismessageChannelInput && <EmojiModal inputEl="messageChannelInput" />}
       </section>
       {isProfileOpen && <ChannelProfilePage />}
     </>

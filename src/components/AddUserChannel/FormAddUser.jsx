@@ -105,7 +105,12 @@ export function FormAddUser() {
     >
       <i
         className="fa-solid fa-xmark absolute top-4 right-6 text-2xl cursor-pointer"
-        onClick={() => handleModal("isOpenAddUserForm", false)}
+        onClick={() => {
+          handleModal("isOpenAddUserForm", false);
+          dispatch({
+            type: "STORE_ADDED_USER_TO_CHANNEL",
+          });
+        }}
       ></i>
       <div className="relative w-full">
         <input

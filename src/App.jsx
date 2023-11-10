@@ -7,7 +7,7 @@ import { ChannelProfilePage } from "./components/ChannelMessages/ChannelProfileP
 import { MesageProfilePage } from "./components/UserMessages/MessageProfilePage";
 import { FormCreatingChannel } from "./components/Forms/FormCreatingChannel";
 import { FormCreatingWorkSpace } from "./components/Forms/FormCreatingWorkSpace";
-import MessageUserFeed from "./components/UserMessages/UserChatPage";
+import UserChatPage from "./components/UserMessages/UserChatPage";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { HomePage } from "./pages/HomePage";
 import { Home } from "./pages/Home";
@@ -37,7 +37,7 @@ export default function App() {
           </Route>
           <Route
             path="direct_message/:channelId/:receiverId"
-            element={<MessageUserFeed />}
+            element={<UserChatPage />}
           >
             <Route path="profile" element={<MesageProfilePage />} />
           </Route>

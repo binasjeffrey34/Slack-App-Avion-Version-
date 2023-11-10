@@ -3,7 +3,7 @@ import { useAccountContext } from "../Context/AccountContext";
 import { Loading } from "./Loading";
 import { ErrorMessage } from "./ErrorMessage";
 
-export function Messages({ status, messageList, url }) {
+export function Messages({ status, messageList, url = "" }) {
   const {
     state: { accountLogIn },
     handleModal,
@@ -32,7 +32,7 @@ export function Messages({ status, messageList, url }) {
           );
 
           let dateText;
-          if (diffInDays === 0) {
+          if (diffInDays <= 0) {
             dateText = "Today";
           } else if (diffInDays === 1) {
             dateText = "Yesterday";
@@ -46,13 +46,13 @@ export function Messages({ status, messageList, url }) {
               "Friday",
               "Saturday",
             ];
+
             dateText = `${
               daysOfWeek[createdDate.getDay()]
             } ${createdDate.toLocaleString("default", {
               month: "long",
             })} ${createdDate.getDate()}`;
           }
-
           const showDateText = prevDateText !== dateText;
           prevDateText = dateText;
 

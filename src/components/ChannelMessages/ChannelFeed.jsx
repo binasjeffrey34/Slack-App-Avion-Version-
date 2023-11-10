@@ -38,7 +38,7 @@ export const ChannelFeed = () => {
               <span className="ml-2">Add coworker</span>
             </button>
           </div>
-          <Messages status={status} messageList={channelMessages} url="" />
+          <Messages status={status} messageList={channelMessages} />
         </div>
       </div>
     </div>

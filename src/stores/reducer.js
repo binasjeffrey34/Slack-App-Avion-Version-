@@ -3,7 +3,13 @@ import { initialState } from "./initialState";
 export function reducer(state, action) {
   switch (action.type) {
     case "CREATE_CHANNEL":
-      return { ...state, channelName: "", userId: "" };
+      return {
+        ...state,
+        channelName: "",
+        userId: "",
+        ischannelNameError: "",
+        channelNameError: "",
+      };
     case "CREATE_ACCOUNT":
       return {
         ...state,
@@ -54,6 +60,12 @@ export function reducer(state, action) {
     case "LOG_OUT": {
       return {
         ...initialState,
+        accountLogIn: null,
+        allUsers: [],
+        allDirectMessage: [],
+        allChannels: [],
+        selectedUser: null,
+        selectedProfile: null,
         isAuthenticated: false,
       };
     }
@@ -61,6 +73,9 @@ export function reducer(state, action) {
       const { name, value } = action.payload;
       return { ...state, [name]: value };
     }
+    case "SHOW_MODAL_EMOJI":
+      return { ...state, [action.payload]: !state[action.payload] };
+
     case "GET_ALL_USERS": {
       return {
         ...state,
@@ -78,7 +93,13 @@ export function reducer(state, action) {
     case "NUMBER_OF_USERS":
       return { ...state, numbersOfUser: action.payload };
     case "STORE_ADDED_USER_TO_CHANNEL":
-      return { ...state, allChannelUser: action.payload, addUserInput: "" };
+      return {
+        ...state,
+        allChannelUser: action.payload,
+        addUserInput: "",
+        isaddUserInputError: "",
+        addUserInputError: "",
+      };
     case "GET_ALL_MEMBER":
       return {
         ...state,
@@ -88,7 +109,7 @@ export function reducer(state, action) {
     case "SEARCH_MEMBER": {
       const { channelListMember } = state;
       const query = action.payload.toLowerCase();
-      console.log(channelListMember);
+
       const filteredListMember = query
         ? channelListMember.filter((user) =>
             user.name.toLowerCase().includes(query)
@@ -155,8 +176,12 @@ export function reducer(state, action) {
       return { ...state, userMessages: action.payload };
 
     case "SET_ACTIVE_TAB":
-      return {...state, activeTab: action.payload};
+      return { ...state, activeTab: action.payload };
+    case "ADD_EMOJI": {
+      const { field, value } = action.payload;
 
+      return { ...state, [field]: value };
+    }
     default:
       throw new Error("Unknown Action");
   }

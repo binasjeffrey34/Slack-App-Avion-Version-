@@ -14,7 +14,7 @@ export function LogInPage() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
-  const { dispatch, state, validateInput } = useAccountContext();
+  const { dispatch, state, validateInput, handleModal } = useAccountContext();
   const {
     emailInput,
     passwordInput,
@@ -37,16 +37,13 @@ export function LogInPage() {
           const firstChannelId = allChannels[0]?.id;
           navigate(`/dashboard/${firstChannelId}`);
         } else {
-          dispatch({
-            type: "SHOW_MODAL",
-            payload: { name: "isOpenWorkSpace", value: true },
-          });
+          handleModal("isOpenWorkSpace");
           navigate("/work_space");
         }
       }
     }
     login();
-  }, [isAuthenticated, navigate, dispatch]);
+  }, [isAuthenticated, navigate, dispatch, handleModal]);
 
   async function handleLogIn(e) {
     e.preventDefault();

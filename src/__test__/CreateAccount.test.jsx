@@ -1,19 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { LogInPage } from "../pages/LogInPage";
+import CreateAccount from "../pages/CreateAccount";
 import { AccountProvider } from "../Context/AccountContext";
 import { expect, test } from "vitest";
 
-test("render log in page", () => {
+test("render create account page", () => {
   render(
     <Router>
       <AccountProvider>
-        <LogInPage />
+        <CreateAccount />
       </AccountProvider>
     </Router>
   );
-  const email = screen.getByPlaceholderText("E-mail Address");
-  const password = screen.getByPlaceholderText("Password");
-  expect(email).toBeInTheDocument();
-  expect(password).toBeInTheDocument();
+  const signUp = screen.queryByText(/Sign up/i);
+  expect(signUp).toBeInTheDocument();
 });

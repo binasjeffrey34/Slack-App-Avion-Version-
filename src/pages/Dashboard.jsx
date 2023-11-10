@@ -29,7 +29,7 @@ export function Dashboard() {
       } ${isOpenAddUserForm ? "overlay-form" : ""} `}
     >
       <HeaderDashBoard />
-      <div className="grid grid-cols-[7rem,auto]  ">
+      <div className="grid grid-cols-[7rem,auto] h-[95.5vh]  ">
         <SidebarIcon />
         <div className="rounded-xl overflow-hidden grid grid-cols-[30rem,auto]">
           <SideBar />

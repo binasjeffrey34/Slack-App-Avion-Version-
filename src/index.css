@@ -35,7 +35,7 @@ input {
 }
 .overlay::before {
   content: "";
-  @apply fixed top-0 left-0 w-full h-full z-10;
+  @apply fixed top-0 left-0 w-full h-full z-20;
   background: rgba(0, 0, 0, 0.05);
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
@@ -55,7 +55,7 @@ input {
   @apply overflow-y-scroll overflow-x-hidden h-[60%];
 }
 .direct__message-chat {
-  @apply pt-10  overflow-y-scroll overflow-x-hidden h-[85%] my-auto w-full;
+  @apply py-6 overflow-y-scroll overflow-x-hidden h-[86%] my-auto w-full;
 }
 .channel__box {
   @apply overflow-y-scroll overflow-x-hidden h-[30vh];
@@ -66,11 +66,15 @@ input {
 .list__all-users {
   @apply overflow-y-scroll overflow-x-hidden h-[25vh];
 }
-.channel__profile {
-  @apply overflow-y-scroll overflow-x-hidden h-[88vh];
+.profile {
+  @apply overflow-y-scroll overflow-x-hidden  h-[88vh];
+}
+.emoji {
+  @apply overflow-y-scroll overflow-x-hidden h-[80%];
 }
 .channel__box::-webkit-scrollbar,
-.channel__profile::-webkit-scrollbar,
+.emoji::-webkit-scrollbar,
+.profile::-webkit-scrollbar,
 .list__all-users::-webkit-scrollbar,
 .directMesage__box::-webkit-scrollbar,
 .directMessage__list::-webkit-scrollbar,
@@ -80,7 +84,8 @@ input {
 }
 
 .channel__box::-webkit-scrollbar-track,
-.channel__profile::-webkit-scrollbar-track,
+.emoji::-webkit-scrollbar-track,
+.profile::-webkit-scrollbar-track,
 .list__all-users::-webkit-scrollbar-track,
 .directMesage__box::-webkit-scrollbar-track,
 .directMessage__list::-webkit-scrollbar-track,
@@ -90,7 +95,8 @@ input {
 }
 
 .channel__box::-webkit-scrollbar-thumb,
-.channel__profile::-webkit-scrollbar-thumb,
+.emoji::-webkit-scrollbar-thumb,
+.profile::-webkit-scrollbar-thumb,
 .list__all-users::-webkit-scrollbar-thumb,
 .directMesage__box::-webkit-scrollbar-thumb,
 .directMessage__list::-webkit-scrollbar-thumb,
@@ -116,7 +122,7 @@ input {
 }
 .channel__list.active,
 .user__list.active {
-  @apply text-white bg-[#7e2780];
+  @apply text-white bg-fuchsia-900;
 }
 
 .user__list:hover .btn__delete {

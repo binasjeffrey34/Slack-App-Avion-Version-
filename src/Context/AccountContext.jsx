@@ -6,6 +6,29 @@ const AccountContext = createContext();
 
 function AccountProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const handleModal = useCallback((name, value) => {
+    dispatch({
+      type: "SHOW_MODAL",
+      payload: { name, value },
+    });
+  }, []);
+
+  const handleModalEmoji = useCallback((name) => {
+    dispatch({
+      type: "SHOW_MODAL_EMOJI",
+      payload: name,
+    });
+  }, []);
+
+  function handleGetEmoji(emoji, field) {
+    dispatch({
+      type: "ADD_EMOJI",
+      payload: {
+        field,
+        value: `${state[field]}${emoji}`,
+      },
+    });
+  }
 
   function handleInput(e) {
     const { name, value } = e.target;
@@ -16,13 +39,6 @@ function AccountProvider({ children }) {
   function validateInput(field, message) {
     dispatch({ type: "VALIDATE_INPUT", payload: { field, message } });
   }
-
-  const handleModal = useCallback((name, value) => {
-    dispatch({
-      type: "SHOW_MODAL",
-      payload: { name, value },
-    });
-  }, []);
 
   const checkError = (error) =>
     error ? "border-1 border-rose-500" : "border-[1px_solid_rgba(0,0,0,0.1)]";
@@ -39,6 +55,8 @@ function AccountProvider({ children }) {
         validateInput,
         inputStyle,
         handleModal,
+        handleModalEmoji,
+        handleGetEmoji,
       }}
     >
       {children}

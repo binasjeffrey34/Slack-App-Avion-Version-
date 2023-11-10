@@ -2,16 +2,16 @@ import { Link, useParams } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
 import { Messages } from "../Messages";
 import useUpdateSelectedAccount from "../../hooks/useUpdateSelectedAccount";
+import useMessage from "../../hooks/useMessage";
 
-export function UserFeed({ status }) {
+export function UserFeed() {
   const {
-    state: {
-      userMessages,
-      selectedUser: { id, image, name },
-    },
+    state: { userMessages, selectedUser },
     handleSelectUser,
   } = useAccountContext();
   const { receiverId } = useParams();
+
+  const status = useMessage(receiverId, "FETCH_USERS_MESSAGE", "User");
 
   useUpdateSelectedAccount("selectedUser", "SELECTED_USER", receiverId);
 
@@ -22,18 +22,18 @@ export function UserFeed({ status }) {
           <div className="mb-12">
             <p>
               <Link
-                to={`profile?id=${id}`}
+                to={`profile?id=${selectedUser?.id}`}
                 onClick={handleSelectUser}
                 className="flex items-center gap-4 mb-6"
               >
                 {" "}
                 <img
-                  src={image}
+                  src={selectedUser?.image}
                   alt=""
                   className="w-[10rem] h-[10rem] rounded-lg"
                 />
                 <span className="text-3xl font-semibold relative">
-                  {name}
+                  {selectedUser?.name}
                   <i className="fa-solid fa-caret-right text-green-600 absolute right-[-1.4rem] top-1 rotate-45"></i>
                 </span>
               </Link>
@@ -41,16 +41,16 @@ export function UserFeed({ status }) {
             <p className="text-[1.6rem] mb-6">
               This conversation is just between{" "}
               <Link
-                to={`profile?id=${id}`}
+                to={`profile?id=${selectedUser?.id}`}
                 className="p-2 bg-blue-100 rounded-lg text-blue-700 hover:text-blue-900 hover:cursor-pointer hover:bg-blue-200"
                 onClick={handleSelectUser}
               >
-                @{name}
+                @{selectedUser?.name}
               </Link>{" "}
               and you. Check out their profile to learn more about them.
             </p>
             <Link
-              to={`profile?id=${id}`}
+              to={`profile?id=${selectedUser?.id}`}
               onClick={handleSelectUser}
               className="border border-gray-400 p-3 px-6 rounded-md"
             >
