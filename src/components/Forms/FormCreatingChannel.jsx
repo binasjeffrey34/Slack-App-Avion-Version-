@@ -80,8 +80,18 @@ export function FormCreatingChannel() {
         name: channelName,
         user_ids: [+userId],
       });
-      navigate(`/dashboard/${res.data.data.id}`);
-      dispatch({ type: "CREATE_CHANNEL" });
+
+      // CHECK IF THE CHANNEL INPUT NAME IS IS ALREADY BEEN TAKEN
+      if (res.data.errors) {
+        dispatch({
+          type: "INVALID_INPUT",
+          payload: res.data.errors[0],
+        });
+        return;
+      } else {
+        navigate(`/dashboard/${res.data.data.id}`);
+        dispatch({ type: "CREATE_CHANNEL" });
+      }
 
       //UPDATE DISPLAYING CHANNELS
       const updatedRes = await axiosFetch.get(`/channels`);
@@ -90,7 +100,6 @@ export function FormCreatingChannel() {
       handleModal("isOpenChannelForm", false);
     } catch (error) {
       console.log(error);
-      // throw new Error(error);
     }
   }
 
@@ -101,12 +110,15 @@ export function FormCreatingChannel() {
       }`}
     >
       <form
-        className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-10 shadow-[0_0_1rem_rgba(0,0,0,0.3)]  w-[40rem]  justify-center flex flex-col gap-8 mx-auto bg-white px-12 pt-16 pb-12 rounded-md"
+        className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-30 shadow-[0_0_1rem_rgba(0,0,0,0.3)]  w-[40rem]  justify-center flex flex-col gap-8 mx-auto bg-white px-12 pt-16 pb-12 rounded-md"
         onSubmit={handleCreateChannel}
       >
         <i
           className="fa-solid fa-xmark absolute top-6 right-10 text-3xl cursor-pointer"
-          onClick={() => handleModal("isOpenChannelForm", false)}
+          onClick={() => {
+            dispatch({ type: "CREATE_CHANNEL" });
+            handleModal("isOpenChannelForm", false);
+          }}
         ></i>
         <h1 className="text-4xl font-bold mb-4">Create a Channel</h1>
         <div className="relative w-full">

@@ -13,7 +13,7 @@ export function AccountProfile({ onSetOpenProfile }) {
   };
 
   return (
-    <section className="flex flex-col items-center gap-6 relative bottom-[6rem]">
+    <section className="flex flex-col items-center gap-6 relative bottom-[3rem]">
       <p>
         <i className="fa-solid fa-plus font-medium py-3 px-4 rounded-full bg-[rgba(255,255,255,0.3)]"></i>
       </p>

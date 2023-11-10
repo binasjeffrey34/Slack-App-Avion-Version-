@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useAccountContext } from "../../Context/AccountContext";
-import { InputElement } from "../InputElement";
+
 import { InputError } from "../InputError";
 import { useEffect, useRef } from "react";
+import useAllUsers from "../../hooks/useAllUsers";
 
 export function FormCreatingWorkSpace() {
   const {
@@ -18,6 +19,7 @@ export function FormCreatingWorkSpace() {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+  useAllUsers();
 
   function handleCreateWorkSpace(e) {
     e.preventDefault();
@@ -28,9 +30,9 @@ export function FormCreatingWorkSpace() {
     localStorage.setItem("workSpaceName", JSON.stringify(workSpaceInput));
     dispatch({ type: "CREATE_WORK_SPACE", payload: workSpaceInput });
     handleModal("isOpenWorkSpace", false);
-
     navigate("/create_channel");
   }
+
   return (
     <div className="h-screen work__space">
       <form

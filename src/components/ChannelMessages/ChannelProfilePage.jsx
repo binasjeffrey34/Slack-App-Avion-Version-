@@ -28,7 +28,7 @@ export function ChannelProfilePage() {
           }}
         ></i>
       </div>
-      <div className="channel__profile">
+      <div className="profile">
         <div className="p-8  border-b-[1px]">
           <img
             src={selectedUser?.image}

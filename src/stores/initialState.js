@@ -12,6 +12,7 @@ export const initialState = {
   addUserInput: "",
   searchMemberInput: "",
   messageChannelInput: "",
+  messageUserInput: "",
   activeTab: "about",
   numbersOfUser: 0,
   allUsers: JSON.parse(localStorage.getItem("allUsers")) || [],
@@ -32,6 +33,6 @@ export const initialState = {
   isOpenWorkSpace: false,
   isDirectMessageOpen: false,
   isOpenLink: false,
-  messageUserInput: "",
-
+  ismessageUserInput: false,
+  ismessageChannelInput: false,
 };

@@ -3,10 +3,9 @@ import { AllMemberList } from "./AllMemberList";
 import { SearchMember } from "./SearchMember";
 import { AddPeople } from "./AddPeople";
 import { useParams } from "react-router-dom";
-import { Loading } from "../Loading";
-import { ErrorMessage } from "../ErrorMessage";
+// import { Loading } from "../Loading";
+// import { ErrorMessage } from "../ErrorMessage";
 import ChannelAbout from "../ChannelMessages/ChannelAbout";
-import useChannelMembers from "../../hooks/useChannelMembers";
 
 export function AddUserChannel() {
   const { state, handleModal, dispatch } = useAccountContext();
@@ -15,16 +14,14 @@ export function AddUserChannel() {
 
   const findChannel = allChannels.find((channel) => channel.id === +channelId);
 
-  const status = useChannelMembers(channelId, "GET_ALL_MEMBER");
-
   const handleOpenMemberTab = (active) => {
     // Call handleModal to open the modal and set activeTab to "member".
-    handleModal("isOpenAddUserChannel", true);
+
     dispatch({ type: "SET_ACTIVE_TAB", payload: active });
   };
 
   return (
-    <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-10 bg-white w-[55rem] h-[80vh]  rounded-lg">
+    <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-20 bg-white w-[55rem] h-[80vh]  rounded-lg">
       <i
         className="fa-solid fa-xmark absolute top-12 right-12 text-4xl cursor-pointer"
         onClick={() => handleModal("isOpenAddUserChannel", false)}
@@ -58,19 +55,17 @@ export function AddUserChannel() {
         </li>
       </ul>
       {activeTab === "about" && <ChannelAbout />}
-      {activeTab === "member" && <Members status={status} />}
+      {activeTab === "member" && <Members />}
     </section>
   );
 }
-function Members({ status }) {
+function Members() {
   return (
     <div className="px-12 pt-8 w-full h-full">
       <SearchMember />
       <AddPeople />
       <div className="channel__member-list flex flex-col gap-4">
-        {status === "loading" && <Loading />}
-        {status === "error" && <ErrorMessage />}
-        {status === "success" && <AllMemberList />}
+        <AllMemberList />
       </div>
     </div>
   );

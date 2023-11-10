@@ -35,7 +35,7 @@ export function MesageProfilePage() {
           }}
         ></i>
       </div>
-      <div className="channel__profile">
+      <div className="profile">
         <div className="p-8  border-b-[1px]">
           <img
             src={selectedProfile?.image}

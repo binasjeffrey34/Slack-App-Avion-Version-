@@ -4,6 +4,8 @@ import { FormCreatingChannel } from "../Forms/FormCreatingChannel";
 import useAllChannels from "../../hooks/useAllChannels";
 import { AllChannelList } from "./AllChannelList";
 import { AllDirectMessage } from "./AllDirectMessage";
+import useChannelMembers from "../../hooks/useChannelMembers";
+import { useParams } from "react-router-dom";
 
 export function SideBar() {
   const [isChannelHideList, setIsChannelHideList] = useState(true);
@@ -12,8 +14,11 @@ export function SideBar() {
     state: { isOpenChannelForm, workSpaceName },
     handleModal,
   } = useAccountContext();
+  const { channelId } = useParams();
 
   useAllChannels();
+
+  useChannelMembers(channelId, "GET_ALL_MEMBER");
 
   return (
     <section className="bg-[rgba(255,255,255,0.75)]">
@@ -25,13 +30,13 @@ export function SideBar() {
 
         <i className="fa-regular fa-pen-to-square text-gray-600 text-2xl"></i>
       </div>
-      <ul className="pt-6 px-6 flex gap-4 flex-col text-2xl ">
+      <ul className="pt-6 px-6 flex gap-4 flex-col text-2xl  font-medium text-gray-600">
         <li className="flex items-center gap-4">
-          <i className="fa-regular fa-comment-dots text-gray-600"></i>
+          <i className="fa-regular fa-comment-dots "></i>
           <span>Threads</span>
         </li>
-        <li className="flex items-center gap-4">
-          <i className="fa-regular fa-paper-plane text-gray-600"></i>
+        <li className="flex items-center gap-4 font-medium">
+          <i className="fa-regular fa-paper-plane "></i>
           <span>Drafts & Sent</span>
         </li>
       </ul>
@@ -57,12 +62,11 @@ export function SideBar() {
 
         {isChannelHideList && <AllChannelList />}
 
-        <p className="relative text-2xl py-3 text-gray-600 font-medium rounded-md  hover:cursor-pointer">
-          <i
-            className="fa-solid fa-plus mr-2"
-            onClick={() => handleModal("isOpenChannelForm", true)}
-          ></i>{" "}
-          Add Channels
+        <p
+          className="relative text-2xl py-3 text-gray-600 font-medium rounded-md  hover:cursor-pointer"
+          onClick={() => handleModal("isOpenChannelForm", true)}
+        >
+          <i className="fa-solid fa-plus mr-2"></i> Add Channels
         </p>
         <p className="text-2xl py-3 text-gray-600 font-medium rounded-md mb-4 cursor-pointer">
           <span

@@ -31,7 +31,7 @@ export function Home() {
             >
               <i
                 className="fa-solid fa-xmark absolute top-10 right-10  text-3xl cursor-pointer md:hidden"
-                onClick={() => handleModal("isOpenLink", false)}
+                onClick={() => handleModal("isOpenLink")}
               ></i>
               <a href="#">Why Slack?</a>
               <a href="#">Solutions</a>
