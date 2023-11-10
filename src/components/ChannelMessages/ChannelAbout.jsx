@@ -54,17 +54,14 @@ function ChannelAbout() {
                 </button>
               </div>
             ) : (
-              <button
-                className="about-channel-edit-button pt-4 pb-4"
+              <div
+                className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium"
                 onClick={() => handleEditClick("topic")}
               >
-                Edit
-              </button>
+                {topic}
+              </div>
             )}
           </div>
-          <span className="about-item-detail border p-4 pl-16 rounded-lg text-2xl w-full font-medium">
-            {isEditingTopic ? "" : topic}
-          </span>
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
@@ -84,17 +81,14 @@ function ChannelAbout() {
                 </button>
               </div>
             ) : (
-              <button
-                className="about-channel-edit-button pt-4 pb-4"
+              <div
+                className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium"
                 onClick={() => handleEditClick("description")}
               >
-                Edit
-              </button>
+                {description}
+              </div>
             )}
           </div>
-          <span className="about-item-detail border p-4 pl-16 rounded-lg text-2xl w-full font-medium">
-            {isEditingDescription ? "" : description}
-          </span>
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
