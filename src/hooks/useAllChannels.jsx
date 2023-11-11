@@ -9,8 +9,8 @@ function useAllChannels() {
       try {
         const res = await axiosFetch.get(`/channels`);
         const allChannel = res.data.data;
-
         localStorage.setItem("allChannels", JSON.stringify(allChannel));
+        console.log(allChannel);
         dispatch({ type: "GET_ALL_CHANNELS", payload: allChannel });
       } catch (error) {
         console.log("Error getting channels");
