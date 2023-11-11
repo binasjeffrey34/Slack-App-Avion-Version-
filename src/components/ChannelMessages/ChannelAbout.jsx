@@ -5,8 +5,8 @@ import { useParams } from "react-router-dom";
 function ChannelAbout() {
   const [isEditingTopic, setIsEditingTopic] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
-  const [topic, setTopic] = useState("Initial Topic");
-  const [description, setDescription] = useState("Initial Description");
+  const [topic, setTopic] = useState("Add a topic");
+  const [description, setDescription] = useState("Add a description");
   const { channelId } = useParams();
   const {
     state: { accountLogIn, allChannels },
@@ -54,11 +54,11 @@ function ChannelAbout() {
       <ul className="about-channel-unlist-item">
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title text-2xl">Topic</h3>
+            <h3 className="about-item-title text-2xl font-medium">Topic</h3>
             {isEditingTopic ? (
               <div>
                 <input
-                  className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium"
+                  className="border p-4 rounded-lg text-2xl w-full"
                   type="text"
                   value={topic}
                   onChange={(e) => handleInputChange("topic", e)}
@@ -72,7 +72,7 @@ function ChannelAbout() {
               </div>
             ) : (
               <div
-                className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium"
+                className="border p-4 rounded-lg text-2xl w-full"
                 onClick={() => handleEditClick("topic")}
               >
                 {topic}
@@ -82,13 +82,15 @@ function ChannelAbout() {
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title pt-16 text-2xl">Description</h3>
+            <h3 className="about-item-title pt-16 text-2xl font-medium">
+              Description
+            </h3>
             {isEditingDescription ? (
               <div>
                 <textarea
                   value={description}
                   onChange={(e) => handleInputChange("description", e)}
-                  className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium"
+                  className="border p-4 rounded-lg text-2xl w-full"
                 />
                 <button
                   className="about-channel-save-button pt-4 pb-4"
@@ -99,7 +101,7 @@ function ChannelAbout() {
               </div>
             ) : (
               <div
-                className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium"
+                className="border p-4 rounded-lg text-2xl w-full"
                 onClick={() => handleEditClick("description")}
               >
                 {description}
@@ -109,17 +111,19 @@ function ChannelAbout() {
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title pt-16 text-2xl">Created By</h3>
+            <h3 className="about-item-title pt-16 text-2xl font-medium">
+              Created By
+            </h3>
           </div>
           <div className="about-item-detail">
-            <span>{accountLogIn?.name}</span>
-            <span>{`on ${newDate}`}</span>
+            <span className="text-2xl">{accountLogIn?.name}</span>
+            <span className="text-2xl">{` on ${newDate}`}</span>
             <span></span>
           </div>
         </li>
         <li className="channel-files-container">
           <div className="channel-files">
-            <h3 className="channel-files-title pt-16 text-2xl">
+            <h3 className="channel-files-title pt-16 text-2xl font-medium">
               Channel Files
             </h3>
           </div>
