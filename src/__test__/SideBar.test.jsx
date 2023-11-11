@@ -1,17 +1,19 @@
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
-import SendMessageToChannel from "../components/ChannelMessages/SendMessageToChannel";
 import { AccountProvider } from "../Context/AccountContext";
 import { test, expect } from "vitest";
+import { userEvent } from "@testing-library/user-event";
+import { SideBar } from "../components/SideBar/SideBar";
 
-test("button send message to channel", () => {
+test("Click add channel", () => {
   render(
     <Router>
       <AccountProvider>
-        <SendMessageToChannel />
+        <SideBar />
       </AccountProvider>
     </Router>
   );
-  const sendButton = screen.getByTestId("Send");
-  expect(sendButton).toBeInTheDocument();
+  const addChannel = screen.getByText("Add Channels");
+  expect(addChannel).toBeInTheDocument();
+  userEvent.click(addChannel);
 });
