@@ -114,6 +114,7 @@ export function FormCreatingChannel() {
         onSubmit={handleCreateChannel}
       >
         <i
+          data-testid="open-channel-form"
           className="fa-solid fa-xmark absolute top-6 right-10 text-3xl cursor-pointer"
           onClick={() => {
             dispatch({ type: "CREATE_CHANNEL" });
