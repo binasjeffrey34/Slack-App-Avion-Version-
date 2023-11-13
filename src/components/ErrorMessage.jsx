@@ -1,3 +1,3 @@
 export function ErrorMessage() {
-  return <p className="error__message">Error: User Not Found</p>;
+  return <p className="text-xl text-gray-600">Error: User Not Found</p>;
 }

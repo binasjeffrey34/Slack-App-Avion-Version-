@@ -30,10 +30,9 @@ export function FormAddUser() {
 
   const addUserInputLower = addUserInput.toLowerCase();
   const validateUserNameIfExist = channelListMember.some(
-    (member) => member.name.toLowerCase() === addUserInputLower
-  );
-  const validateUserEmailIfExist = channelListMember.some(
-    (member) => member.email.toLowerCase() === addUserInputLower
+    (member) =>
+      member.name.toLowerCase() === addUserInputLower ||
+      member.email.toLowerCase() === addUserInputLower
   );
 
   //FOCUS ON INPUT
@@ -55,7 +54,7 @@ export function FormAddUser() {
       validateInput("addUserInput", "Input can't be empty");
       return;
     }
-    if (validateUserEmailIfExist || validateUserNameIfExist) {
+    if (validateUserNameIfExist) {
       validateInput("addUserInput", "Member already exists");
       return;
     }
@@ -64,7 +63,7 @@ export function FormAddUser() {
     );
     const addUser = {
       id: channelId,
-      member_id: getUser.id,
+      member_id: getUser?.id,
     };
     try {
       //ADDING USER TO A CHANNEL
@@ -100,11 +99,13 @@ export function FormAddUser() {
 
   return (
     <form
+      data-testid="formAddUser"
       onSubmit={handleAddUser}
       className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[50rem] z-50 shadow-[0_0_1rem_rgba(0,0,0,0.1)] bg-white px-10 pt-16 pb-10  flex flex-col gap-10 rounded-lg"
     >
       <i
         className="fa-solid fa-xmark absolute top-4 right-6 text-2xl cursor-pointer"
+        data-testid="closeForm"
         onClick={() => {
           handleModal("isOpenAddUserForm", false);
           dispatch({
@@ -148,8 +149,19 @@ export function FormAddUser() {
         </div>
       )}
 
-      <div className="text-right">
-        <button className="bg-fuchsia-950 text-white text-xl py-4 px-6 rounded-md w-1/4">
+      <div className="text-right flex items-center justify-between">
+        <span className="text-2xl font-medium text-gray-600">
+          {addUserInput.length > 0 && (
+            <>
+              <small className="text-2xl font-bold">
+                {filteredAllUsers.length || 0}
+              </small>{" "}
+              <small className="text-xl text-gray-400">User Found</small>
+            </>
+          )}
+        </span>
+
+        <button className="bg-fuchsia-950 text-white text-xl py-3 px-6 rounded-md w-1/4">
           Add User
         </button>
       </div>

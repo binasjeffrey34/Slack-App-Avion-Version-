@@ -11,6 +11,7 @@ import UserChatPage from "./components/UserMessages/UserChatPage";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { HomePage } from "./pages/HomePage";
 import { Home } from "./pages/Home";
+import { PageNotFound } from "./pages/PageNotFound";
 
 export default function App() {
   return (
@@ -45,13 +46,5 @@ export default function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
-  );
-}
-
-function PageNotFound() {
-  return (
-    <p className="h-screen grid place-items-center text-4xl font-bold">
-      Page not Found !
-    </p>
   );
 }

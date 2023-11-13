@@ -7,7 +7,7 @@ function SendMessage({ onSubmit, name, inputVal }) {
     <div data-testid="Send" className="bg-white  h-full">
       <div
         className={`w-[95%]  mx-auto bg-white border
-    rounded-xl relative z-10 bottom-24 overflow-hidden ${
+    rounded-xl relative z-10 bottom-28 overflow-hidden ${
       state[inputVal].length > 0 ? "border-slate-500" : "border-slate-300"
     }`}
       >
@@ -63,7 +63,7 @@ function SendMessage({ onSubmit, name, inputVal }) {
 
             <button
               type="submit"
-              className={` text-gray-400 text-2xl  rounded-lg  flex items-center gap-6 py-4 px-4 transition-all ${
+              className={` text-gray-400 text-2xl  rounded-lg  flex items-center gap-6 py-3 px-3 transition-all ${
                 state[inputVal].length > 0 ? "bg-emerald-700 text-white" : ""
               }`}
             >

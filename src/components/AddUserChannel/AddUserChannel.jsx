@@ -3,8 +3,6 @@ import { AllMemberList } from "./AllMemberList";
 import { SearchMember } from "./SearchMember";
 import { AddPeople } from "./AddPeople";
 import { useParams } from "react-router-dom";
-// import { Loading } from "../Loading";
-// import { ErrorMessage } from "../ErrorMessage";
 import ChannelAbout from "../ChannelMessages/ChannelAbout";
 
 export function AddUserChannel() {
@@ -12,7 +10,7 @@ export function AddUserChannel() {
   const { allChannels, numbersOfUser, activeTab } = state;
   const { channelId } = useParams();
 
-  const findChannel = allChannels.find((channel) => channel.id === +channelId);
+  const findChannel = allChannels.find((channel) => channel?.id === +channelId);
 
   const handleOpenMemberTab = (active) => {
     // Call handleModal to open the modal and set activeTab to "member".
@@ -51,7 +49,7 @@ export function AddUserChannel() {
             activeTab === "member" ? "active__tab" : ""
           }`}
         >
-          Member {numbersOfUser}
+          Member <span className="font-medium">{numbersOfUser}</span>
         </li>
       </ul>
       {activeTab === "about" && <ChannelAbout />}
