@@ -54,17 +54,19 @@ function ChannelAbout() {
       <ul className="about-channel-unlist-item">
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title text-2xl font-medium">Topic</h3>
+            <h3 className="about-item-title text-3xl font-medium mb-2 text-gray-700">
+              Topic
+            </h3>
             {isEditingTopic ? (
               <div>
                 <input
-                  className="border p-4 rounded-lg text-2xl w-full"
+                  className="border border-slate-400 p-4 rounded-lg text-2xl w-full mb-4"
                   type="text"
                   value={topic}
                   onChange={(e) => handleInputChange("topic", e)}
                 />
                 <button
-                  className="about-channel-save-button pt-4 pb-4"
+                  className="about-channel-save-button pt-4 pb-4 bg-fuchsia-950 px-12 py-3 text-white rounded-md"
                   onClick={() => handleSaveClick("topic")}
                 >
                   Save
@@ -82,7 +84,7 @@ function ChannelAbout() {
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title pt-16 text-2xl font-medium">
+            <h3 className="about-item-title pt-8 text-3xl font-medium mb-2 text-gray-700">
               Description
             </h3>
             {isEditingDescription ? (
@@ -90,10 +92,12 @@ function ChannelAbout() {
                 <textarea
                   value={description}
                   onChange={(e) => handleInputChange("description", e)}
-                  className="border p-4 rounded-lg text-2xl w-full"
+                  cols={1}
+                  rows={1}
+                  className="border p-4 rounded-lg text-2xl w-full outline-blue-400 mb-2"
                 />
                 <button
-                  className="about-channel-save-button pt-4 pb-4"
+                  className="about-channel-save-button pt-4 pb-4 bg-fuchsia-950 px-12 py-3 text-white rounded-md"
                   onClick={() => handleSaveClick("description")}
                 >
                   Save
@@ -111,7 +115,7 @@ function ChannelAbout() {
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title pt-16 text-2xl font-medium">
+            <h3 className="about-item-title pt-10 text-3xl font-medium mb-2 text-gray-700">
               Created By
             </h3>
           </div>
@@ -123,7 +127,7 @@ function ChannelAbout() {
         </li>
         <li className="channel-files-container">
           <div className="channel-files">
-            <h3 className="channel-files-title pt-16 text-2xl font-medium">
+            <h3 className="channel-files-title pt-10 text-2xl font-medium">
               Channel Files
             </h3>
           </div>

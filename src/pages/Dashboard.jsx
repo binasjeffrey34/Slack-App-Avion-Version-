@@ -7,9 +7,10 @@ import { FormAddUser } from "../components/AddUserChannel/FormAddUser";
 import useAllUsers from "../hooks/useAllUsers";
 import useOpenProfile from "../hooks/useOpenProfile";
 import { SidebarIcon } from "../components/SidebarIcon/SidebarIcon";
+import useChannelMembers from "../hooks/useChannelMembers";
 
 export function Dashboard() {
-  const { userId } = useParams();
+  const { userId, channelId } = useParams();
   const { state } = useAccountContext();
   const { isOpenChannelForm, isOpenAddUserForm, isOpenAddUserChannel } = state;
   const [searchParams] = useSearchParams();
@@ -17,6 +18,7 @@ export function Dashboard() {
   const id = searchParams.get("id");
 
   useAllUsers();
+  useChannelMembers(channelId, "GET_ALL_MEMBER");
   useOpenProfile(userId, "isProfileOpen", true);
   useOpenProfile(id, "isDirectMessageOpen", true);
 

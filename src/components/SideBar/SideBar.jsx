@@ -4,8 +4,6 @@ import { FormCreatingChannel } from "../Forms/FormCreatingChannel";
 import useAllChannels from "../../hooks/useAllChannels";
 import { AllChannelList } from "./AllChannelList";
 import { AllDirectMessage } from "./AllDirectMessage";
-import useChannelMembers from "../../hooks/useChannelMembers";
-import { useParams } from "react-router-dom";
 
 export function SideBar() {
   const [isChannelHideList, setIsChannelHideList] = useState(true);
@@ -14,11 +12,8 @@ export function SideBar() {
     state: { isOpenChannelForm, workSpaceName },
     handleModal,
   } = useAccountContext();
-  const { channelId } = useParams();
 
   useAllChannels();
-
-  useChannelMembers(channelId, "GET_ALL_MEMBER");
 
   return (
     <section className="bg-[rgba(255,255,255,0.75)]">
