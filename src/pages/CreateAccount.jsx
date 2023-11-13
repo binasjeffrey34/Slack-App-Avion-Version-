@@ -70,7 +70,7 @@ function CreateAccount() {
       }
       await axios.post(`${API_URL}/auth`, newUser);
 
-      dispatch({ type: "CREATE_ACCOUNT" });
+      await dispatch({ type: "CREATE_ACCOUNT" });
       navigate("/sign_in");
     } catch (error) {
       const { full_messages } = error.response.data.errors;
@@ -88,10 +88,11 @@ function CreateAccount() {
   }
 
   return (
-    <div className="flex items-center justify-center h-[75vh]">
+    <div className="flex items-center justify-center pt-12 md:pt-20 ">
       <section className="flex flex-col gap-6  w-[clamp(30rem,90%,40rem)] shadow-[0_0_10px_rgba(0,0,0,0.15)] pb-16 pt-8 px-12 rounded-md bg-white">
         <img src={siginLogo} alt="" className=" w-48 md:w-60 mx-auto" />
         <form
+          data-testid="createaccount"
           className=" flex gap-8 flex-col relative"
           onSubmit={handleCreateAccount}
         >
@@ -132,7 +133,7 @@ function CreateAccount() {
           </div>
           {isvalidError && <InputError btmSize="8rem">{validError}</InputError>}
           <button className="w-full text-xl bg-fuchsia-950  font-bold uppercase text-white py-4 rounded-md">
-            Sign Up
+            Create Account
           </button>
           <div
             className="flex gap-4 flex-col text-center 

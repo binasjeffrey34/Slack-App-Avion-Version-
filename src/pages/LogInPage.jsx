@@ -99,18 +99,22 @@ export function LogInPage() {
     } catch (error) {
       dispatch({
         type: "INVALID_INPUT",
-        payload: error.response.data.errors[0],
+        payload: error.response?.data?.errors[0],
       });
     }
   }
 
   return (
-    <div className="flex items-center justify-center h-[75vh]">
+    <div className="flex items-center justify-center pt-12 md:pt-20 ">
       <section className="flex flex-col gap-6  w-[clamp(30rem,90%,40rem)] shadow-[0_0_10px_rgba(0,0,0,0.15)] pt-8 pb-16 px-12 rounded-md bg-white">
-        <img src={siginLogo} alt="" className=" w-48 md:w-60 mx-auto" />
+        <img
+          src={siginLogo}
+          alt="signInLogo"
+          className=" w-48 md:w-60 mx-auto"
+        />
 
         <form
-          method="POST"
+          data-testid="loginForm"
           className=" flex gap-8 flex-col relative"
           onSubmit={handleLogIn}
         >

@@ -23,7 +23,7 @@ export function MesageProfilePage() {
   useUpdateSelectedAccount("selectedProfile", "SELECTED_PROFILE", id);
 
   return (
-    <section className="bg-white w-[40rem]  text-xl border-l-[1px]">
+    <section className="bg-white w-[45rem]  text-xl border-l-[1px]">
       <div className=" h-[5rem] border-b-[1px] flex items-center justify-between px-8 text-3xl text-slate-800">
         <h1 className=" font-bold">Profile</h1>
         <i
