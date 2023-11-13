@@ -1,10 +1,8 @@
 import { useAccountContext } from "../../Context/AccountContext";
-import { Loading } from "../Loading";
-import { ErrorMessage } from "../ErrorMessage";
 import { useParams } from "react-router-dom";
 import sortMemberUtils from "../../utils/sortMemberUtils";
 
-export function HeaderChannelPage({ status }) {
+export function HeaderChannelPage() {
   const {
     state: { allChannels, numbersOfUser, accountLogIn, filteredListMember },
     handleModal,
@@ -54,13 +52,9 @@ export function HeaderChannelPage({ status }) {
               ))}
           </div>
 
-          {status === "loading" && <Loading />}
-          {status === "error" && <ErrorMessage />}
-          {status === "success" && (
-            <span className="text-xl text-gray-600 font-medium">
-              {numbersOfUser}
-            </span>
-          )}
+          <span className="text-xl text-gray-600 font-medium">
+            {numbersOfUser}
+          </span>
         </div>
         <div className="text-gray-600 px-3 h-14 rounded-2xl border flex items-center gap-2 justify-end">
           <i className="fa-solid fa-headphones-simple border-r-[1px] border-slate-300 pr-4"></i>

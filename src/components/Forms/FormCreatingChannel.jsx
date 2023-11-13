@@ -128,7 +128,7 @@ export function FormCreatingChannel() {
             ref={inputRef}
             name="channelName"
             className={inputStyle(ischannelNameError)}
-            placeholder="Create a new channel"
+            placeholder="Channel Name"
             value={channelName}
             onChange={onSetInput}
           />

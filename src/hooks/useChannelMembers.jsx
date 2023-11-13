@@ -12,10 +12,13 @@ function useChannelMembers(id, type) {
     async function getAllMembers() {
       try {
         const getAllMember = await useServices.getChannelMembers(allUsers, id);
-
         dispatch({
           type,
           payload: getAllMember,
+        });
+        dispatch({
+          type: "NUMBER_OF_USERS",
+          payload: getAllMember.length,
         });
         setStatus("success");
       } catch (error) {
