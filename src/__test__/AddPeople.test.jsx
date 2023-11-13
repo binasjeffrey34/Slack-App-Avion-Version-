@@ -1,4 +1,3 @@
-// Your test file
 import { fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { describe, expect, it } from "vitest";

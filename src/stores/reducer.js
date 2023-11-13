@@ -2,25 +2,6 @@ import { initialState } from "./initialState";
 
 export function reducer(state, action) {
   switch (action.type) {
-    case "CREATE_CHANNEL":
-      return {
-        ...state,
-        channelName: "",
-        userId: "",
-        ischannelNameError: "",
-        channelNameError: "",
-      };
-    case "CREATE_ACCOUNT":
-      return {
-        ...state,
-        emailSignUpInput: "",
-        password1: "",
-        password2: "",
-        validError: "",
-        isvalidError: false,
-      };
-    case "CREATE_WORK_SPACE":
-      return { ...state, workSpaceName: action.payload, workSpaceInput: "" };
     case "SET_INPUT": {
       const { name, value } = action.payload;
       return {
@@ -47,6 +28,15 @@ export function reducer(state, action) {
         validError: action.payload,
         isvalidError: true,
       };
+
+    case "SHOW_MODAL": {
+      const { name, value } = action.payload;
+      return { ...state, [name]: value };
+    }
+    case "SHOW_MODAL_EMOJI":
+      return { ...state, [action.payload]: !state[action.payload] };
+    case "NUMBER_OF_USERS":
+      return { ...state, numbersOfUser: action.payload };
     case "LOG_IN":
       return {
         ...state,
@@ -69,12 +59,25 @@ export function reducer(state, action) {
         isAuthenticated: false,
       };
     }
-    case "SHOW_MODAL": {
-      const { name, value } = action.payload;
-      return { ...state, [name]: value };
-    }
-    case "SHOW_MODAL_EMOJI":
-      return { ...state, [action.payload]: !state[action.payload] };
+    case "CREATE_CHANNEL":
+      return {
+        ...state,
+        channelName: "",
+        userId: "",
+        ischannelNameError: "",
+        channelNameError: "",
+      };
+    case "CREATE_ACCOUNT":
+      return {
+        ...state,
+        emailSignUpInput: "",
+        password1: "",
+        password2: "",
+        validError: "",
+        isvalidError: false,
+      };
+    case "CREATE_WORK_SPACE":
+      return { ...state, workSpaceName: action.payload, workSpaceInput: "" };
 
     case "GET_ALL_USERS": {
       return {
@@ -83,15 +86,18 @@ export function reducer(state, action) {
         filteredAllUsers: action.payload,
       };
     }
-
     case "GET_ALL_CHANNELS": {
       return {
         ...state,
         allChannels: action.payload,
       };
     }
-    case "NUMBER_OF_USERS":
-      return { ...state, numbersOfUser: action.payload };
+    case "GET_ALL_MEMBER":
+      return {
+        ...state,
+        channelListMember: action.payload,
+        filteredListMember: action.payload,
+      };
     case "STORE_ADDED_USER_TO_CHANNEL":
       return {
         ...state,
@@ -100,12 +106,21 @@ export function reducer(state, action) {
         isaddUserInputError: "",
         addUserInputError: "",
       };
-    case "GET_ALL_MEMBER":
-      return {
-        ...state,
-        channelListMember: action.payload,
-        filteredListMember: action.payload,
-      };
+    case "STORE_TO_DIRECT_MESSAGE": {
+      const { allUsers, allDirectMessage } = state;
+
+      const findUser = allUsers?.find((user) => user.id === +action.payload);
+      if (allDirectMessage.some((user) => user?.id === findUser?.id)) {
+        return state;
+      }
+      const upDateAllDirectMessage = [...allDirectMessage, findUser];
+
+      localStorage.setItem(
+        "allDirectMessage",
+        JSON.stringify(upDateAllDirectMessage)
+      );
+      return { ...state, allDirectMessage: upDateAllDirectMessage };
+    }
     case "SEARCH_MEMBER": {
       const { channelListMember } = state;
       const query = action.payload.toLowerCase();
@@ -150,21 +165,6 @@ export function reducer(state, action) {
       return { ...state, allDirectMessage: upDateAllDirectMessage };
     }
 
-    case "STORE_TO_DIRECT_MESSAGE": {
-      const { allUsers, allDirectMessage } = state;
-
-      const findUser = allUsers?.find((user) => user.id === +action.payload);
-      if (allDirectMessage.some((user) => user?.id === findUser?.id)) {
-        return state;
-      }
-      const upDateAllDirectMessage = [...allDirectMessage, findUser];
-
-      localStorage.setItem(
-        "allDirectMessage",
-        JSON.stringify(upDateAllDirectMessage)
-      );
-      return { ...state, allDirectMessage: upDateAllDirectMessage };
-    }
     case "MESSAGE_TO_CHANNELS":
       return { ...state, messageChannelInput: "" };
     case "MESSAGE_TO_USERS":
@@ -179,7 +179,6 @@ export function reducer(state, action) {
       return { ...state, activeTab: action.payload };
     case "ADD_EMOJI": {
       const { field, value } = action.payload;
-
       return { ...state, [field]: value };
     }
     default:
