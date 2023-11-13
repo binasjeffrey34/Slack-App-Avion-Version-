@@ -31,7 +31,7 @@ export function HeaderChannelPage({ status }) {
           {findChannel?.name}
         </span>
       </p>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3" data-testid="OpenAddUserChannel">
         <div
           className="flex items-center gap-2 hover:cursor-pointer hover:bg-gray-100 px-3  h-14 rounded-2xl border "
           onClick={() => {

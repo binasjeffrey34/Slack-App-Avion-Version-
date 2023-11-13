@@ -16,7 +16,7 @@ export function ChannelProfilePage() {
   useUpdateSelectedAccount("selectedUser", "SELECTED_USER", userId);
 
   return (
-    <section className="bg-white w-[clamp(30rem,90vw,50rem)]  text-xl border-l-[1px]">
+    <section className="bg-white w-[clamp(30rem,40rem,45rem)]  text-xl border-l-[1px]">
       <div className=" h-[5rem] border-b-[1px] flex items-center justify-between px-8 text-3xl text-slate-800">
         <h1 className=" font-bold">Profile</h1>
         <i

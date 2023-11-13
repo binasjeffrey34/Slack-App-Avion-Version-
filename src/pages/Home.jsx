@@ -8,7 +8,7 @@ export function Home() {
     state: { isOpenLink },
   } = useAccountContext();
   return (
-    <main className={`${isOpenLink ? "overlay" : ""} home mb-10 md:mb-0`}>
+    <main className={`${isOpenLink ? "overlay" : ""} min-h-screen `}>
       <header className="">
         <nav className="w-[clamp(30rem,90%,120rem)] mx-auto flex items-center  justify-between py-8">
           <div className="flex items-center  gap-6 md:gap-20">
@@ -25,7 +25,7 @@ export function Home() {
             </Link>
 
             <ul
-              className={` absolute md:relative top-1/2 md:top-0 left-1/2 md:left-0 w-[clamp(30rem,90%,50rem)]  translate-x-[-50%] translate-y-[-50%] z-50 rounded-md md:-translate-x-0 md:translate-y-0 flex  flex-col md:flex-row text-2xl selection:text-gray-600 font-medium gap-12 bg-white md:bg-transparent text-center md:text-left pt-24 pb-16 md:py-0 ${
+              className={` absolute md:relative top-[22rem] md:top-0 left-1/2 md:left-0 w-[clamp(30rem,90%,50rem)]  translate-x-[-50%] translate-y-[-50%] z-50 rounded-md md:-translate-x-0 md:translate-y-0 flex  flex-col md:flex-row text-2xl selection:text-gray-600 font-medium gap-12 bg-white md:bg-transparent text-center md:text-left pt-24 pb-16 md:py-0 ${
                 isOpenLink ? "left-0" : "left-[-100%]"
               }`}
             >

@@ -15,7 +15,7 @@ export function LogOut({ onSetOpenProfile }) {
     name: accountLogIn.email.split("@")[0],
   };
   return (
-    <div className="absolute bottom-10  left-24 bg-gray-50 text-gray-600 text-3xl  w-[30rem] z-50 shadow-[0_5px_1.5rem_rgba(0,0,0,0.15)] rounded-lg text-left">
+    <div className="absolute bottom-10  left-24 bg-gray-50 text-gray-600 text-2xl  w-[30rem] z-50 shadow-[0_5px_1.5rem_rgba(0,0,0,0.15)] rounded-lg text-left">
       <div className="pt-8 px-10 pb-6 border-b-[1px] flex flex-col gap-4">
         <div className="flex items-center gap-4 mb-4">
           <img src={account.image} alt="" className="w-16 h-16 rounded-xl" />
@@ -35,7 +35,7 @@ export function LogOut({ onSetOpenProfile }) {
           <p>Update your Status</p>
         </div>
         <p className="mb-4">
-          Set yourself as <strong className="text-3xl">Away</strong>
+          Set yourself as <strong className="text-2xl">Away</strong>
         </p>
         <p className="flex items-center justify-between">
           <span>Pause notifications</span>
