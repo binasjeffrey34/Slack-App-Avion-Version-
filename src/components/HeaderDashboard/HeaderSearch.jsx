@@ -1,6 +1,6 @@
 export function HeaderSearch() {
   return (
-    <div className="w-[80rem] mx-auto relative flex items-center justify-center gap-4">
+    <div className="w-[clamp(30rem,80%,80rem)] mx-auto relative flex items-center justify-center gap-4">
       <i className="fa-regular fa-clock  text-white text-3xl"></i>
       <input
         type="search"

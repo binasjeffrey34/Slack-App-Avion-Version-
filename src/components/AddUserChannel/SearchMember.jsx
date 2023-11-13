@@ -27,7 +27,7 @@ export function SearchMember() {
         onChange={handleSearchMember}
         name="searchMemberInput"
         placeholder="Find Member"
-        className="border p-4 pl-16 rounded-lg text-2xl w-full font-medium "
+        className="border p-3 md:p-4 pl-16 rounded-lg text-xl md:text-2xl w-full font-medium "
       />
       <i className="fa-solid fa-magnifying-glass absolute left-8 top-1/2 translate-x-[-50%] translate-y-[-50%] text-2xl text-gray-400"></i>
     </div>

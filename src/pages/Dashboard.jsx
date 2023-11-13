@@ -8,6 +8,7 @@ import useAllUsers from "../hooks/useAllUsers";
 import useOpenProfile from "../hooks/useOpenProfile";
 import { SidebarIcon } from "../components/SidebarIcon/SidebarIcon";
 import useChannelMembers from "../hooks/useChannelMembers";
+import { FormCreatingChannel } from "../components/Forms/FormCreatingChannel";
 
 export function Dashboard() {
   const { userId, channelId } = useParams();
@@ -25,15 +26,13 @@ export function Dashboard() {
   return (
     <main
       className={`main__page  h-screen ${
-        isOpenAddUserChannel || isOpenAddUserForm || isOpenChannelForm
-          ? "overlay"
-          : ""
-      } ${isOpenAddUserForm ? "overlay-form" : ""} `}
+        isOpenAddUserChannel || isOpenAddUserForm ? "overlay" : ""
+      } ${isOpenAddUserForm || isOpenChannelForm ? "overlay-form" : ""}  `}
     >
       <HeaderDashBoard />
-      <div className="grid grid-cols-[7rem,auto] h-[95.5vh]  ">
+      <div className="grid grid-cols-[clamp(5rem,7vw,7rem),auto] h-[94.5vh] md:[h-[95.5vh]]  ">
         <SidebarIcon />
-        <div className="rounded-xl overflow-hidden grid grid-cols-[30rem,auto]">
+        <div className="rounded-xl overflow-hidden grid grid-cols-1 md:grid-cols-[30rem,auto] relative">
           <SideBar />
           <div className="grid grid-cols-[2fr,auto]">
             <Outlet />
@@ -42,6 +41,7 @@ export function Dashboard() {
       </div>
       {isOpenAddUserChannel && <AddUserChannel />}
       {isOpenAddUserForm && <FormAddUser />}
+      {isOpenChannelForm && <FormCreatingChannel />}
     </main>
   );
 }

@@ -7,12 +7,12 @@ function SendMessage({ onSubmit, name, inputVal }) {
     <div data-testid="Send" className="bg-white  h-full">
       <div
         className={`w-[95%]  mx-auto bg-white border
-    rounded-xl relative z-10 bottom-28 overflow-hidden ${
+    rounded-xl relative z-10 bottom-24 md:bottom-28 overflow-hidden ${
       state[inputVal].length > 0 ? "border-slate-500" : "border-slate-300"
     }`}
       >
         <div
-          className={` text-2xl text-gray-300 bg-slate-50 flex items-center  p-4 mb-4 ${
+          className={` text-xl md:text-2xl text-gray-300 bg-slate-50 flex items-center  p-4 mb-4 ${
             state[inputVal].length > 0 ? "text-gray-400" : "text-gray-300"
           }`}
         >
@@ -35,13 +35,13 @@ function SendMessage({ onSubmit, name, inputVal }) {
             type="text"
             name={inputVal}
             placeholder={`Message ${name}`}
-            className="w-full text-2xl p-4 rounded-md outline-none"
+            className="w-full text-xl md:text-2xl p-2 md:p-4 rounded-md outline-none"
             value={state[inputVal]}
             onChange={onSetInput}
           />
           <div className="flex items-center justify-between">
-            <div className=" text-3xl text-gray-500 flex items-center ">
-              <div className="flex items-center gap-6 pr-6  border-r-[1px] border-slate-300">
+            <div className=" text-2xl md:text-3xl text-gray-500 flex items-center ">
+              <div className="flex items-center gap-4 md:gap-6 pr-4 md:pr-6  border-r-[1px] border-slate-300">
                 <i className="fa-solid fa-plus text-2xl font-medium py-2 px-4 rounded-full bg-slate-100"></i>
                 <i className="fa-solid fa-a py-2 "></i>
                 <i
@@ -50,20 +50,20 @@ function SendMessage({ onSubmit, name, inputVal }) {
                 ></i>
                 <i className="fa-solid fa-at py-2 "></i>
               </div>
-              <div className="flex items-center gap-6 px-6 border-r-[1px] border-slate-300">
+              <div className="flex items-center gap-4 md:gap-6 px-4 md:px-6 border-r-[1px] border-slate-300">
                 <i className="fa-solid fa-video"></i>
                 <i className="fa-solid fa-microphone py-2 "></i>
               </div>
 
-              <div className="flex items-center  gap-6 px-6  relative">
-                <i className="fa-regular fa-square py-2 text-4xl"></i>
+              <div className="flex items-center gap-4 md:gap-6 px-4 md:px-6  relative">
+                <i className="fa-regular fa-square py-2 text-3xl md:text-4xl"></i>
                 <i className="fa-solid fa-slash fa-rotate-90 py-2  absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] rotate-90 font-bold text-sm"></i>
               </div>
             </div>
 
             <button
               type="submit"
-              className={` text-gray-400 text-2xl  rounded-lg  flex items-center gap-6 py-3 px-3 transition-all ${
+              className={` text-gray-400 text-xl md:text-2xl  rounded-lg  flex items-center gap-6 py-3 px-3 transition-all ${
                 state[inputVal].length > 0 ? "bg-emerald-700 text-white" : ""
               }`}
             >

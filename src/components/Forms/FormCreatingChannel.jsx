@@ -110,18 +110,20 @@ export function FormCreatingChannel() {
       }`}
     >
       <form
-        className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-30 shadow-[0_0_1rem_rgba(0,0,0,0.3)]  w-[40rem]  justify-center flex flex-col gap-8 mx-auto bg-white px-12 pt-16 pb-12 rounded-md"
+        className="absolute top-1/2 left-1/2  translate-x-[-50%] w-[clamp(30rem,90%,40rem)] translate-y-[-50%] z-[100] shadow-[0_0_1rem_rgba(0,0,0,0.3)] justify-center flex flex-col gap-8 mx-auto bg-white px-10 md:px-12 pt-12 md:pt-16 pb-10 md:pb-12 rounded-md"
         onSubmit={handleCreateChannel}
       >
         <i
           data-testid="open-channel-form"
-          className="fa-solid fa-xmark absolute top-6 right-10 text-3xl cursor-pointer"
+          className="fa-solid fa-xmark absolute top-8 right-10 text-3xl cursor-pointer"
           onClick={() => {
             dispatch({ type: "CREATE_CHANNEL" });
             handleModal("isOpenChannelForm", false);
           }}
         ></i>
-        <h1 className="text-4xl font-bold mb-4">Create a Channel</h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">
+          Create a Channel
+        </h1>
         <div className="relative w-full">
           <input
             type="text"
@@ -149,7 +151,7 @@ export function FormCreatingChannel() {
           </InputError>
         )}
         <div>
-          <button className="bg-fuchsia-950 text-white text-xl py-4 px-6 rounded-md">
+          <button className="bg-fuchsia-950 text-white text-lg md:text-xl py-4 px-6 rounded-md font-medium">
             Create Channel
           </button>
         </div>

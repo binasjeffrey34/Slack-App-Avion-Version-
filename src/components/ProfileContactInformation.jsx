@@ -13,14 +13,16 @@ export function ProfileContactInformation({
   const { channelId } = useParams();
   const findChannel = allChannels.find((channel) => channel.id === +channelId);
   return (
-    <div className="p-8 text-xl">
+    <div className="p-8 text-lg md:text-xl">
       <Info>
         <ContactInfo>Display name</ContactInfo>
-        <span className="text-2xl font-mediun ">{selectedProf?.name}</span>
+        <span className="text-xl md:text-2xl font-mediun ">
+          {selectedProf?.name}
+        </span>
       </Info>
       <Info>
         <ContactInfo>Local time</ContactInfo>
-        <span className="text-2xl font-mediun ">
+        <span className="text-xl md:text-2xl font-mediun ">
           {new Intl.DateTimeFormat(navigator.language, option).format(
             new Date()
           )}
@@ -30,7 +32,7 @@ export function ProfileContactInformation({
         <ContactInfo> Email Address</ContactInfo>
         <Link
           href="#"
-          className="hover:underline hover:cursor-pointer text-2xl text-blue-600"
+          className="hover:underline hover:cursor-pointertext-xl md:text-2xl text-blue-600"
         >
           {selectedProf?.email}
         </Link>
@@ -40,7 +42,7 @@ export function ProfileContactInformation({
         <ContactInfo> Invited By</ContactInfo>
         <Link
           to={`${url}/${findChannel.id}/${selectedAcc}/${endpoint}`}
-          className="text-blue-600 text-2xl font-medium py-1 px-1 bg-blue-50 rounded-md hover:bg-blue-100"
+          className="text-blue-600 text-xl md:text-2xl font-medium py-1 px-1 bg-blue-50 rounded-md hover:bg-blue-100"
         >
           @{accountLogIn.name}
         </Link>
@@ -49,7 +51,7 @@ export function ProfileContactInformation({
         <ContactInfo> Channels</ContactInfo>
         <Link
           to={`/dashboard/${findChannel.id}`}
-          className="text-blue-600 text-2xl"
+          className="text-blue-600 text-xl md:text-2xl"
           onClick={() => handleModal("isProfileOpen", false)}
         >
           <i className="fa-solid fa-hashtag"></i>

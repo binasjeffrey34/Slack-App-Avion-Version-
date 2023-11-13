@@ -15,10 +15,10 @@ export function AccountProfile({ onSetOpenProfile }) {
   return (
     <section className="flex flex-col items-center gap-6 relative bottom-[3rem]">
       <p>
-        <i className="fa-solid fa-plus font-medium py-3 px-4 rounded-full bg-[rgba(255,255,255,0.3)]"></i>
+        <i className="fa-solid fa-plus font-medium py-3 px-4 rounded-full bg-[rgba(255,255,255,0.3)] text-xl"></i>
       </p>
       <div
-        className=" flex items-center gap-4 w-16 h-16 relative cursor-pointer"
+        className=" flex items-center gap-4 w-14 md:w-16 h-14 md:h-16 relative cursor-pointer"
         onClick={() => onSetOpenProfile((open) => !open)}
       >
         <img

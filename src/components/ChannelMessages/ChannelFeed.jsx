@@ -16,11 +16,11 @@ export const ChannelFeed = () => {
   const findChannel = allChannels.find((channel) => channel.id === +channelId);
 
   return (
-    <div className=" h-full  bg-white   gap-4 text-2xl pl-12 py-6 flex items-end ">
+    <div className=" h-full  bg-white   gap-4 text-xl md:text-2xl pl-6 md:pl-10 py-6 flex items-end ">
       <div className="direct__message-chat flex flex-col    ">
         <div>
           <div className="mb-12">
-            <h1 className="text-5xl font-bold text-gray-800 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
               👋 Welcome to the <i className="fa-solid fa-hashtag"></i>{" "}
               {findChannel?.name} channel
             </h1>
@@ -30,11 +30,11 @@ export const ChannelFeed = () => {
               meetings, share docs, and make decisions together with your team.
             </p>
             <button
-              className="py-2 px-6 border border-slate-400 rounded-md"
+              className="py-2 px-4 md:px-6 border border-slate-400 rounded-md"
               onClick={() => handleModal("isOpenAddUserForm", true)}
             >
               {" "}
-              <i className="fa-solid fa-user-plus text-2xl  "></i>
+              <i className="fa-solid fa-user-plus "></i>
               <span className="ml-2">Add coworker</span>
             </button>
           </div>

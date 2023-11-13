@@ -19,13 +19,13 @@ export function AddUserChannel() {
   };
 
   return (
-    <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-20 bg-white w-[55rem] h-[80vh]  rounded-lg">
+    <section className="absolute  top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-[0_0_1rem_rgba(0,0,0,0.1)] z-20 bg-white w-[clamp(30rem,90%,55rem)] h-[80vh]  rounded-lg overflow-hidden">
       <i
-        className="fa-solid fa-xmark absolute top-12 right-12 text-4xl cursor-pointer"
+        className="fa-solid fa-xmark absolute top-12 right-12 text-3xl md:text-4xl cursor-pointer"
         onClick={() => handleModal("isOpenAddUserChannel", false)}
       ></i>
       <div className="px-12 pt-12">
-        <p className="text-4xl font-bold flex item-center gap-2 mb-6 ">
+        <p className="text-3xl md:text-4xl font-bold flex item-center gap-2 mb-6 ">
           {" "}
           <span>
             <i className="fa-solid fa-hashtag"></i>
@@ -34,7 +34,7 @@ export function AddUserChannel() {
         </p>
       </div>
 
-      <ul className="flex items-center gap-12 px-12 pt-4 text-2xl border-b-[1px] border-slate-300 ">
+      <ul className="flex items-center gap-12 px-12 pt-4 text-xl md:text-2xl border-b-[1px] border-slate-300 ">
         <li
           onClick={() => handleOpenMemberTab("about")}
           className={`cursor-pointer pb-4 ${

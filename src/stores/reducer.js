@@ -181,6 +181,8 @@ export function reducer(state, action) {
       const { field, value } = action.payload;
       return { ...state, [field]: value };
     }
+    case "OPEN_MODAL_SIDEBAR":
+      return { ...state, isOpenSideBar: !state.isOpenSideBar };
     default:
       throw new Error("Unknown Action");
   }

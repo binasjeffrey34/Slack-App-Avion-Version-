@@ -101,7 +101,7 @@ export function FormAddUser() {
     <form
       data-testid="formAddUser"
       onSubmit={handleAddUser}
-      className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[50rem] z-50 shadow-[0_0_1rem_rgba(0,0,0,0.1)] bg-white px-10 pt-16 pb-10  flex flex-col gap-10 rounded-lg"
+      className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[clamp(30rem,90%,50rem)] z-50 shadow-[0_0_1rem_rgba(0,0,0,0.1)] bg-white px-10 pt-16 pb-10  flex flex-col gap-10 rounded-lg"
     >
       <i
         className="fa-solid fa-xmark absolute top-4 right-6 text-2xl cursor-pointer"
@@ -132,12 +132,16 @@ export function FormAddUser() {
             filteredAllUsers.map(({ name, id, image }) => (
               <p
                 key={id}
-                className="flex gap-4 items-center text-2xl border-b-[1px]  hover:cursor-pointer hover:bg-gray-100 py-4 rounded-lg"
+                className="flex gap-4 items-center text-xl md:text-2xl border-b-[1px]  hover:cursor-pointer hover:bg-gray-100 py-4 rounded-lg"
                 onClick={() =>
                   dispatch({ type: "SELECT_ADD_MEMBER", payload: name })
                 }
               >
-                <img src={image} alt="" className="w-12 h-12 rounded-lg" />
+                <img
+                  src={image}
+                  alt=""
+                  className="w-10 md:w-12 h-10 md:h-12 rounded-lg"
+                />
                 <span>{name}</span>
               </p>
             ))
@@ -150,10 +154,10 @@ export function FormAddUser() {
       )}
 
       <div className="text-right flex items-center justify-between">
-        <span className="text-2xl font-medium text-gray-600">
+        <span className="text-xl md:text-2xl font-medium text-gray-600">
           {addUserInput.length > 0 && (
             <>
-              <small className="text-2xl font-bold">
+              <small className="text-xl md:text-2xl font-bold">
                 {filteredAllUsers.length || 0}
               </small>{" "}
               <small className="text-xl text-gray-400">User Found</small>
@@ -161,7 +165,7 @@ export function FormAddUser() {
           )}
         </span>
 
-        <button className="bg-fuchsia-950 text-white text-xl py-3 px-6 rounded-md w-1/4">
+        <button className="bg-fuchsia-950 text-white text-xl py-3 rounded-md w-[10rem]">
           Add User
         </button>
       </div>

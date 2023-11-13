@@ -42,8 +42,8 @@ input {
 }
 .overlay-form::before {
   content: "";
-  @apply fixed top-0 left-0 w-full h-full z-40;
-  background: rgba(0, 0, 0, 0.3);
+  @apply fixed top-0 left-0 w-full h-full z-30;
+  background: rgba(0, 0, 0, 0.05);
   -webkit-backdrop-filter: blur(1.5px);
   backdrop-filter: blur(1.5px);
 }

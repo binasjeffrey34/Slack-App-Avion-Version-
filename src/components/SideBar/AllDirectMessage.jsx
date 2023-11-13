@@ -17,12 +17,17 @@ export function AllDirectMessage() {
           onClick={() => {
             dispatch({ type: "SELECTED_USER", payload: user });
             handleModal("isDirectMessageOpen", false);
+            dispatch({ type: "OPEN_MODAL_SIDEBAR" });
           }}
           to={`/dashboard/direct_message/${channelId}/${user?.id}`}
-          className="user__list text-2xl flex gap-4 ml-4 mb-2 font-medium text-slate-600 py-2 px-4 rounded-lg hover:cursor-pointer hover:bg-[#daa5dc] hover:text-white "
+          className="user__list text-xl md:text-2xl  flex gap-4 ml-4 mb-2 font-medium text-slate-600 py-2 px-4 rounded-lg hover:cursor-pointer hover:bg-[#daa5dc] hover:text-white "
         >
           <li className=" flex items-center gap-4">
-            <img src={user?.image} alt="" className="w-12 h-12 rounded-lg " />
+            <img
+              src={user?.image}
+              alt=""
+              className="w-10 md:w-12 h-10 md:h-12 rounded-lg "
+            />
             <span>
               <span>{user?.name} </span>
               <span className={`text-gray-400 font-normal ml-2`}>

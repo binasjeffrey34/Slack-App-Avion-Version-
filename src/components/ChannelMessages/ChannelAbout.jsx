@@ -54,13 +54,13 @@ function ChannelAbout() {
       <ul className="about-channel-unlist-item">
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title text-3xl font-medium mb-2 text-gray-700">
+            <h3 className="about-item-title text-2xl md:text-3xl font-medium mb-2 text-gray-700">
               Topic
             </h3>
             {isEditingTopic ? (
               <div>
                 <input
-                  className="border border-slate-400 p-4 rounded-lg text-2xl w-full mb-4"
+                  className="border border-slate-400 p-4 rounded-lg text-xl md:text-2xl w-full mb-4"
                   type="text"
                   value={topic}
                   onChange={(e) => handleInputChange("topic", e)}
@@ -74,7 +74,7 @@ function ChannelAbout() {
               </div>
             ) : (
               <div
-                className="border p-4 rounded-lg text-2xl w-full"
+                className="border p-4 rounded-lg text-xl md:text-2xl w-full"
                 onClick={() => handleEditClick("topic")}
               >
                 {topic}
@@ -84,7 +84,7 @@ function ChannelAbout() {
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title pt-8 text-3xl font-medium mb-2 text-gray-700">
+            <h3 className="about-item-title pt-8 text-2xl md:text-3xl  font-medium mb-2 text-gray-700">
               Description
             </h3>
             {isEditingDescription ? (
@@ -94,7 +94,7 @@ function ChannelAbout() {
                   onChange={(e) => handleInputChange("description", e)}
                   cols={1}
                   rows={1}
-                  className="border p-4 rounded-lg text-2xl w-full outline-blue-400 mb-2"
+                  className="border p-4 rounded-lg text-xl md:text-2xl w-full outline-blue-400 mb-2"
                 />
                 <button
                   className="about-channel-save-button pt-4 pb-4 bg-fuchsia-950 px-12 py-3 text-white rounded-md"
@@ -105,7 +105,7 @@ function ChannelAbout() {
               </div>
             ) : (
               <div
-                className="border p-4 rounded-lg text-2xl w-full"
+                className="border p-4 rounded-lg text-xl md:text-2xl w-full"
                 onClick={() => handleEditClick("description")}
               >
                 {description}
@@ -115,19 +115,19 @@ function ChannelAbout() {
         </li>
         <li className="about-channel-list-item">
           <div className="about-channel-list-item-top">
-            <h3 className="about-item-title pt-10 text-3xl font-medium mb-2 text-gray-700">
+            <h3 className="about-item-title pt-10 text-2xl md:text-3xl  font-medium mb-2 text-gray-700">
               Created By
             </h3>
           </div>
           <div className="about-item-detail">
-            <span className="text-2xl">{accountLogIn?.name}</span>
-            <span className="text-2xl">{` on ${newDate}`}</span>
+            <span className="text-xl md:text-2xl">{accountLogIn?.name}</span>
+            <span className="text-xl md:text-2xl">{` on ${newDate}`}</span>
             <span></span>
           </div>
         </li>
         <li className="channel-files-container">
           <div className="channel-files">
-            <h3 className="channel-files-title pt-10 text-2xl font-medium">
+            <h3 className="channel-files-title pt-10 text-xl md:text-2xl font-medium">
               Channel Files
             </h3>
           </div>

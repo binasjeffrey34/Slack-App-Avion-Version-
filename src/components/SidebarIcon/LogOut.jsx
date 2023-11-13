@@ -15,9 +15,9 @@ export function LogOut({ onSetOpenProfile }) {
     name: accountLogIn.email.split("@")[0],
   };
   return (
-    <div className="absolute bottom-10  left-24 bg-gray-50 text-gray-600 text-2xl  w-[30rem] z-50 shadow-[0_5px_1.5rem_rgba(0,0,0,0.15)] rounded-lg text-left">
-      <div className="pt-8 px-10 pb-6 border-b-[1px] flex flex-col gap-4">
-        <div className="flex items-center gap-4 mb-4">
+    <div className="absolute bottom-10  left-24 bg-gray-50 text-gray-600 text-xl md:text-2xl  w-[clamp(25rem,28vw,30rem)] z-50 shadow-[0_5px_1.5rem_rgba(0,0,0,0.15)] rounded-lg text-left">
+      <div className="pt-6 md:pt-8 px-6 md:px-10 pb-6 border-b-[1px] flex flex-col gap-4">
+        <div className="flex items-center gap-4 mb-2 md:mb-4">
           <img src={account.image} alt="" className="w-16 h-16 rounded-xl" />
           <p>
             <span className="block font-bold text-2xl">
@@ -30,20 +30,20 @@ export function LogOut({ onSetOpenProfile }) {
             </span>
           </p>
         </div>
-        <div className="flex items-center gap-6 rounded-lg py-2 px-6 bg-white border-[1px] border-slate-300 mb-4 text-gray-400">
+        <div className="flex items-center gap-6 rounded-lg py-2 px-6 bg-white border-[1px] border-slate-300 mb-2 md:mb-4 text-gray-400">
           <i className="fa-regular fa-face-smile py-2 "></i>
           <p>Update your Status</p>
         </div>
-        <p className="mb-4">
-          Set yourself as <strong className="text-2xl">Away</strong>
+        <p className="mb-2 md:mb-4">
+          Set yourself as <strong className="text-xl md:text-2xl">Away</strong>
         </p>
         <p className="flex items-center justify-between">
           <span>Pause notifications</span>
           <i className="fa-solid fa-angle-right text-gray-400 text-xl"></i>
         </p>
       </div>
-      <ul className="py-6 px-10  border-b-[1px] flex flex-col">
-        <li className="mb-4">
+      <ul className="py-4 md:py-6 px-10  border-b-[1px] flex flex-col">
+        <li className="mb-2 md:mb-4">
           <Link
             to={`/dashboard/${channelId}/${accountLogIn.id}`}
             onClick={() => onSetOpenProfile(false)}
@@ -60,7 +60,7 @@ export function LogOut({ onSetOpenProfile }) {
           dispatch({ type: "LOG_OUT" });
           navigate("/");
         }}
-        className="py-6 px-10 cursor-pointer "
+        className="py-4 md:py-6 px-10 cursor-pointer "
       >
         Sign Out
       </p>

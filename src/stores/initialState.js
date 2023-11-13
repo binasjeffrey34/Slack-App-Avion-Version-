@@ -35,4 +35,5 @@ export const initialState = {
   isOpenLink: false,
   ismessageUserInput: false,
   ismessageChannelInput: false,
+  isOpenSideBar: false,
 };

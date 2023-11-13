@@ -16,7 +16,7 @@ export function UserFeed() {
   useUpdateSelectedAccount("selectedUser", "SELECTED_USER", receiverId);
 
   return (
-    <div className=" h-full  bg-white   gap-4 text-2xl pl-12 py-6 flex items-end">
+    <div className=" h-full  bg-white   gap-4 text-2xl pl-6 md:pl-10 py-6 flex items-end">
       <div className="direct__message-chat flex flex-col ">
         <div>
           <div className="mb-12">
@@ -30,7 +30,7 @@ export function UserFeed() {
                 <img
                   src={selectedUser?.image}
                   alt=""
-                  className="w-[10rem] h-[10rem] rounded-lg"
+                  className="w-[clamp(6rem,7vw,8rem)] h-[clamp(6rem,7vw,8rem)] rounded-lg"
                 />
                 <span className="text-3xl font-semibold relative">
                   {selectedUser?.name}
@@ -38,7 +38,7 @@ export function UserFeed() {
                 </span>
               </Link>
             </p>
-            <p className="text-[1.6rem] mb-6">
+            <p className="text-xl md:text-2xl mb-6">
               This conversation is just between{" "}
               <Link
                 to={`profile?id=${selectedUser?.id}`}
@@ -52,7 +52,7 @@ export function UserFeed() {
             <Link
               to={`profile?id=${selectedUser?.id}`}
               onClick={handleSelectUser}
-              className="border border-gray-400 p-3 px-6 rounded-md"
+              className="border border-gray-400 py-2 md:py-3 px-4 md:px-6 rounded-md text-xl"
             >
               View Profile
             </Link>

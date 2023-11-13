@@ -36,7 +36,7 @@ export function FormCreatingWorkSpace() {
   return (
     <div className="h-screen work__space">
       <form
-        className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-10 shadow-[0_0_1rem_rgba(0,0,0,0.3)]  w-[40rem]  justify-center flex flex-col gap-6 mx-auto bg-white px-12 pt-12 pb-12 rounded-md"
+        className="absolute top-1/2 left-1/2  translate-x-[-50%] translate-y-[-50%] z-10 shadow-[0_0_1rem_rgba(0,0,0,0.3)]  w-[clamp(30rem,90%,40rem)]   justify-center flex flex-col gap-6 mx-auto bg-white px-12 pt-12 pb-12 rounded-md"
         onSubmit={handleCreateWorkSpace}
       >
         <h1 className="text-3xl font-bold mb-4">Create a WorkSpace</h1>

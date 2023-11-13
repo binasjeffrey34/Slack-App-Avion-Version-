@@ -22,10 +22,10 @@ export function AllMemberList() {
                 handleModal("isOpenAddUserChannel", false);
               }}
             >
-              <li className="flex gap-4 items-center text-2xl border-b-[1px]  hover:cursor-pointer hover:bg-gray-100 py-4 rounded-lg">
+              <li className="flex gap-4 items-center text-xl md:text-2xl border-b-[1px]  hover:cursor-pointer hover:bg-gray-100 py-4 rounded-lg">
                 <img
                   src={image}
-                  className="w-12 h-12 rounded-lg"
+                  className="w-10 md:w-12 h-10 md:h-12 rounded-lg"
                   alt="profileLogo"
                 />
                 <span>
