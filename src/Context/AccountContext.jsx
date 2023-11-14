@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useReducer } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+} from "react";
 import { reducer } from "../stores/reducer";
 import { initialState } from "../stores/initialState";
 
@@ -20,15 +26,18 @@ function AccountProvider({ children }) {
     });
   }, []);
 
-  function handleGetEmoji(emoji, field) {
-    dispatch({
-      type: "ADD_EMOJI",
-      payload: {
-        field,
-        value: `${state[field]}${emoji}`,
-      },
-    });
-  }
+  const handleGetEmoji = useCallback(
+    (emoji, field) => {
+      dispatch({
+        type: "ADD_EMOJI",
+        payload: {
+          field,
+          value: `${state[field]}${emoji}`,
+        },
+      });
+    },
+    [state]
+  );
 
   function handleInput(e) {
     const { name, value } = e.target;
@@ -43,24 +52,25 @@ function AccountProvider({ children }) {
   const checkError = (error) =>
     error ? "border-1 border-rose-500" : "border-[1px_solid_rgba(0,0,0,0.1)]";
 
-  const inputStyle = (error) =>
-    `border p-4 rounded-sm text-xl w-full ${checkError(error)}`;
+  const inputStyle = useCallback(
+    (error) => `border p-4 rounded-sm text-xl w-full ${checkError(error)}`,
+    []
+  );
 
+  const value = useMemo(() => {
+    return {
+      state,
+      dispatch,
+      onSetInput: handleInput,
+      validateInput,
+      inputStyle,
+      handleModal,
+      handleModalEmoji,
+      handleGetEmoji,
+    };
+  }, [state, handleGetEmoji, handleModal, handleModalEmoji, inputStyle]);
   return (
-    <AccountContext.Provider
-      value={{
-        state,
-        dispatch,
-        onSetInput: handleInput,
-        validateInput,
-        inputStyle,
-        handleModal,
-        handleModalEmoji,
-        handleGetEmoji,
-      }}
-    >
-      {children}
-    </AccountContext.Provider>
+    <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
   );
 }
 
