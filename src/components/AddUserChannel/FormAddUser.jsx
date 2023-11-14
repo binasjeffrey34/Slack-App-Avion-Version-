@@ -101,7 +101,7 @@ export function FormAddUser() {
     <form
       data-testid="formAddUser"
       onSubmit={handleAddUser}
-      className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[clamp(30rem,90%,50rem)] z-50 shadow-[0_0_1rem_rgba(0,0,0,0.1)] bg-white px-10 pt-16 pb-10  flex flex-col gap-10 rounded-lg"
+      className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[clamp(30rem,90%,50rem)] z-50 shadow-[0_0_1rem_rgba(0,0,0,0.1)] bg-white px-10 pt-16 pb-10  flex flex-col gap-10 rounded-lg "
     >
       <i
         className="fa-solid fa-xmark absolute top-4 right-6 text-2xl cursor-pointer"

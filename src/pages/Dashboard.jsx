@@ -25,7 +25,7 @@ export function Dashboard() {
 
   return (
     <main
-      className={`main__page  h-screen ${
+      className={`main__page  h-screen overflow-hidden ${
         isOpenAddUserChannel || isOpenAddUserForm ? "overlay" : ""
       } ${isOpenAddUserForm || isOpenChannelForm ? "overlay-form" : ""}  `}
     >
