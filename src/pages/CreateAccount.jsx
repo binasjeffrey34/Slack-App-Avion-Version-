@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAccountContext } from "../Context/AccountContext";
 import axios from "axios";
@@ -11,8 +11,10 @@ import siginLogo from "../assets/signInLogo.jpg";
 function CreateAccount() {
   const [isOpenPass1, setIsOpenPass1] = useState(false);
   const [isOpenPass2, setIsOpenPass2] = useState(false);
+  const inputRef = useRef();
   const navigate = useNavigate();
-  const { state, dispatch, validateInput } = useAccountContext();
+  const { state, dispatch, validateInput, onSetInput, inputStyle } =
+    useAccountContext();
   const {
     emailSignUpInput,
     password1,
@@ -26,12 +28,15 @@ function CreateAccount() {
     validError,
     isvalidError,
   } = state;
-
   const newUser = {
     email: emailSignUpInput,
     password: password1,
     password_confirmation: password2,
   };
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   function invalidInput(message) {
     dispatch({
@@ -97,13 +102,15 @@ function CreateAccount() {
           onSubmit={handleCreateAccount}
         >
           <div className="relative">
-            <InputElement
+            <input
               type="email"
-              field="emailSignUpInput"
-              isError={isemailSignUpInputError}
-              holderInfo="E-mail Address"
+              ref={inputRef}
+              name="emailSignUpInput"
+              className={inputStyle(isemailSignUpInputError)}
+              placeholder="E-mail Address"
+              value={emailSignUpInput}
+              onChange={onSetInput}
             />
-
             {isemailSignUpInputError && (
               <InputError>{emailSignUpInputError}</InputError>
             )}

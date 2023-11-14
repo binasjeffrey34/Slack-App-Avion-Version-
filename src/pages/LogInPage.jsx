@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAccountContext } from "../Context/AccountContext";
 import axios from "axios";
@@ -12,9 +12,16 @@ import googleLogo from "../assets/googleLogo.webp";
 
 export function LogInPage() {
   const [isOpen, setIsOpen] = useState(false);
-
   const navigate = useNavigate();
-  const { dispatch, state, validateInput, handleModal } = useAccountContext();
+  const inputRef = useRef();
+  const {
+    dispatch,
+    state,
+    validateInput,
+    handleModal,
+    onSetInput,
+    inputStyle,
+  } = useAccountContext();
   const {
     emailInput,
     passwordInput,
@@ -26,6 +33,10 @@ export function LogInPage() {
     isvalidError,
     validError,
   } = state;
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   useEffect(() => {
     async function login() {
@@ -119,11 +130,14 @@ export function LogInPage() {
           onSubmit={handleLogIn}
         >
           <div className="relative">
-            <InputElement
+            <input
               type="email"
-              field="emailInput"
-              isError={isemailInputError}
-              holderInfo="E-mail Address"
+              ref={inputRef}
+              name="emailInput"
+              className={inputStyle(isemailInputError)}
+              placeholder="E-mail Address"
+              value={emailInput}
+              onChange={onSetInput}
             />
 
             {isemailInputError && <InputError>{emailInputError}</InputError>}

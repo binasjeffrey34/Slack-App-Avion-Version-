@@ -22,7 +22,6 @@ export default function SendMessageToChannel() {
     e.preventDefault();
     try {
       await axiosFetch.post(`/messages`, message);
-
       dispatch({
         type: "MESSAGE_TO_CHANNELS",
       });

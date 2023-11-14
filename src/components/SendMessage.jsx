@@ -66,6 +66,7 @@ function SendMessage({ onSubmit, name, inputVal }) {
               className={` text-gray-400 text-xl md:text-2xl  rounded-lg  flex items-center gap-6 py-3 px-3 transition-all ${
                 state[inputVal].length > 0 ? "bg-emerald-700 text-white" : ""
               }`}
+              disabled={state[inputVal].length === 0}
             >
               <i className="fa-regular fa-paper-plane rotate-[60deg] skew-x-3 skew-y-3 "></i>
               <i className="fa-solid fa-angle-down  text-xl px-4  border-l-[1px] border-slate-300 relative top-1"></i>

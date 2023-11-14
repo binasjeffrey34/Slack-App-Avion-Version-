@@ -64,12 +64,12 @@ export function Messages({ status, messageList, url = "" }) {
               <div
                 key={i}
                 className={`relative z-[1]  ${
-                  checkAccountMessage ? "flex justify-end mr-6" : ""
+                  checkAccountMessage ? "flex justify-end" : ""
                 } ${showDateText ? "mt-32" : ""}`}
               >
                 {showDateText && (
                   <div className="date__text">
-                    <p className=" bg-white absolute top-[-80%] left-1/2 translate-x-[-50%] translate-y-[-50%] z-10 border border-slate-300 text-gray-500 rounded-full py-2 w-[clamp(17rem,18vw,18rem)] px-4 md:px-6 text-lg md:text-xl font-bold flex item-center justify-evenly">
+                    <p className=" bg-white absolute top-[-80%] left-1/2 translate-x-[-50%] translate-y-[-50%] z-10 border border-slate-300 text-gray-500 rounded-full py-2  px-4 md:px-6 text-[1rem] md:text-xl font-bold flex items-center gap-4">
                       <span>{dateText}</span>
                       <i className="fa-solid fa-angle-down text-lg text-gray-500 relative top-1"></i>
                     </p>
