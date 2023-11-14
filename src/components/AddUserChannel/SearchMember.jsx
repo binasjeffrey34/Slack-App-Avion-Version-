@@ -27,9 +27,9 @@ export function SearchMember() {
         onChange={handleSearchMember}
         name="searchMemberInput"
         placeholder="Find Member"
-        className="border p-3 md:p-4 pl-16 rounded-lg text-xl md:text-2xl w-full font-medium "
+        className="border pl-14 md:pl-16 py-3 md:py-4 pr-3 md:pr-4 md:p-4 rounded-lg text-xl md:text-2xl w-full font-medium "
       />
-      <i className="fa-solid fa-magnifying-glass absolute left-8 top-1/2 translate-x-[-50%] translate-y-[-50%] text-2xl text-gray-400"></i>
+      <i className="fa-solid fa-magnifying-glass absolute left-8 top-1/2 translate-x-[-50%] translate-y-[-50%] text-xl md:text-2xl text-gray-400"></i>
     </div>
   );
 }
