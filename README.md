@@ -1,9 +1,11 @@
 # Slack-App-Avion-Version Batch#31
 
 #Project Overview
+
 This is a Slack App Clone created as part of the Avion School bootcamp, utilizing the Avion School API. The app includes a set of features for account management, channel creation, messaging, and additional functionalities.
 
 #Features
+
 #Account Management
 
 - Create a new account.
@@ -39,7 +41,6 @@ This is a Slack App Clone created as part of the Avion School bootcamp, utilizin
 - useNavigate
 - useState
 - useEffect
-- memo
 - useMemo
 - useCallBack
 - also we create a Custom Hooks
