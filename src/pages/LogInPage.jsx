@@ -10,7 +10,7 @@ import { ViewPassWord } from "../components/ViewPassWord";
 import siginLogo from "../assets/signInLogo.jpg";
 import googleLogo from "../assets/googleLogo.webp";
 
-export function LogInPage() {
+export default function LogInPage() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const inputRef = useRef();

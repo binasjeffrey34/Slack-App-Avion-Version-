@@ -144,3 +144,6 @@ input {
 .creating__channel {
   background: url("./assets/bglogin.png") no-repeat center / cover;
 }
+img {
+  object-fit: cover;
+}

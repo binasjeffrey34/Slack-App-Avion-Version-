@@ -35,7 +35,7 @@ export function ChannelProfilePage() {
           <img
             src={selectedUser?.image}
             alt=""
-            className="w-[clamp(25rem,30vw,34rem)] h-[clamp(24rem,28vw,30rem)] rounded-xl mx-auto mb-6 shadow-[0_0__rgba(0,0,0,0.1)]"
+            className="w-[clamp(25rem,30vw,32rem)] h-[clamp(30rem,35vw,38rem)] rounded-xl mx-auto mb-6 shadow-[0_0__rgba(0,0,0,0.1)]"
           />
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">
             {selectedUser?.name}

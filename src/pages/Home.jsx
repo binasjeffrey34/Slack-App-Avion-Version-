@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import homePageLogo from "../assets/homepageLogo.png";
 import { useAccountContext } from "../Context/AccountContext";
 
-export function Home() {
+export default function Home() {
   const {
     handleModal,
     state: { isOpenLink },

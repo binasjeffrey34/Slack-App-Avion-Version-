@@ -10,7 +10,7 @@ import { SidebarIcon } from "../components/SidebarIcon/SidebarIcon";
 import useChannelMembers from "../hooks/useChannelMembers";
 import { FormCreatingChannel } from "../components/Forms/FormCreatingChannel";
 
-export function Dashboard() {
+export default function Dashboard() {
   const { userId, channelId } = useParams();
   const { state } = useAccountContext();
   const { isOpenChannelForm, isOpenAddUserForm, isOpenAddUserChannel } = state;

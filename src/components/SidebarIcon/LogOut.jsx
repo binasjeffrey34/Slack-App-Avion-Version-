@@ -18,7 +18,7 @@ export function LogOut({ onSetOpenProfile }) {
     <div className="absolute bottom-10  left-24 bg-gray-50 text-gray-600 text-xl md:text-2xl  w-[clamp(25rem,28vw,30rem)] z-50 shadow-[0_5px_1.5rem_rgba(0,0,0,0.15)] rounded-lg text-left">
       <div className="pt-6 md:pt-8 px-6 md:px-10 pb-6 border-b-[1px] flex flex-col gap-4">
         <div className="flex items-center gap-4 mb-2 md:mb-4">
-          <img src={account.image} alt="" className="w-16 h-16 rounded-xl" />
+          <img src={account?.image} alt="" className="w-16 h-16 rounded-xl" />
           <p>
             <span className="block font-bold text-2xl">
               {accountLogIn.name}

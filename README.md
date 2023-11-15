@@ -31,6 +31,7 @@ This is a Slack App Clone created as part of the Avion School bootcamp, utilizin
 - Access information about the channel.
 - Show line breaks dates in messages.
 - Fake authentication
+- Lazy Loading
 
 #Hook Use
 
@@ -50,3 +51,4 @@ This is a Slack App Clone created as part of the Avion School bootcamp, utilizin
 - Route
   -Navlink
   -Link
+- Suspense

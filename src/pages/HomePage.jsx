@@ -1,6 +1,6 @@
 import homePageImage from "../assets/homepageImage.jpg";
 
-export function HomePage() {
+export default function HomePage() {
   return (
     <section className="w-[clamp(30rem,90%,120rem)]  mx-auto  grid place-items-center grid-cols-1 md:grid-cols-2 pt-12 md:pt-20 gap-12 ">
       <div className="w-full">

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export function PageNotFound() {
+export default function PageNotFound() {
   const navigate = useNavigate();
   return (
     <p className="h-screen flex items-center justify-center flex-col gap-4 text-4xl font-bold">
