@@ -30,6 +30,7 @@ This is a Slack App Clone created as part of the Avion School bootcamp, utilizin
 - Show line breaks dates in messages.
 - Fake authentication
 - Lazy Loading
+- Mobile View
 
 #Hook Use
 
